@@ -10,7 +10,7 @@ public class Hohei : Enemy
     // Start is called before the first frame update
     void Start()
     {
-        player = GameObject.FindGameObjectWithTag("Player").transform;
+        Invoke("FindPlayer", 1);
     }
 
     // Update is called once per frame
@@ -24,5 +24,10 @@ public class Hohei : Enemy
         pPos.y = 0;
         transform.rotation = Quaternion.LookRotation(pPos-pos);
         transform.Translate((pPos - pos).normalized * speed * Time.deltaTime,Space.World);
+    }
+
+    void FindPlayer()
+    {
+        player = GameObject.FindGameObjectWithTag("Player").transform;
     }
 }
