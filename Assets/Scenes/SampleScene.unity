@@ -5255,11 +5255,11 @@ PrefabInstance:
         type: 3}
       propertyPath: hand
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 441042546}
     - target: {fileID: 2864994242198170912, guid: eca7c50d8b0402f4ab497037ad39eba5,
         type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: eca7c50d8b0402f4ab497037ad39eba5, type: 3}
@@ -5428,6 +5428,7 @@ GameObject:
   - component: {fileID: 767088696}
   - component: {fileID: 767088695}
   - component: {fileID: 767088694}
+  - component: {fileID: 767088701}
   m_Layer: 0
   m_Name: RightControllerScriptAlias
   m_TagString: Untagged
@@ -5625,6 +5626,18 @@ MonoBehaviour:
   gripSenseAxisChanged: 0
   gripSensePressed: 0
   controllerVisible: 1
+--- !u!114 &767088701
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 767088692}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d5ea63e7bf79b24fa178014adf6b1e9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &780693201
 GameObject:
   m_ObjectHideFlags: 0
@@ -12503,7 +12516,7 @@ MonoBehaviour:
   Vrtk: {fileID: 0}
   startposition: 0
   uma: {fileID: 0}
-  speed: 0
+  speed: 6
   rotateSpeed: 2
 --- !u!4 &1895015595 stripped
 Transform:
