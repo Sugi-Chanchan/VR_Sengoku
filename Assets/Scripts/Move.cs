@@ -1,11 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using VRTK;
 
 public class Move : MonoBehaviour
 {
-    [SerializeField]Transform root,parent,VRTK;
+    [SerializeField]Transform root,parent,Vrtk;
     public float startposition;
     public GameObject uma;
     public float speed,rotateSpeed;
@@ -14,8 +13,9 @@ public class Move : MonoBehaviour
     {
         root = transform.root;
         parent = transform.parent;
-        VRTK = root.GetChild(0);
+        Vrtk = root.GetChild(0);
         Invoke("Setup", 0.1f);
+        
     }
 
     // Update is called once per frame
@@ -36,8 +36,8 @@ public class Move : MonoBehaviour
     void Setup(){
         startposition = parent.localPosition.x;
         ResetPosition();
-        Vector3 VRTKposition = VRTK.position;
+        Vector3 Vrtkposition = Vrtk.position;
         root.position = new Vector3(transform.position.x, root.position.y, transform.position.z);
-        VRTK.position = VRTKposition;
+        Vrtk.position = Vrtkposition;
     }
 }
