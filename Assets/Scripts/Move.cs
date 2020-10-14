@@ -5,7 +5,7 @@ using VRTK;
 
 public class Move : MonoBehaviour
 {
-    [SerializeField]Transform root,parent;
+    [SerializeField]Transform root,parent,VRTK;
     public float startposition;
     public GameObject uma;
     public float speed,rotateSpeed;
@@ -14,6 +14,7 @@ public class Move : MonoBehaviour
     {
         root = transform.root;
         parent = transform.parent;
+        VRTK = root.GetChild(0);
         Invoke("Setup", 0.1f);
     }
 
@@ -23,8 +24,8 @@ public class Move : MonoBehaviour
         var vel = root.transform.forward*Time.deltaTime*speed;
         var rot = Quaternion.Euler(new Vector3(0,(parent.localPosition.x - startposition)*rotateSpeed, 0));
         root.position = root.position + vel;
-        //root.rotation = rot * root.rotation;
-        root.RotateAround(uma.transform.position, Vector3.up, (parent.localPosition.x - startposition)*rotateSpeed);
+        root.rotation = rot * root.rotation;
+        //root.RotateAround(uma.transform.position, Vector3.up, (parent.localPosition.x - startposition)*rotateSpeed);
         //uma.transform.rotation = rot * uma.transform.rotation;
     }
 
@@ -35,5 +36,8 @@ public class Move : MonoBehaviour
     void Setup(){
         startposition = parent.localPosition.x;
         ResetPosition();
+        Vector3 VRTKposition = VRTK.position;
+        root.position = new Vector3(transform.position.x, root.position.y, transform.position.z);
+        VRTK.position = VRTKposition;
     }
 }
