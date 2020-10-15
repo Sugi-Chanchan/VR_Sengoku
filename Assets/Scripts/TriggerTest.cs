@@ -18,6 +18,6 @@ public class TriggerTest : MonoBehaviour
     }
     private void DoTriggerPressed(object sender, ControllerInteractionEventArgs e)
     {
-        Debug.Log("Trigger Press");
+        //Debug.Log("Trigger Press");
     }
 }
