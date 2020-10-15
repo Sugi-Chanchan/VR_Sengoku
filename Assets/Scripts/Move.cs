@@ -47,10 +47,10 @@ public class Move : MonoBehaviour
             i = 1;
         }
         startposition = parent.localPosition.x;
-        ResetPosition();
         Vector3 Vrtkposition = Vrtk.position;
         root.position = new Vector3(transform.position.x, root.position.y, transform.position.z);
         Vrtk.position = Vrtkposition;
+        ResetPosition();
     }
     private void DoTriggerPressed(object sender, ControllerInteractionEventArgs e)
     {
@@ -64,7 +64,7 @@ public class Move : MonoBehaviour
         Debug.Log("Trigger Released");
 
         float PressTime = ReleasedTime - PressedTime;
-        if(PressTime >= 3.0f)
+        if(PressTime >= 1.0f)
         {
             Setup();
         }

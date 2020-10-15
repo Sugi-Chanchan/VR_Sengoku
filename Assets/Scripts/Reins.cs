@@ -39,7 +39,8 @@ public class Reins : MonoBehaviour
     {
         interactableObject = GetComponent<VRTK_InteractableObject>();
         startPosition = transform.localPosition;
-        leftHand = GameObject.FindGameObjectWithTag("LeftHand").transform.parent.GetComponent<VRTK_VelocityEstimator>();
+        //leftHand = GameObject.FindGameObjectWithTag("LeftHand").transform.parent.GetComponent<VRTK_VelocityEstimator>();
+        leftHand = this.gameObject.AddComponent<VRTK_VelocityEstimator>();
     }
 
     void Grabbed()
@@ -47,7 +48,7 @@ public class Reins : MonoBehaviour
         var reinsPosition = transform.localPosition - startPosition;
 
         Rotate(reinsPosition.x);
-        Deceleration(reinsPosition.z);
+        Deceleration(-reinsPosition.y);
         Acceleration();
     }
 
@@ -73,6 +74,7 @@ public class Reins : MonoBehaviour
             speed += reinPosZ * Time.deltaTime*20;
             speed = (speed < 0) ? 0 : speed;
         }
+        print(reinPosZ);
     }
 
     bool accCoolTime;
