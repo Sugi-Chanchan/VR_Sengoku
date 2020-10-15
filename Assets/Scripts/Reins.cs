@@ -10,7 +10,7 @@ public class Reins : MonoBehaviour
     Vector3 startPosition;
     Transform root;
     [SerializeField] float rotateSpeed,speed,maxSpeed;
-    VRTK.VRTK_VelocityEstimator leftHand;
+    [SerializeField]VRTK_VelocityEstimator leftHand;
 
     // Start is called before the first frame update
     void Start()
@@ -46,10 +46,9 @@ public class Reins : MonoBehaviour
     {
         var reinsPosition = transform.localPosition - startPosition;
 
-        if (false) { //腕を振ったかを判定
-        }
         Rotate(reinsPosition.x);
         Deceleration(reinsPosition.z);
+        Acceleration();
     }
 
    
@@ -71,13 +70,30 @@ public class Reins : MonoBehaviour
     {
         if (reinPosZ < -0.27f)
         {
-            speed += reinPosZ * Time.deltaTime;
+            speed += reinPosZ * Time.deltaTime*20;
             speed = (speed < 0) ? 0 : speed;
         }
     }
-    
+
+    bool accCoolTime;
     void Acceleration()
     {
+        if (!accCoolTime)
+        {
 
+            float acc = leftHand.GetAccelerationEstimate().y;
+            if (acc < -100)
+            {
+                speed += 5;
+                speed = (speed > maxSpeed) ? maxSpeed : speed;
+                accCoolTime = true;
+                Invoke("RemoveCoolTime", 0.5f);
+            }
+        }
+    }
+
+    void RemoveCoolTime()
+    {
+        accCoolTime = false;
     }
 }

@@ -4362,9 +4362,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   root: {fileID: 0}
   parent: {fileID: 0}
-  VRTK: {fileID: 0}
+  Vrtk: {fileID: 0}
   startposition: 0
   uma: {fileID: 732330774}
+  rightHand: {fileID: 0}
   speed: 5
   rotateSpeed: 2
 --- !u!1001 &529432978
@@ -10819,7 +10820,7 @@ GameObject:
   - component: {fileID: 1629885420}
   m_Layer: 0
   m_Name: LeftControllerScriptAlias
-  m_TagString: Untagged
+  m_TagString: LeftHand
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -13814,7 +13815,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rotateSpeed: 3
-  defaultSpeed: 1
+  speed: 10
   maxSpeed: 10
 --- !u!1 &2130942948
 GameObject:
