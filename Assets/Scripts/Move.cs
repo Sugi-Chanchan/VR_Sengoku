@@ -35,7 +35,7 @@ public class Move : MonoBehaviour
     }
 
     void ResetPosition(){
-        uma.transform.position = transform.position - Vector3.up;
+        uma.transform.position = transform.position - (Vector3.up*0.5f) + root.forward ;
     }
 
     void Setup(){
@@ -64,7 +64,7 @@ public class Move : MonoBehaviour
         Debug.Log("Trigger Released");
 
         float PressTime = ReleasedTime - PressedTime;
-        if(PressTime >= 1.0f)
+        if(PressTime >= 0.1f)
         {
             Setup();
         }
