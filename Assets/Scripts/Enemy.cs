@@ -9,5 +9,6 @@ public class Enemy : MonoBehaviour
 
 public enum Class
 {
-    Hohei
+    Hohei,
+    Cavarly
 }

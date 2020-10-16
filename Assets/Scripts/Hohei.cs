@@ -16,6 +16,8 @@ public class Hohei : Enemy
     // Update is called once per frame
     void Update()
     {
+        if (player == null) return;
+
         vel = GetComponent<Rigidbody>().velocity;
 
         var pos = transform.position;

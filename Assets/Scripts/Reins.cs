@@ -74,7 +74,6 @@ public class Reins : MonoBehaviour
             speed += reinPosZ * Time.deltaTime*20;
             speed = (speed < 0) ? 0 : speed;
         }
-        print(reinPosZ);
     }
 
     bool accCoolTime;

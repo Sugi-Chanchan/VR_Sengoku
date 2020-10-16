@@ -6,7 +6,6 @@ using VRTK;
 public class Move : MonoBehaviour
 {
     [SerializeField]Transform root,parent,Vrtk;
-    public float startposition;
     public GameObject uma;
     [SerializeField]private GameObject rightHand;
     public float speed,rotateSpeed;
@@ -46,7 +45,6 @@ public class Move : MonoBehaviour
             rightHand.GetComponent<VRTK_ControllerEvents>().TriggerReleased += new ControllerInteractionEventHandler(DoTriggerReleased);
             i = 1;
         }
-        startposition = parent.localPosition.x;
         Vector3 Vrtkposition = Vrtk.position;
         root.position = new Vector3(transform.position.x, root.position.y, transform.position.z);
         Vrtk.position = Vrtkposition;
