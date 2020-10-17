@@ -5,11 +5,11 @@ using UnityEngine;
 public class HP : MonoBehaviour
 {
 
-    int hp;
+    [SerializeField] int hp;
     // Start is called before the first frame update
     void Start()
     {
-        hp = 10;
+
     }
 
     // Update is called once per frame
@@ -21,6 +21,6 @@ public class HP : MonoBehaviour
     public void Damage(int damage)
     {
         hp -= damage;
-        if (hp <= 0) { print("Deferated"); }
+        if (hp <= 0) { print("Defeated"); }
     }
 }
