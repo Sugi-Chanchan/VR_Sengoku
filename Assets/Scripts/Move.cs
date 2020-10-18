@@ -9,7 +9,7 @@ public class Move : MonoBehaviour
     public GameObject uma;
     [SerializeField]private GameObject rightHand;
     public float speed,rotateSpeed;
-    int i = 0;
+    bool AddNewFunc = true;
     float PressedTime;
     float ReleasedTime;
     // Start is called before the first frame update
@@ -34,16 +34,26 @@ public class Move : MonoBehaviour
     }
 
     void ResetPosition(){
-        uma.transform.position = transform.position - (Vector3.up*0.5f) + root.forward ;
+        var xzDirection = transform.rotation.eulerAngles;
+        xzDirection.x = 0;
+        xzDirection.z = 0;
+
+        Quaternion VrtkRotation = Vrtk.rotation;
+        root.rotation = Quaternion.Euler(xzDirection); //rootの向きをリセット時にプレイヤーの向いている向きに合わせる
+        Vrtk.rotation = VrtkRotation; //root以下のオブジェクトごと回転してしまうので補正
+
+        uma.transform.position = transform.position - (Vector3.up*0.5f) + root.forward;
+        uma.transform.rotation = root.rotation;
+        //uma.transform.position += new Vector3(0.0f, 0.0f, 1.0f);
     }
 
     void Setup(){
         rightHand = GameObject.FindGameObjectWithTag("Right_Hand");
-        if(i == 0)
+        if(AddNewFunc) //ブール型の変数で既にVRTK_ControllerEventsに関数を追加したかどうかの判別
         {
             rightHand.GetComponent<VRTK_ControllerEvents>().TriggerPressed += new ControllerInteractionEventHandler(DoTriggerPressed);
             rightHand.GetComponent<VRTK_ControllerEvents>().TriggerReleased += new ControllerInteractionEventHandler(DoTriggerReleased);
-            i = 1;
+            AddNewFunc = false;
         }
         Vector3 Vrtkposition = Vrtk.position;
         root.position = new Vector3(transform.position.x, root.position.y, transform.position.z);
