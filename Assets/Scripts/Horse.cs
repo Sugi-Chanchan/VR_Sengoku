@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using VRTK;
 
-public class Hose : MonoBehaviour
+public class Horse : MonoBehaviour
 {
     Transform root;
     public GameObject[] reins = new GameObject[2];

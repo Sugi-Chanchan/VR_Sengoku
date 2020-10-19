@@ -48,7 +48,7 @@ public class Move : MonoBehaviour
     }
 
     void Setup(){
-        rightHand = GameObject.FindGameObjectWithTag("Right_Hand");
+        rightHand = GameObject.FindGameObjectWithTag("RightHand");
         if(AddNewFunc) //ブール型の変数で既にVRTK_ControllerEventsに関数を追加したかどうかの判別
         {
             rightHand.GetComponent<VRTK_ControllerEvents>().TriggerPressed += new ControllerInteractionEventHandler(DoTriggerPressed);

@@ -6,8 +6,8 @@ TagManager:
   tags:
   - Block
   - LeftHand
-  - Right_Hand
   - Weapon
+  - RightHand
   layers:
   - Default
   - TransparentFX
