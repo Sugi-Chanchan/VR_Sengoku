@@ -42,7 +42,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: blendShape.Key 1
-    path: Arrow
+    path: Cube/Arrow
     classID: 137
     script: {fileID: 0}
   - curve:
@@ -70,7 +70,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: blendShape.Key 1
-    path: bow/Japanese_Bow
+    path: Cube/Japanese_Bow
     classID: 137
     script: {fileID: 0}
   m_PPtrCurves: []
@@ -82,14 +82,14 @@ AnimationClip:
   m_ClipBindingConstant:
     genericBindings:
     - serializedVersion: 2
-      path: 435601722
+      path: 1314723599
       attribute: 2055466547
       script: {fileID: 0}
       typeID: 137
       customType: 20
       isPPtrCurve: 0
     - serializedVersion: 2
-      path: 2782947240
+      path: 3999575830
       attribute: 2055466547
       script: {fileID: 0}
       typeID: 137
@@ -142,7 +142,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: blendShape.Key 1
-    path: Arrow
+    path: Cube/Arrow
     classID: 137
     script: {fileID: 0}
   - curve:
@@ -170,7 +170,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: blendShape.Key 1
-    path: bow/Japanese_Bow
+    path: Cube/Japanese_Bow
     classID: 137
     script: {fileID: 0}
   m_EulerEditorCurves: []

@@ -70,7 +70,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: blendShape.Key 1
-    path: bow/Japanese_Bow
+    path: Japanese_Bow
     classID: 137
     script: {fileID: 0}
   m_PPtrCurves: []
@@ -89,7 +89,7 @@ AnimationClip:
       customType: 20
       isPPtrCurve: 0
     - serializedVersion: 2
-      path: 2782947240
+      path: 2171945805
       attribute: 2055466547
       script: {fileID: 0}
       typeID: 137
@@ -170,7 +170,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: blendShape.Key 1
-    path: bow/Japanese_Bow
+    path: Japanese_Bow
     classID: 137
     script: {fileID: 0}
   m_EulerEditorCurves: []
