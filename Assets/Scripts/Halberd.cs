@@ -5,7 +5,7 @@ using UnityEngine;
 public class Halberd : MonoBehaviour
 {
 
-    Transform weaponPosition;
+    Transform weaponPositionRight;
     Rigidbody rig;
     Quaternion criteriaRotQuat;
     // Start is called before the first frame update
@@ -18,8 +18,8 @@ public class Halberd : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        rig.MovePosition(weaponPosition.position);
-        rig.MoveRotation(weaponPosition.rotation);
+        rig.MovePosition(weaponPositionRight.position);
+        rig.MoveRotation(weaponPositionRight.rotation);
     }
 
 
@@ -34,6 +34,6 @@ public class Halberd : MonoBehaviour
     }
 
     void Setup(){
-        weaponPosition = GameObject.FindGameObjectWithTag("Weapon").transform;
+        weaponPositionRight = GameObject.FindGameObjectWithTag("WeaponPositionRight").transform;
     }
 }
