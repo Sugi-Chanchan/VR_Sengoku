@@ -42,14 +42,16 @@ public class Japanese_Bow : MonoBehaviour
         else
         {
             bowAnimator.SetBool("Drow", true);
-            transform.rotation = Quaternion.FromToRotation(Vector3.right, bowToBowstring);
+
+            //transform.Find("Cube").rotation = Quaternion.FromToRotation(Vector3.forward, -bowToBowstring);
+
             if(per <= 100)
             {
                 bowAnimator.Play("Japanese_Bow", 0, per/followBowstringInt);
             }
             else if(per > 100)
             {
-                bowAnimator.Play("Japanese_Bow", 0, 1);
+                bowAnimator.Play("Japanese_Bow", 0, 100);
             }
         }
         //print(drowABowDistance);1
