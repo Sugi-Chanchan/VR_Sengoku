@@ -7,9 +7,12 @@ public class Japanese_Bow : MonoBehaviour
 {
     VRTK_InteractableObject interactableObject;
 
+    [SerializeField] SkinnedMeshRenderer arrowSkin, japaneseBowSkin;
+    int drowArrow, drowBow;
+
     private float maxBowstring = 1.174f; //1.174は弦をギリギリまで引っ張った時のbowからbowstringまでの距離。弓の大きさなどを変化させた場合は具体的な値を計測する必要がある
-    [SerializeField] int followBowstringInt = 70; //自分の手にどのくらい弦が追従するか
-    [SerializeField] float arrowPower = 70; //矢が発射される強さ
+    [SerializeField] int followBowstringInt; //自分の手にどのくらい弦が追従するか、初期70
+    [SerializeField] float arrowPower; //矢が発射される強さ、初期100
     private Transform weaponPositionLeft;
     private Transform bow, bowstring;
     private Transform arrow;
@@ -18,7 +21,7 @@ public class Japanese_Bow : MonoBehaviour
     private Vector3 firstBowToBowstring, bowToBowstring;
     private float firstDrowABowDistance, drowABowDistance, tem, per;
     private Vector3 firstBowstringPosition;
-    private Animator bowAnimator;
+    //private Animator bowAnimator;
     //Quaternion criteriaRotQuat;
     // Start is called before the first frame update
     void Start()
@@ -29,31 +32,34 @@ public class Japanese_Bow : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        bowAnimator.SetBool("Shoot", false);
+        //bowAnimator.SetBool("Shoot", false);
 
         per = perCulc(bow, bowstring, tem, firstDrowABowDistance); //perCulc関数はどのくらい弦を引いたか計算する関数
 
-        if(interactableObject.IsGrabbed())
+        if(interactableObject.IsGrabbed()) //条件：InteractableObjectが掴まれたとき
         {
-            bowAnimator.SetBool("Drow", true);
+            //bowAnimator.SetBool("Drow", true);
 
-            bowAnimator.Play("drowAnimation", 0, Mathf.Clamp(per/followBowstringInt, 0.0f, 0.99f));
+            arrowSkin.SetBlendShapeWeight(drowArrow, Mathf.Clamp(per, 0.0f, 100.0f));
+            //japaneseBowSkin.SetBlendShapeWeight(drowBow, Mathf.Clamp(per, 0.0f, 100.0f));
+
+            //bowAnimator.Play("drowAnimation", 0, Mathf.Clamp(per/followBowstringInt, 0.0f, 0.99f));
             flagTrigger = true;
         }
         else if(flagTrigger)
         {
-            bowAnimator.SetBool("Drow", false);
+            //bowAnimator.SetBool("Drow", false);
 
             bowstring.localPosition = firstBowstringPosition; //bowstringの位置を初期状態に
 
-            arrowProcess(); //矢の親を変更したり、発射したりする関数
+            //arrowProcess(); //矢の親を変更したり、発射したりする関数
 
             flagTrigger = false;
         }
     }
 
     void Setup(){
-        bowAnimator = GetComponent <Animator> (); //Thisの持つアニメーションコントローラーを持ってくる
+        //bowAnimator = GetComponent <Animator> (); //Thisの持つアニメーションコントローラーを持ってくる
 
         bow = GameObject.Find("Bow").transform; //子にJapanese_bowを持つSphereのtransformを持ってくる
         bowstring = GameObject.Find("Bowstring").transform; //弦に対応するSphereのtransformを持ってくる
@@ -65,6 +71,12 @@ public class Japanese_Bow : MonoBehaviour
         tem = maxBowstring - firstDrowABowDistance; //弓の弾く値の範囲
 
         arrow = GameObject.Find("Arrow").transform; //矢のtransformを取得
+        
+        arrowSkin = arrow.GetComponent<SkinnedMeshRenderer>();
+        drowArrow = arrowSkin.sharedMesh.GetBlendShapeIndex("Key 1");
+        japaneseBowSkin = GameObject.Find("Japanese_Bow").transform.GetComponent<SkinnedMeshRenderer>();
+        drowBow = japaneseBowSkin.sharedMesh.GetBlendShapeIndex("Key 1");
+
         flagTrigger = false; //Triggerが押されたかどうかのフラグ
 
         weaponPositionLeft = GameObject.FindGameObjectWithTag("WeaponPositionLeft").transform; //左手のGameObjectのtransformを取得
@@ -74,11 +86,9 @@ public class Japanese_Bow : MonoBehaviour
 
     private float perCulc(Transform x, Transform y, float xYRange, float firstDistance)
     {
-        Vector3 yToX;
         float yToXDistance, re;
 
-        yToX = x.localPosition - y.localPosition;
-        yToXDistance = yToX.sqrMagnitude;
+        yToXDistance = (x.localPosition - y.localPosition).sqrMagnitude;
         re = (yToXDistance - firstDistance) / (xYRange/100);
 
         return re;
@@ -86,9 +96,9 @@ public class Japanese_Bow : MonoBehaviour
 
     void arrowProcess()
     {
-        arrow.parent = GameObject.FindGameObjectWithTag("Stash").transform;
-        arrowRigidbody = arrow.gameObject.AddComponent <Rigidbody> ();
-        arrowRigidbody.collisionDetectionMode = CollisionDetectionMode.ContinuousSpeculative;
+        arrow.parent = GameObject.Find("ArrowStash").transform;
+        //arrowRigidbody = arrow.gameObject.AddComponent <Rigidbody> ();
+        //arrowRigidbody.collisionDetectionMode = CollisionDetectionMode.ContinuousSpeculative;
         arrowRigidbody.AddForce(transform.right*per*arrowPower);
     }
 }
