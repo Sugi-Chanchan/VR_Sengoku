@@ -51,8 +51,11 @@ public class Move : MonoBehaviour
         rightHand = GameObject.FindGameObjectWithTag("RightHand");
         if(AddNewFunc) //ブール型の変数で既にVRTK_ControllerEventsに関数を追加したかどうかの判別
         {
+            /*
             rightHand.GetComponent<VRTK_ControllerEvents>().TriggerPressed += new ControllerInteractionEventHandler(DoTriggerPressed);
             rightHand.GetComponent<VRTK_ControllerEvents>().TriggerReleased += new ControllerInteractionEventHandler(DoTriggerReleased);
+            */
+            rightHand.GetComponent<VRTK_ControllerEvents>().ButtonTwoPressed += new ControllerInteractionEventHandler(DoButtonTwoPressed);
             AddNewFunc = false;
         }
         Vector3 Vrtkposition = Vrtk.position;
@@ -76,5 +79,10 @@ public class Move : MonoBehaviour
         {
             Setup();
         }
+    }
+
+    private void DoButtonTwoPressed(object sender, ControllerInteractionEventArgs e)
+    {
+        Setup();
     }
 }
