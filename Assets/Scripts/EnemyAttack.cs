@@ -10,7 +10,6 @@ public class EnemyAttack : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        print(other.name);
         if (other.tag == "Player")
         {
             print("Player Hit");

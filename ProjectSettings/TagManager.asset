@@ -11,6 +11,8 @@ TagManager:
   - WeaponPositionRight
   - WeaponPositionLeft
   - Stash
+  - Right_Hand
+  - EnemyWeapon
   layers:
   - Default
   - TransparentFX
