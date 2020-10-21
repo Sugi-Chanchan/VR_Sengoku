@@ -63,6 +63,7 @@ Transform:
   - {fileID: 3025485278327838485}
   - {fileID: 4491701902404727669}
   - {fileID: 6658667589024763341}
+  - {fileID: 7369372129265435669}
   m_Father: {fileID: 3829949344061163994}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -252,7 +253,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 477886648634046494}
-  m_LocalRotation: {x: 0.0074355872, y: 0.08813704, z: -0.06771823, w: 0.993776}
+  m_LocalRotation: {x: 0.007435594, y: 0.08813704, z: -0.06771834, w: 0.993776}
   m_LocalPosition: {x: -0.0000000035762786, y: 0.00422147, z: 0.0000000077486035}
   m_LocalScale: {x: 0.9999999, y: 0.9999999, z: 0.99999994}
   m_Children:
@@ -537,7 +538,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 7182057784400176287}
-  - {fileID: 7369372129265435669}
   m_Father: {fileID: 7751670369300655991}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -649,6 +649,84 @@ Transform:
   m_Father: {fileID: 8153511611495453406}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1908010852702808168
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2599524999165426296}
+  - component: {fileID: 1034344911069028668}
+  - component: {fileID: 6439198677126480701}
+  m_Layer: 0
+  m_Name: Sphere
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2599524999165426296
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1908010852702808168}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.654, z: 1.261}
+  m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
+  m_Children: []
+  m_Father: {fileID: 7751670369300655991}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!33 &1034344911069028668
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1908010852702808168}
+  m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!23 &6439198677126480701
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1908010852702808168}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
 --- !u!1 &1937622573110735461
 GameObject:
   m_ObjectHideFlags: 0
@@ -1185,7 +1263,6 @@ GameObject:
   - component: {fileID: 7751670369300655991}
   - component: {fileID: 4170762618377155185}
   - component: {fileID: 2424137832367096808}
-  - component: {fileID: 6922851846814532236}
   m_Layer: 0
   m_Name: Cavalry
   m_TagString: Untagged
@@ -1205,6 +1282,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 2505537846976970649}
+  - {fileID: 2599524999165426296}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1219,7 +1297,7 @@ Rigidbody:
   m_Mass: 1
   m_Drag: 0
   m_AngularDrag: 0.05
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
@@ -1237,19 +1315,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   EnemyClass: 1
---- !u!65 &6922851846814532236
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3499084828272019287}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 0.43798375, y: 1, z: 0.63205796}
-  m_Center: {x: 0.005780518, y: 0, z: -0.18397102}
+  anim: {fileID: 946257578719234533}
+  attack: 0
+  halberd: {fileID: 7214008032993194129}
 --- !u!1 &3540129255198095149
 GameObject:
   m_ObjectHideFlags: 0
@@ -1696,10 +1764,12 @@ GameObject:
   - component: {fileID: 1954072230699269667}
   - component: {fileID: 5197940380452192986}
   - component: {fileID: 8777116484948980558}
-  - component: {fileID: 6640010195162928177}
+  - component: {fileID: 1807909383}
+  - component: {fileID: 1807909384}
+  - component: {fileID: 7214008032993194129}
   m_Layer: 0
   m_Name: Halberd
-  m_TagString: Untagged
+  m_TagString: EnemyWeapon
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1711,13 +1781,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5773083867570320902}
-  m_LocalRotation: {x: -0.036184046, y: -0.6894664, z: 0.034523193, w: 0.7225891}
-  m_LocalPosition: {x: 0, y: 0.177, z: 0.043}
-  m_LocalScale: {x: 20, y: 20, z: 20}
+  m_LocalRotation: {x: -0.27983862, y: 0.5268213, z: -0.6493767, w: 0.47165623}
+  m_LocalPosition: {x: 0.002, y: 0.0082, z: 0.0009}
+  m_LocalScale: {x: 3.8904264, y: 3.8904305, z: 3.8904233}
   m_Children: []
-  m_Father: {fileID: 2505537846976970649}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: -179.731, y: 92.673996, z: -174.273}
+  m_Father: {fileID: 1472010343167855041}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 24.849, y: 71.475006, z: -90.00001}
 --- !u!33 &1954072230699269667
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -1777,7 +1847,36 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.010489938, y: 0.021739973, z: 0.0026238265}
   m_Center: {x: 0.0021719646, y: -0.069923006, z: 0.000000027369012}
---- !u!114 &6640010195162928177
+--- !u!54 &1807909383
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5773083867570320902}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 3
+--- !u!65 &1807909384
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5773083867570320902}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.003308893, y: 0.07919693, z: 0.0026238253}
+  m_Center: {x: 0.00020038211, y: -0.019375376, z: -0.000000008686551}
+--- !u!114 &7214008032993194129
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1786,10 +1885,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 5773083867570320902}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f2fc9845aefa21247bf6c993881f9883, type: 3}
+  m_Script: {fileID: 11500000, guid: 78dae4f727f79b240b6b04badc3378bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 20
 --- !u!1 &6192610395834193548
 GameObject:
   m_ObjectHideFlags: 0
@@ -1801,6 +1899,7 @@ GameObject:
   - component: {fileID: 7182057784400176287}
   - component: {fileID: 946257578719234533}
   - component: {fileID: 1990780754128775590}
+  - component: {fileID: 614875396}
   m_Layer: 0
   m_Name: Hohei (1)
   m_TagString: Untagged
@@ -1815,8 +1914,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6192610395834193548}
-  m_LocalRotation: {x: -0.70710677, y: 0, z: 0, w: -0.70710677}
-  m_LocalPosition: {x: 0, y: 0.466, z: -0.727}
+  m_LocalRotation: {x: -0.70710677, y: -0, z: -0, w: -0.70710677}
+  m_LocalPosition: {x: 0, y: 0.46599984, z: -0.49999848}
   m_LocalScale: {x: 0.5, y: 0.49999994, z: 0.49999994}
   m_Children:
   - {fileID: 1651149106324045661}
@@ -1834,7 +1933,7 @@ Animator:
   m_GameObject: {fileID: 6192610395834193548}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: 5943bab9244f4cf4da2f7e82b2051829, type: 3}
-  m_Controller: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 1d976b108b2c7714ba5017d14990505e, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -1851,12 +1950,210 @@ CapsuleCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6192610395834193548}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   m_Radius: 0.20413208
   m_Height: 2.3349075
   m_Direction: 1
   m_Center: {x: -0, y: 1.179225, z: -0.023990631}
+--- !u!114 &614875396
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6192610395834193548}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 246455474a0d74a4291b3cedc896ebdf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bonePaths:
+  - 
+  - Armature.001
+  - Armature.001/Hip
+  - Armature.001/Hip/Spine
+  - Armature.001/Hip/Spine/Chest
+  - Armature.001/Hip/Spine/Chest/Upper Chest
+  - Armature.001/Hip/Spine/Chest/Upper Chest/Neck
+  - Armature.001/Hip/Spine/Chest/Upper Chest/Neck/Head
+  - Armature.001/Hip/Spine/Chest/Upper Chest/Neck/Head/Head_end
+  - Armature.001/Hip/Spine/Chest/Upper Chest/Shoulder.L
+  - Armature.001/Hip/Spine/Chest/Upper Chest/Shoulder.L/Upper Arm.L
+  - Armature.001/Hip/Spine/Chest/Upper Chest/Shoulder.L/Upper Arm.L/Lower Arm.L
+  - Armature.001/Hip/Spine/Chest/Upper Chest/Shoulder.L/Upper Arm.L/Lower Arm.L/Hand.L
+  - Armature.001/Hip/Spine/Chest/Upper Chest/Shoulder.L/Upper Arm.L/Lower Arm.L/Hand.L/Proximal
+    Index.L
+  - Armature.001/Hip/Spine/Chest/Upper Chest/Shoulder.L/Upper Arm.L/Lower Arm.L/Hand.L/Proximal
+    Index.L/Intermediate Index.L
+  - Armature.001/Hip/Spine/Chest/Upper Chest/Shoulder.L/Upper Arm.L/Lower Arm.L/Hand.L/Proximal
+    Index.L/Intermediate Index.L/Distal Index.L
+  - Armature.001/Hip/Spine/Chest/Upper Chest/Shoulder.L/Upper Arm.L/Lower Arm.L/Hand.L/Proximal
+    Index.L/Intermediate Index.L/Distal Index.L/Distal Index.L_end
+  - Armature.001/Hip/Spine/Chest/Upper Chest/Shoulder.L/Upper Arm.L/Lower Arm.L/Hand.L/Proximal
+    Little.L
+  - Armature.001/Hip/Spine/Chest/Upper Chest/Shoulder.L/Upper Arm.L/Lower Arm.L/Hand.L/Proximal
+    Little.L/Intermediate Little.L
+  - Armature.001/Hip/Spine/Chest/Upper Chest/Shoulder.L/Upper Arm.L/Lower Arm.L/Hand.L/Proximal
+    Little.L/Intermediate Little.L/Distal Little.L
+  - Armature.001/Hip/Spine/Chest/Upper Chest/Shoulder.L/Upper Arm.L/Lower Arm.L/Hand.L/Proximal
+    Little.L/Intermediate Little.L/Distal Little.L/Distal Little.L_end
+  - Armature.001/Hip/Spine/Chest/Upper Chest/Shoulder.L/Upper Arm.L/Lower Arm.L/Hand.L/Proximal
+    Middle.L
+  - Armature.001/Hip/Spine/Chest/Upper Chest/Shoulder.L/Upper Arm.L/Lower Arm.L/Hand.L/Proximal
+    Middle.L/Intermediate Middle.L
+  - Armature.001/Hip/Spine/Chest/Upper Chest/Shoulder.L/Upper Arm.L/Lower Arm.L/Hand.L/Proximal
+    Middle.L/Intermediate Middle.L/Distal Middle.L
+  - Armature.001/Hip/Spine/Chest/Upper Chest/Shoulder.L/Upper Arm.L/Lower Arm.L/Hand.L/Proximal
+    Middle.L/Intermediate Middle.L/Distal Middle.L/Distal Middle.L_end
+  - Armature.001/Hip/Spine/Chest/Upper Chest/Shoulder.L/Upper Arm.L/Lower Arm.L/Hand.L/Proximal
+    Ring.L
+  - Armature.001/Hip/Spine/Chest/Upper Chest/Shoulder.L/Upper Arm.L/Lower Arm.L/Hand.L/Proximal
+    Ring.L/Intermediate Ring.L
+  - Armature.001/Hip/Spine/Chest/Upper Chest/Shoulder.L/Upper Arm.L/Lower Arm.L/Hand.L/Proximal
+    Ring.L/Intermediate Ring.L/Distal Ring.L
+  - Armature.001/Hip/Spine/Chest/Upper Chest/Shoulder.L/Upper Arm.L/Lower Arm.L/Hand.L/Proximal
+    Ring.L/Intermediate Ring.L/Distal Ring.L/Distal Ring.L_end
+  - Armature.001/Hip/Spine/Chest/Upper Chest/Shoulder.L/Upper Arm.L/Lower Arm.L/Hand.L/Proximal
+    Thumb.L
+  - Armature.001/Hip/Spine/Chest/Upper Chest/Shoulder.L/Upper Arm.L/Lower Arm.L/Hand.L/Proximal
+    Thumb.L/Intermediate Thumb.L
+  - Armature.001/Hip/Spine/Chest/Upper Chest/Shoulder.L/Upper Arm.L/Lower Arm.L/Hand.L/Proximal
+    Thumb.L/Intermediate Thumb.L/Distal Thumb.L
+  - Armature.001/Hip/Spine/Chest/Upper Chest/Shoulder.L/Upper Arm.L/Lower Arm.L/Hand.L/Proximal
+    Thumb.L/Intermediate Thumb.L/Distal Thumb.L/Distal Thumb.L_end
+  - Armature.001/Hip/Spine/Chest/Upper Chest/Shoulder.R
+  - Armature.001/Hip/Spine/Chest/Upper Chest/Shoulder.R/Upper Arm.R
+  - Armature.001/Hip/Spine/Chest/Upper Chest/Shoulder.R/Upper Arm.R/Lower Arm.R
+  - Armature.001/Hip/Spine/Chest/Upper Chest/Shoulder.R/Upper Arm.R/Lower Arm.R/Hand.R
+  - Armature.001/Hip/Spine/Chest/Upper Chest/Shoulder.R/Upper Arm.R/Lower Arm.R/Hand.R/Proximal
+    Index.R
+  - Armature.001/Hip/Spine/Chest/Upper Chest/Shoulder.R/Upper Arm.R/Lower Arm.R/Hand.R/Proximal
+    Index.R/Intermediate Index.R
+  - Armature.001/Hip/Spine/Chest/Upper Chest/Shoulder.R/Upper Arm.R/Lower Arm.R/Hand.R/Proximal
+    Index.R/Intermediate Index.R/Distal Index.R
+  - Armature.001/Hip/Spine/Chest/Upper Chest/Shoulder.R/Upper Arm.R/Lower Arm.R/Hand.R/Proximal
+    Index.R/Intermediate Index.R/Distal Index.R/Distal Index.R_end
+  - Armature.001/Hip/Spine/Chest/Upper Chest/Shoulder.R/Upper Arm.R/Lower Arm.R/Hand.R/Proximal
+    Little.R
+  - Armature.001/Hip/Spine/Chest/Upper Chest/Shoulder.R/Upper Arm.R/Lower Arm.R/Hand.R/Proximal
+    Little.R/Intermediate Little.R
+  - Armature.001/Hip/Spine/Chest/Upper Chest/Shoulder.R/Upper Arm.R/Lower Arm.R/Hand.R/Proximal
+    Little.R/Intermediate Little.R/Distal Little.R
+  - Armature.001/Hip/Spine/Chest/Upper Chest/Shoulder.R/Upper Arm.R/Lower Arm.R/Hand.R/Proximal
+    Little.R/Intermediate Little.R/Distal Little.R/Distal Little.R_end
+  - Armature.001/Hip/Spine/Chest/Upper Chest/Shoulder.R/Upper Arm.R/Lower Arm.R/Hand.R/Proximal
+    Middle.R
+  - Armature.001/Hip/Spine/Chest/Upper Chest/Shoulder.R/Upper Arm.R/Lower Arm.R/Hand.R/Proximal
+    Middle.R/Intermediate Middle.R
+  - Armature.001/Hip/Spine/Chest/Upper Chest/Shoulder.R/Upper Arm.R/Lower Arm.R/Hand.R/Proximal
+    Middle.R/Intermediate Middle.R/Distal Middle.R
+  - Armature.001/Hip/Spine/Chest/Upper Chest/Shoulder.R/Upper Arm.R/Lower Arm.R/Hand.R/Proximal
+    Middle.R/Intermediate Middle.R/Distal Middle.R/Distal Middle.R_end
+  - Armature.001/Hip/Spine/Chest/Upper Chest/Shoulder.R/Upper Arm.R/Lower Arm.R/Hand.R/Proximal
+    Ring.R
+  - Armature.001/Hip/Spine/Chest/Upper Chest/Shoulder.R/Upper Arm.R/Lower Arm.R/Hand.R/Proximal
+    Ring.R/Intermediate Ring.R
+  - Armature.001/Hip/Spine/Chest/Upper Chest/Shoulder.R/Upper Arm.R/Lower Arm.R/Hand.R/Proximal
+    Ring.R/Intermediate Ring.R/Distal Ring.R
+  - Armature.001/Hip/Spine/Chest/Upper Chest/Shoulder.R/Upper Arm.R/Lower Arm.R/Hand.R/Proximal
+    Ring.R/Intermediate Ring.R/Distal Ring.R/Distal Ring.R_end
+  - Armature.001/Hip/Spine/Chest/Upper Chest/Shoulder.R/Upper Arm.R/Lower Arm.R/Hand.R/Proximal
+    Thumb.R
+  - Armature.001/Hip/Spine/Chest/Upper Chest/Shoulder.R/Upper Arm.R/Lower Arm.R/Hand.R/Proximal
+    Thumb.R/Intermediate Thumb.R
+  - Armature.001/Hip/Spine/Chest/Upper Chest/Shoulder.R/Upper Arm.R/Lower Arm.R/Hand.R/Proximal
+    Thumb.R/Intermediate Thumb.R/Distal Thumb.R
+  - Armature.001/Hip/Spine/Chest/Upper Chest/Shoulder.R/Upper Arm.R/Lower Arm.R/Hand.R/Proximal
+    Thumb.R/Intermediate Thumb.R/Distal Thumb.R/Distal Thumb.R_end
+  - Armature.001/Hip/Spine/Chest/Upper Chest/Shoulder.R/Upper Arm.R/Lower Arm.R/Hand.R/Halberd
+  - Armature.001/Hip/Upper Leg.L
+  - Armature.001/Hip/Upper Leg.L/Lower Leg.L
+  - Armature.001/Hip/Upper Leg.L/Lower Leg.L/Foot.L
+  - Armature.001/Hip/Upper Leg.L/Lower Leg.L/Foot.L/Toes.L
+  - Armature.001/Hip/Upper Leg.L/Lower Leg.L/Foot.L/Toes.L/Toes.L_end
+  - Armature.001/Hip/Upper Leg.R
+  - Armature.001/Hip/Upper Leg.R/Lower Leg.R
+  - Armature.001/Hip/Upper Leg.R/Lower Leg.R/Foot.R
+  - Armature.001/Hip/Upper Leg.R/Lower Leg.R/Foot.R/Toes.R
+  - Armature.001/Hip/Upper Leg.R/Lower Leg.R/Foot.R/Toes.R/Toes.R_end
+  - Cube
+  showBones: 000000000300000004000000050000000600000007000000090000000a0000000b0000000c000000210000002200000023000000240000003a0000003b0000003c0000003d0000003f000000400000004100000042000000
+  foldoutBones: 270000003300000017000000130000001f0000000f000000370000002f0000002b0000001b0000001a0000002e000000160000000e0000002600000036000000120000001e000000320000002a000000290000000d000000350000001100000019000000150000001d000000310000002d000000250000000c000000240000000b0000002300000022000000070000000a00000021000000060000003d0000000900000042000000410000003c00000005000000040000003b000000400000003a0000003f00000003000000020000000100000000000000
+  mirrorBones: ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff2100000022000000230000002400000025000000260000002700000028000000290000002a0000002b0000002c0000002d0000002e0000002f000000300000003100000032000000330000003400000035000000360000003700000038000000090000000a0000000b0000000c0000000d0000000e0000000f000000100000001100000012000000130000001400000015000000160000001700000018000000190000001a0000001b0000001c0000001d0000001e0000001f00000020000000ffffffff3f000000400000004100000042000000430000003a0000003b0000003c0000003d0000003e000000ffffffff
+  mirrorBlendShape: []
+  animatorIkData:
+  - enable: 0
+    _fixed: 0
+    autoRotation: 0
+    spaceType: 0
+    parent: {fileID: 0}
+    position: {x: 0, y: 0, z: 0}
+    rotation: {x: 0, y: 0, z: 0, w: 0}
+    target: {fileID: 0}
+    offset: {x: 0, y: 0, z: 0}
+    headWeight: 1
+    eyesWeight: 0
+    swivelRotation: 0
+    swivelPosition: {x: 0, y: 0, z: 0}
+  - enable: 0
+    _fixed: 0
+    autoRotation: 0
+    spaceType: 0
+    parent: {fileID: 0}
+    position: {x: -8.434998, y: 1.2651296, z: -4.16384}
+    rotation: {x: 0.093012735, y: 0.47874507, z: 0.09270204, w: 0.8680772}
+    target: {fileID: 0}
+    offset: {x: 0, y: 0, z: 0}
+    headWeight: 1
+    eyesWeight: 0
+    swivelRotation: 108.5788
+    swivelPosition: {x: 0, y: 0, z: 0}
+  - enable: 0
+    _fixed: 0
+    autoRotation: 0
+    spaceType: 0
+    parent: {fileID: 0}
+    position: {x: -8.363969, y: 1.1181002, z: -4.1446157}
+    rotation: {x: -0.9001442, y: 0.013905274, z: 0.07459632, w: -0.4289318}
+    target: {fileID: 0}
+    offset: {x: 0, y: 0, z: 0}
+    headWeight: 1
+    eyesWeight: 0
+    swivelRotation: 169.9259
+    swivelPosition: {x: 0, y: 0, z: 0}
+  - enable: 0
+    _fixed: 0
+    autoRotation: 0
+    spaceType: 0
+    parent: {fileID: 0}
+    position: {x: 0, y: 0, z: 0}
+    rotation: {x: 0, y: 0, z: 0, w: 0}
+    target: {fileID: 0}
+    offset: {x: 0, y: 0, z: 0}
+    headWeight: 1
+    eyesWeight: 0
+    swivelRotation: 0
+    swivelPosition: {x: 0, y: 0, z: 0}
+  - enable: 0
+    _fixed: 0
+    autoRotation: 0
+    spaceType: 0
+    parent: {fileID: 0}
+    position: {x: 0, y: 0, z: 0}
+    rotation: {x: 0, y: 0, z: 0, w: 0}
+    target: {fileID: 0}
+    offset: {x: 0, y: 0, z: 0}
+    headWeight: 1
+    eyesWeight: 0
+    swivelRotation: 0
+    swivelPosition: {x: 0, y: 0, z: 0}
+  originalIkData: []
+  selectionData: []
+  lastSelectAnimationClip: {fileID: 7400000, guid: 08d771338c7aefb4489b8456d6bd69bc,
+    type: 2}
+  handPoseList: []
+  blendShapeList: []
 --- !u!1 &6251197529767840858
 GameObject:
   m_ObjectHideFlags: 0
@@ -2095,8 +2392,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6735822839663039740}
-  m_LocalRotation: {x: -0.56115043, y: -2.9594487e-17, z: 2.959448e-17, w: 0.82771385}
-  m_LocalPosition: {x: -0.0011704303, y: -0.21613301, z: -0.1731783}
+  m_LocalRotation: {x: -0.56115043, y: -2.9594484e-17, z: 2.9594484e-17, w: 0.82771385}
+  m_LocalPosition: {x: -0.0011711121, y: -0.21613303, z: -0.17317875}
   m_LocalScale: {x: 10.281664, y: 10.281664, z: 10.281664}
   m_Children:
   - {fileID: 945743479968255200}

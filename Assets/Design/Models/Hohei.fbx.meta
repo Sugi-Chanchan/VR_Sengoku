@@ -2,7 +2,25 @@ fileFormatVersion: 2
 guid: 5943bab9244f4cf4da2f7e82b2051829
 ModelImporter:
   serializedVersion: 26
-  internalIDToNameTable: []
+  internalIDToNameTable:
+  - first:
+      74: 7721715186239825389
+    second: Armature.001|Action
+  - first:
+      74: -3668348315654564249
+    second: Armature.001|Cavarlry_1
+  - first:
+      74: 1645937694335014390
+    second: Armature.001|Cavarlry_2
+  - first:
+      74: 7935707987744027061
+    second: Armature.001|Cavarlry_3
+  - first:
+      74: -5017080769010346331
+    second: Armature.001|Cavarlry_EmptyHand
+  - first:
+      74: 4719420780625985039
+    second: Armature.001|Cavarlry_Idle
   externalObjects: {}
   materials:
     importMaterials: 1
