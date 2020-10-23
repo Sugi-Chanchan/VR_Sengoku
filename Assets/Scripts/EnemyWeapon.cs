@@ -18,6 +18,8 @@ public class EnemyWeapon : MonoBehaviour
     {
         rig.MovePosition(weaponPosition.position);
         rig.MoveRotation(weaponPosition.rotation);
+        //transform.position = weaponPosition.position;
+        //transform.rotation = weaponPosition.rotation;
     }
 
     private void OnTriggerEnter(Collider other)

@@ -11,7 +11,9 @@ public class Horse : MonoBehaviour
     Vector3[] startpostions = new Vector3[2];
     Vector3[] displacement = new Vector3[2];
     VRTK_VelocityEstimator[] VRTKVelEstim = new VRTK_VelocityEstimator[2];
-    [SerializeField]float rotateSpeed, speed, maxSpeed;
+    [SerializeField] float rotateSpeed;
+    const float maxSpeedLevel=3;
+    [SerializeField]float speedLevel;
     bool bothHands=false;
 
     private void Start()
@@ -32,20 +34,23 @@ public class Horse : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (GrabbedCheck())
+        SpeedCheck();
+
+        if (GrabbedCheck()) //右手左手のどちらか1つでも手綱を掴んでいれば実行
         {
-            var averageDisPlacement = ((reins[0].transform.localPosition - startpostions[0]) + (reins[1].transform.localPosition - startpostions[1])) / 2;
+            var averageDisPlacement = ((reins[0].transform.localPosition - startpostions[0]) + (reins[1].transform.localPosition - startpostions[1])) / 2;//右手と左手の平均をとる
             Rotate(averageDisPlacement.x);
             Acceleration();
-            if (bothHands) Deceleration(averageDisPlacement.z - averageDisPlacement.y);
+            if (bothHands) Deceleration(averageDisPlacement.z - averageDisPlacement.y);//両手で手綱を掴んでたら減速
         }
 
+        var speed = SpeedFunction(speedLevel);
         var vel = root.transform.forward * Time.deltaTime * speed;
         root.position = root.position + vel;
     }
 
     float returnspeed = 0.02f;
-    bool GrabbedCheck()
+    bool GrabbedCheck()//手綱を掴んでいるかの判定
     {
         bothHands = false;
 
@@ -53,6 +58,7 @@ public class Horse : MonoBehaviour
         {
             if (!interactableObjects[1].IsGrabbed())
             {
+                //片手しか掴んでないときは掴んでない方の変位をもう片方に合わせる
                 displacement[0] = displacement[1] = reins[0].transform.localPosition - startpostions[0];
                 reins[1].transform.localPosition = startpostions[1]+ Vector3.MoveTowards(reins[1].transform.localPosition-startpostions[1],displacement[1],returnspeed);
             }
@@ -90,24 +96,16 @@ public class Horse : MonoBehaviour
     bool accCoolTime=false;
     void Acceleration ()
     {
-        float yacc = Mathf.Min(VRTKVelEstim[0].GetAccelerationEstimate().y, VRTKVelEstim[1].GetAccelerationEstimate().y);
+        float yacc = Mathf.Min(VRTKVelEstim[0].GetAccelerationEstimate().y, VRTKVelEstim[1].GetAccelerationEstimate().y); //両手の加速度の小さい方を取得
         if (yacc < -200&&!accCoolTime)
         {
-            speed += 5;
-            speed = Mathf.Max(speed, maxSpeed);
+            speedLevel += 1;
+            speedLevel = Mathf.Min(speedLevel, maxSpeedLevel);
+
             accCoolTime = true;
             Invoke("RemoveAccCoolTime", 0.5f);
+            
         }
-    }
-
-    void Deceleration(float backward)
-    {
-        if (backward < -0.82f)
-        {
-            speed += backward * Time.deltaTime * 20;
-            speed = Mathf.Max(speed, 0);
-        }
-        //print(backward);
     }
 
     void RemoveAccCoolTime()
@@ -115,6 +113,32 @@ public class Horse : MonoBehaviour
         accCoolTime = false;
     }
 
+    void Deceleration(float backward)
+    {
+        if (backward < -0.82f)
+        {
+            speedLevel += backward * Time.deltaTime * 2;
+            speedLevel = Mathf.Max(speedLevel, 0);
+            //speed += backward * Time.deltaTime * 20;
+            //speed = Mathf.Max(speed, 0);
+        }
+    }
+
+    void SpeedCheck()
+    {
+        if (speedLevel > maxSpeedLevel - 1&&!accCoolTime)
+        {
+            speedLevel = Mathf.Lerp(maxSpeedLevel - 1, speedLevel, 0.99f);
+        }
+    }
+
+    float SpeedFunction(float speedStage)
+    {
+        float s = speedStage;
+        return 2.5f * s * s;
+    }
+
+    
 
     private void OnCollisionEnter(Collision collision)
     {

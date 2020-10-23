@@ -61,7 +61,33 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 320983ed00d26b24a9eed6afb4f7fa84, type: 2}
+  m_Motion: {fileID: 7400000, guid: 70912544a1228994b848e956257f32a9, type: 2}
+  m_Tag: 
+  m_SpeedParameter: 
+  m_MirrorParameter: 
+  m_CycleOffsetParameter: 
+  m_TimeParameter: 
+--- !u!1102 &-6317751237764563817
+AnimatorState:
+  serializedVersion: 5
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Cavalry_Yoko_Ready
+  m_Speed: 1
+  m_CycleOffset: 0
+  m_Transitions: []
+  m_StateMachineBehaviours: []
+  m_Position: {x: 50, y: 50, z: 0}
+  m_IKOnFeet: 0
+  m_WriteDefaultValues: 1
+  m_Mirror: 0
+  m_SpeedParameterActive: 0
+  m_MirrorParameterActive: 0
+  m_CycleOffsetParameterActive: 0
+  m_TimeParameterActive: 0
+  m_Motion: {fileID: 7400000, guid: 70912544a1228994b848e956257f32a9, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -75,7 +101,7 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Cavalry_Yoko
-  m_Speed: 0.7
+  m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: -6737543878797481536}
@@ -116,6 +142,9 @@ AnimatorStateMachine:
   - serializedVersion: 1
     m_State: {fileID: 4680676246588416396}
     m_Position: {x: 800, y: 80, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: -6317751237764563817}
+    m_Position: {x: 620.5763, y: 193.57257, z: 0}
   m_ChildStateMachines: []
   m_AnyStateTransitions: []
   m_EntryTransitions:
@@ -191,19 +220,19 @@ AnimatorController:
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: AttackSpeed
     m_Type: 1
     m_DefaultFloat: 1
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: Prevented
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   m_AnimatorLayers:
   - serializedVersion: 5
     m_Name: Base Layer
@@ -234,9 +263,9 @@ AnimatorStateTransition:
   m_Mute: 0
   m_IsExit: 0
   serializedVersion: 3
-  m_TransitionDuration: 0.042706285
-  m_TransitionOffset: 0.00294321
-  m_ExitTime: 0.02856077
+  m_TransitionDuration: 0.19882181
+  m_TransitionOffset: 0.0029432084
+  m_ExitTime: 0.028560756
   m_HasExitTime: 0
   m_HasFixedDuration: 1
   m_InterruptionSource: 0
@@ -259,9 +288,9 @@ AnimatorStateTransition:
   m_Mute: 0
   m_IsExit: 0
   serializedVersion: 3
-  m_TransitionDuration: 0.03234157
-  m_TransitionOffset: 0.23437834
-  m_ExitTime: 1.3220995e-10
+  m_TransitionDuration: 0.30659404
+  m_TransitionOffset: 0
+  m_ExitTime: 0.00000015743571
   m_HasExitTime: 0
   m_HasFixedDuration: 1
   m_InterruptionSource: 0
@@ -349,7 +378,7 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Cavalry_Tate
-  m_Speed: 0.7
+  m_Speed: 0.2
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: -3341877336715390206}

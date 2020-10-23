@@ -10,6 +10,7 @@ public class Cavalry : Enemy
     [SerializeField]bool attack = false;
     [SerializeField] EnemyWeapon halberd;
     [SerializeField] float speed;
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -51,9 +52,9 @@ public class Cavalry : Enemy
 
     void Prevented(object sender,EventArgs e)
     {
-        anim.SetFloat("AttackSpeed", 0.0f);
-        anim.SetTrigger("Prevented");
-
+        //anim.SetFloat("AttackSpeed", 0.0f);
+        //anim.SetTrigger("Prevented");
+        anim.Play("Prevented");
     }
     
 
@@ -62,7 +63,7 @@ public class Cavalry : Enemy
     {
         int r = (UnityEngine.Random.value > 0.5f) ? 1 : 2;
         anim.SetInteger("AttackNumber", 2);
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(3);
         anim.SetInteger("AttackNumber", 0);
         yield return new WaitForSeconds(1);
         attack = false;
