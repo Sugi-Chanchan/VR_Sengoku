@@ -6,32 +6,57 @@ using VRTK;
 public class Arrow : MonoBehaviour
 {
     VRTK_InteractableObject interactableObject;
-    private Transform arrow, bowstring;
+    VRTK_InteractGrab interactGrab;
+    [SerializeField] Transform arrowParent, arrow, bowstring;
+
+    [SerializeField]private GameObject rightHand;
+
+    private GameObject grabbedObject;
+
+    [SerializeField] Rigidbody arrowRigidbody;
+
+    [SerializeField] public bool load, triggerBool;
     // Start is called before the first frame update
     void Start()
     {
-        Invoke("Setup", 0.1f);
+        Setup();
+        //Invoke("Setup", 0.1f);
     }
 
     // Update is called once per frame
     void Update()
     {
-        /*
-        if(interactableObject.IsGrabbed())
+        if(interactGrab.IsGrabButtonPressed() && interactGrab.GetGrabbedObject() != null && interactGrab.GetGrabbedObject().transform.GetChild(0).CompareTag("Arrow"))
         {
-            print("aaa");
-        }
-        */
-        if((bowstring.position - arrow.position).sqrMagnitude < 0.05f)
-        {
-            arrow.parent = bowstring.parent;
-            ArrowUnderBowMain();
+            arrowParent = interactGrab.GetGrabbedObject().transform;
+            arrow = arrowParent.GetChild(0);
+            //print(arrowParent.name);
+            //print(arrow.parent.name);
+
+            if((bowstring.position - arrowParent.position).sqrMagnitude < 0.05f)
+            {
+                arrow.parent = bowstring.parent;
+                //interactGrab.ForceRelease(true);
+                ArrowUnderBowMain();
+                print(load);
+            }
         }
     }
 
     void Setup(){
-        arrow = GameObject.Find("Arrow").transform; //矢のtransformを取得
+        load = false;
+        //triggerBool = false;
+        
+        rightHand = GameObject.FindGameObjectWithTag("RightHand");
         bowstring = GameObject.Find("Bowstring").transform; //子にJapanese_bowを持つSphereのtransformを持ってくる
+
+        /*
+        rightHand.GetComponent<VRTK_ControllerEvents>().TriggerPressed += new ControllerInteractionEventHandler(DoTriggerPressed);
+        rightHand.GetComponent<VRTK_ControllerEvents>().TriggerReleased += new ControllerInteractionEventHandler(DoTriggerReleased);
+        */
+
+        //interactableObject = arrow.parent.GetComponent<VRTK_InteractableObject>();
+        interactGrab = rightHand.GetComponent<VRTK_InteractGrab>();
     }
 
     void ArrowUnderRightHand() //矢がRightHandの下にある場合にちょうどいい場所に移動させる関数
@@ -44,5 +69,22 @@ public class Arrow : MonoBehaviour
     {
         arrow.localPosition = new Vector3(-0.004f, -0.03f, -0.017f);
         arrow.localRotation = Quaternion.Euler(-90.0f, 0.0f, 0.0f);
+        
+        load = true;
     }
+
+    public bool GetLoadBool(){
+        return load;
+    }
+
+    /*
+    private void DoTriggerPressed(object sender, ControllerInteractionEventArgs e)
+    {
+        triggerBool = true;
+    }
+    private void DoTriggerReleased(object sender, ControllerInteractionEventArgs e)
+    {
+        triggerBool = false;
+    }
+    */
 }
