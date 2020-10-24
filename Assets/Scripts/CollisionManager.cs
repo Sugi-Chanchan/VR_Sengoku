@@ -7,13 +7,6 @@ public class CollisionManager : MonoBehaviour
 
     public static List<Polygon> playerBody, playerWeapon, enemyBody, enemyWeapon;
     
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
     void LateUpdate()
     {
 
@@ -22,6 +15,12 @@ public class CollisionManager : MonoBehaviour
 
         Clear();
     }
+
+    void CollisionCheck(Polygon A, Polygon B)
+    {
+
+    }
+
 
 
     void Clear()
@@ -46,8 +45,19 @@ public class Polygon
     }
 }
 
+
 public abstract class CollisionObject : MonoBehaviour
 {
-    public abstract void SendPolygon();
+    /// <summary>
+    /// 1つ前のフレームでの位置を更新
+    /// </summary>
+    protected abstract void SetVertexOfBeforeFrame();
+    /// <summary>
+    /// 衝突判定をとってほしいフレームでCollisionManagerにPolygonをおくる, Update内で使うこと(LateUpdateはだめ)
+    /// </summary>
+    protected abstract void SendPolygon();
+    /// <summary>
+    /// 衝突が検知されたらこれが呼ばれる
+    /// </summary>
     public abstract void OnCollision();
 }
