@@ -24,15 +24,15 @@ public class EnemyWeapon : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.tag == "Player")
+        if (other.tag == "Weapon")
         {
             Prevented(this, EventArgs.Empty);
-
         }
     }
+
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.tag == "Player")
+        if (collision.gameObject.tag == "Weapon")
         {
             Prevented(this, EventArgs.Empty);
 

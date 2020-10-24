@@ -52,9 +52,9 @@ public class Cavalry : Enemy
 
     void Prevented(object sender,EventArgs e)
     {
-        //anim.SetFloat("AttackSpeed", 0.0f);
-        //anim.SetTrigger("Prevented");
-        anim.Play("Prevented");
+        anim.SetTrigger("Prevented");
+        anim.SetFloat("AttackSpeed", 0.0f);
+        //anim.Play("Prevented");
     }
     
 

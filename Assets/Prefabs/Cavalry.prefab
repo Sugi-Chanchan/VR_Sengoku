@@ -1,5 +1,35 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1297558134
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1297558135}
+  m_Layer: 0
+  m_Name: WeaponPosition
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1297558135
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1297558134}
+  m_LocalRotation: {x: -0.27983862, y: 0.5268213, z: -0.6493767, w: 0.47165623}
+  m_LocalPosition: {x: 0.002, y: 0.0082, z: 0.0009}
+  m_LocalScale: {x: 3.8904264, y: 3.8904305, z: 3.8904233}
+  m_Children: []
+  m_Father: {fileID: 1472010343167855041}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 24.849, y: 71.475006, z: -90.00001}
 --- !u!1 &92951991941659014
 GameObject:
   m_ObjectHideFlags: 0
@@ -64,6 +94,7 @@ Transform:
   - {fileID: 4491701902404727669}
   - {fileID: 6658667589024763341}
   - {fileID: 7369372129265435669}
+  - {fileID: 1297558135}
   m_Father: {fileID: 3829949344061163994}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1261,7 +1292,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7751670369300655991}
-  - component: {fileID: 4170762618377155185}
   - component: {fileID: 2424137832367096808}
   m_Layer: 0
   m_Name: Cavalry
@@ -1286,22 +1316,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!54 &4170762618377155185
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3499084828272019287}
-  serializedVersion: 2
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 0
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
 --- !u!114 &2424137832367096808
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1318,6 +1332,7 @@ MonoBehaviour:
   anim: {fileID: 946257578719234533}
   attack: 0
   halberd: {fileID: 7214008032993194129}
+  speed: 0
 --- !u!1 &3540129255198095149
 GameObject:
   m_ObjectHideFlags: 0
@@ -1763,7 +1778,6 @@ GameObject:
   - component: {fileID: 7369372129265435669}
   - component: {fileID: 1954072230699269667}
   - component: {fileID: 5197940380452192986}
-  - component: {fileID: 8777116484948980558}
   - component: {fileID: 1807909383}
   - component: {fileID: 1807909384}
   - component: {fileID: 7214008032993194129}
@@ -1834,19 +1848,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!65 &8777116484948980558
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5773083867570320902}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 0.010489938, y: 0.021739973, z: 0.0026238265}
-  m_Center: {x: 0.0021719646, y: -0.069923006, z: 0.000000027369012}
 --- !u!54 &1807909383
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1871,11 +1872,11 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5773083867570320902}
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.003308893, y: 0.07919693, z: 0.0026238253}
-  m_Center: {x: 0.00020038211, y: -0.019375376, z: -0.000000008686551}
+  m_Size: {x: 0.001, y: 0.09847162, z: 0.001}
+  m_Center: {x: 0.00020038131, y: -0.028611282, z: -0.000000010520092}
 --- !u!114 &7214008032993194129
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1888,6 +1889,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 78dae4f727f79b240b6b04badc3378bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  weaponPosition: {fileID: 1297558135}
 --- !u!1 &6192610395834193548
 GameObject:
   m_ObjectHideFlags: 0
@@ -1899,7 +1901,7 @@ GameObject:
   - component: {fileID: 7182057784400176287}
   - component: {fileID: 946257578719234533}
   - component: {fileID: 1990780754128775590}
-  - component: {fileID: 614875396}
+  - component: {fileID: 1213702778}
   m_Layer: 0
   m_Name: Hohei (1)
   m_TagString: Untagged
@@ -1915,7 +1917,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6192610395834193548}
   m_LocalRotation: {x: -0.70710677, y: -0, z: -0, w: -0.70710677}
-  m_LocalPosition: {x: 0, y: 0.46599984, z: -0.49999848}
+  m_LocalPosition: {x: 0, y: 0.4659996, z: -0.49999836}
   m_LocalScale: {x: 0.5, y: 0.49999994, z: 0.49999994}
   m_Children:
   - {fileID: 1651149106324045661}
@@ -1956,7 +1958,7 @@ CapsuleCollider:
   m_Height: 2.3349075
   m_Direction: 1
   m_Center: {x: -0, y: 1.179225, z: -0.023990631}
---- !u!114 &614875396
+--- !u!114 &1213702778
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2067,6 +2069,7 @@ MonoBehaviour:
   - Armature.001/Hip/Spine/Chest/Upper Chest/Shoulder.R/Upper Arm.R/Lower Arm.R/Hand.R/Proximal
     Thumb.R/Intermediate Thumb.R/Distal Thumb.R/Distal Thumb.R_end
   - Armature.001/Hip/Spine/Chest/Upper Chest/Shoulder.R/Upper Arm.R/Lower Arm.R/Hand.R/Halberd
+  - Armature.001/Hip/Spine/Chest/Upper Chest/Shoulder.R/Upper Arm.R/Lower Arm.R/Hand.R/WeaponPosition
   - Armature.001/Hip/Upper Leg.L
   - Armature.001/Hip/Upper Leg.L/Lower Leg.L
   - Armature.001/Hip/Upper Leg.L/Lower Leg.L/Foot.L
@@ -2078,9 +2081,9 @@ MonoBehaviour:
   - Armature.001/Hip/Upper Leg.R/Lower Leg.R/Foot.R/Toes.R
   - Armature.001/Hip/Upper Leg.R/Lower Leg.R/Foot.R/Toes.R/Toes.R_end
   - Cube
-  showBones: 000000000300000004000000050000000600000007000000090000000a0000000b0000000c000000210000002200000023000000240000003a0000003b0000003c0000003d0000003f000000400000004100000042000000
-  foldoutBones: 270000003300000017000000130000001f0000000f000000370000002f0000002b0000001b0000001a0000002e000000160000000e0000002600000036000000120000001e000000320000002a000000290000000d000000350000001100000019000000150000001d000000310000002d000000250000000c000000240000000b0000002300000022000000070000000a00000021000000060000003d0000000900000042000000410000003c00000005000000040000003b000000400000003a0000003f00000003000000020000000100000000000000
-  mirrorBones: ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff2100000022000000230000002400000025000000260000002700000028000000290000002a0000002b0000002c0000002d0000002e0000002f000000300000003100000032000000330000003400000035000000360000003700000038000000090000000a0000000b0000000c0000000d0000000e0000000f000000100000001100000012000000130000001400000015000000160000001700000018000000190000001a0000001b0000001c0000001d0000001e0000001f00000020000000ffffffff3f000000400000004100000042000000430000003a0000003b0000003c0000003d0000003e000000ffffffff
+  showBones: 000000000300000004000000050000000600000007000000090000000a0000000b0000000c000000210000002200000023000000240000003b0000003c0000003d0000003e00000040000000410000004200000043000000
+  foldoutBones: 17000000130000003e0000001f000000430000000f0000001b0000001a00000016000000420000000e0000003d000000120000001e0000000d0000003c0000001100000019000000150000001d000000410000003b0000000c00000040000000010000000b0000000200000007000000030000000a00000004000000060000000900000005000000210000002700000033000000370000002f0000002b0000002e000000220000002600000036000000320000002a000000290000003500000031000000230000002d000000250000002400000000000000
+  mirrorBones: ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff2100000022000000230000002400000025000000260000002700000028000000290000002a0000002b0000002c0000002d0000002e0000002f000000300000003100000032000000330000003400000035000000360000003700000038000000090000000a0000000b0000000c0000000d0000000e0000000f000000100000001100000012000000130000001400000015000000160000001700000018000000190000001a0000001b0000001c0000001d0000001e0000001f00000020000000ffffffffffffffff40000000410000004200000043000000440000003b0000003c0000003d0000003e0000003f000000ffffffff
   mirrorBlendShape: []
   animatorIkData:
   - enable: 0
@@ -2150,7 +2153,7 @@ MonoBehaviour:
     swivelPosition: {x: 0, y: 0, z: 0}
   originalIkData: []
   selectionData: []
-  lastSelectAnimationClip: {fileID: 7400000, guid: 08d771338c7aefb4489b8456d6bd69bc,
+  lastSelectAnimationClip: {fileID: 7400000, guid: 70912544a1228994b848e956257f32a9,
     type: 2}
   handPoseList: []
   blendShapeList: []
@@ -2393,7 +2396,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6735822839663039740}
   m_LocalRotation: {x: -0.56115043, y: -2.9594484e-17, z: 2.9594484e-17, w: 0.82771385}
-  m_LocalPosition: {x: -0.0011711121, y: -0.21613303, z: -0.17317875}
+  m_LocalPosition: {x: -0.0011704303, y: -0.21613303, z: -0.17317833}
   m_LocalScale: {x: 10.281664, y: 10.281664, z: 10.281664}
   m_Children:
   - {fileID: 945743479968255200}
