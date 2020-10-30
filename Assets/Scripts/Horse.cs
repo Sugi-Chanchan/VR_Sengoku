@@ -135,10 +135,11 @@ public class Horse : MonoBehaviour
         }
     }
 
+    [SerializeField] float speedFactor = 2.5f;
     float SpeedFunction(float speedStage)
     {
         float s = speedStage;
-        return 2.5f * s * s;
+        return speedFactor * s * s;
     }
 
     

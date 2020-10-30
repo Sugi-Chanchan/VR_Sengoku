@@ -4,27 +4,27 @@ using UnityEngine;
 
 public class Halberd2 : CollisionObject
 {
-    protected override CollisionManager.ColliderType ColliderType { get => CollisionManager.ColliderType.EnemyWeapon; }
+    public override CollisionManager.ColliderType ColliderType { get => CollisionManager.ColliderType.EnemyWeapon; }
     [SerializeField] Transform start, end;
+    protected override List<Transform[]> LinesOfTrabsform => new List<Transform[]> { new Transform[2] { start, end } };
     // Start is called before the first frame update
-    void Start()
+    // Update is called once per frame\
+
+    protected override void StartOfCollisionInstance()
     {
-        if (start == null || end == null) { Debug.LogError("Nullllllllll"); }
-        SetCollider();
+
     }
 
-    // Update is called once per frame
-    void LateUpdate()
+    protected override void UpdateOfCollisionInstance()
     {
-        CheckCollision();    
+        CheckCollision();
     }
 
-    public override void OnCollision()
+    public override void OnCollision(CollisionInfo collision)
     {
-        print("hit");
-    }
-    protected override void SetCollider()
-    {
-        AddHitLine(start,end);
+        if (collision.colliderType == CollisionManager.ColliderType.PlayerBody)
+        {
+            //print(+collision.hitpoint.x + " , " + collision.hitpoint.y + " , " + collision.hitpoint.z);
+        }
     }
 }
