@@ -79,8 +79,8 @@ SkinnedMeshRenderer:
   - 0
   m_RootBone: {fileID: 0}
   m_AABB:
-    m_Center: {x: -0.0046076556, y: -0.000111068046, z: 0.0024930323}
-    m_Extent: {x: 0.0048722676, y: 0.00029731882, z: 0.011125783}
+    m_Center: {x: -0.0046076556, y: 5.820766e-11, z: 0.0024930323}
+    m_Extent: {x: 0.0048722676, y: 0.00040838693, z: 0.011125783}
   m_DirtyAABB: 0
 --- !u!1 &3558203776948289845
 GameObject:
@@ -236,7 +236,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3558203778330951479}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.1663, y: -0.0209, z: 0.0041000242}
+  m_LocalPosition: {x: -0.1663, y: 0.02, z: 0.0041000242}
   m_LocalScale: {x: 0.030000206, y: 0.030000187, z: 0.029999997}
   m_Children: []
   m_Father: {fileID: 3558203776948289844}
@@ -416,10 +416,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   arrowSkin: {fileID: 0}
-  japaneseBowSkin: {fileID: 0}
+  japaneseBowSkin: {fileID: 2024991619029059092}
   followBowstringFloat: 0.8
   arrowPower: 100
-  arrowRigidbody: {fileID: 0}
+  arrowParent: {fileID: 0}
+  arrow: {fileID: 0}
+  load: 0
 --- !u!54 &4774002993895913563
 Rigidbody:
   m_ObjectHideFlags: 0

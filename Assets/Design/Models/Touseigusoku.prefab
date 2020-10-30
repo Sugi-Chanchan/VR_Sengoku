@@ -1782,7 +1782,7 @@ GameObject:
   - component: {fileID: 5705235119227058037}
   - component: {fileID: 2629676468991695335}
   m_Layer: 0
-  m_Name: Asigaru
+  m_Name: Touseigusoku
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1838,6 +1838,9 @@ MonoBehaviour:
   EnemyClass: 0
   speed: 3
   vel: {x: 0, y: 0, z: 0}
+  walkDistance: 30
+  attackDistance: 10
+  weaponCollider: {fileID: 0}
 --- !u!136 &5705235119227058037
 CapsuleCollider:
   m_ObjectHideFlags: 0

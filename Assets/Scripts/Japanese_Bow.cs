@@ -16,16 +16,16 @@ public class Japanese_Bow : MonoBehaviour
     [SerializeField] float arrowPower; //矢が発射される強さ、初期100
     private Transform weaponPositionLeft;
     private Transform bow, bowstring;
-    private Transform arrowParent, arrow;
+    [SerializeField] Transform arrowParent, arrow;
 
-    [SerializeField] private GameObject rightHand;
-    [SerializeField] Rigidbody arrowRigidbody;
+    private GameObject rightHand;
+    private Rigidbody arrowRigidbody;
     private bool flagTrigger, setupped;
     private Vector3 firstBowToBowstring, bowToBowstring;
     private float firstDrowABowDistance, drowABowDistance, tem, per;
     private Vector3 firstBowstringPosition;
 
-    [SerializeField] public bool load;
+    public bool load;
 
     //public Arrow arrowScript;
     //private Animator bowAnimator;
@@ -41,9 +41,14 @@ public class Japanese_Bow : MonoBehaviour
     {
         if(!setupped) return;
 
+        //print(interactGrab.IsGrabButtonPressed());
+        //print(interactGrab.GetGrabbedObject() != null);
+        //print(interactGrab.GetGrabbedObject().transform.GetChild(0).CompareTag("Arrow"));
         if(interactGrab.IsGrabButtonPressed() && interactGrab.GetGrabbedObject() != null && interactGrab.GetGrabbedObject().transform.GetChild(0).CompareTag("Arrow"))
         {          
             arrowParent = interactGrab.GetGrabbedObject().transform; //矢のtransformを取得
+            print(arrowParent.name);
+            print("aaa1");
             arrow = arrowParent.GetChild(0);
             
             arrowSkin = arrow.GetComponent<SkinnedMeshRenderer>();
@@ -102,7 +107,7 @@ public class Japanese_Bow : MonoBehaviour
         firstDrowABowDistance = firstBowToBowstring.sqrMagnitude; //初期のbowからbowstringまでの距離
         tem = maxBowstring - firstDrowABowDistance; //弓の弾く値の範囲
 
-        japaneseBowSkin = GameObject.Find("Japanese_Bow").transform.GetComponent<SkinnedMeshRenderer>();
+        japaneseBowSkin = transform.GetChild(0).GetChild(0).GetComponent<SkinnedMeshRenderer>();
         drowBow = japaneseBowSkin.sharedMesh.GetBlendShapeIndex("Key 1");
 
         weaponPositionLeft = GameObject.FindGameObjectWithTag("WeaponPositionLeft").transform; //左手のGameObjectのtransformを取得
@@ -138,7 +143,7 @@ public class Japanese_Bow : MonoBehaviour
 
     void ArrowUnderBowMain() //矢がBowMainの下にある場合にちょうどいい場所に移動させる関数
     {
-        arrow.localPosition = new Vector3(-0.004f, -0.03f, -0.017f);
+        arrow.localPosition = new Vector3(-0.004f, 0.0134f, 0.021f);
         arrow.localRotation = Quaternion.Euler(-90.0f, 0.0f, 0.0f);
         
         load = true;

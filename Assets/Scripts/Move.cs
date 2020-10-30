@@ -63,6 +63,8 @@ public class Move : MonoBehaviour
         Vrtk.position = Vrtkposition;
         ResetPosition();
     }
+
+    /*
     private void DoTriggerPressed(object sender, ControllerInteractionEventArgs e)
     {
         PressedTime = Time.time;
@@ -80,6 +82,7 @@ public class Move : MonoBehaviour
             Setup();
         }
     }
+    */
 
     private void DoButtonTwoPressed(object sender, ControllerInteractionEventArgs e)
     {
