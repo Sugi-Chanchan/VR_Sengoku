@@ -68,3 +68,4 @@ public class Hohei : Enemy
         player = GameObject.FindGameObjectWithTag("Player").transform;
     }
 }
+
