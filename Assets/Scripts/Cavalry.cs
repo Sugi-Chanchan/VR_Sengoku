@@ -10,7 +10,7 @@ public class Cavalry : Enemy
     [SerializeField]bool attack = false;
     [SerializeField] EnemyWeapon halberd;
     [SerializeField] float speed;
-    
+    bool setupped;
     // Start is called before the first frame update
     void Start()
     {
@@ -23,7 +23,7 @@ public class Cavalry : Enemy
     // Update is called once per frame
     void Update()
     {
-        
+        if (!setupped) return;
 
         var dir = player.position - transform.position;
         dir.y = 0;
@@ -48,6 +48,7 @@ public class Cavalry : Enemy
     void SetUp()
     {
         player = GameObject.FindGameObjectWithTag("Player").transform;
+        setupped = true;
     }
 
     void Prevented(object sender,EventArgs e)

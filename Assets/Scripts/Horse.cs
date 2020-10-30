@@ -14,8 +14,8 @@ public class Horse : MonoBehaviour
     [SerializeField] float rotateSpeed;
     const float maxSpeedLevel=3;
     [SerializeField]float speedLevel;
-    bool bothHands=false;
-
+    bool bothHands=false,setupped;
+    
     private void Start()
     {
         root = transform.root;
@@ -30,10 +30,13 @@ public class Horse : MonoBehaviour
             startpostions[i] = reins[i].transform.localPosition;
             interactableObjects[i] = reins[i].GetComponent<VRTK_InteractableObject>();
         }
+        setupped = true;
     }
 
     private void FixedUpdate()
     {
+        if (!setupped) return;
+
         SpeedCheck();
 
         if (GrabbedCheck()) //右手左手のどちらか1つでも手綱を掴んでいれば実行
@@ -132,10 +135,11 @@ public class Horse : MonoBehaviour
         }
     }
 
+    [SerializeField] float speedFactor = 2.5f;
     float SpeedFunction(float speedStage)
     {
         float s = speedStage;
-        return 2.5f * s * s;
+        return speedFactor * s * s;
     }
 
     
