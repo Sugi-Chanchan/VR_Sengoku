@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class Abstract_Virtual : MonoBehaviour
 {
@@ -15,6 +16,7 @@ public class Abstract_Virtual : MonoBehaviour
         //AbstractBase a = o.ReturnInstance();
 
         //a.Method();
+        /*
         Vector3 hit=Vector3.zero;
         int num = 100000;
         System.Diagnostics.Stopwatch sw = new System.Diagnostics.Stopwatch();
@@ -26,11 +28,27 @@ public class Abstract_Virtual : MonoBehaviour
         sw.Stop();
         Debug.Log(sw.ElapsedMilliseconds + "ms");
         print(hit.ToString());
+        */
+
         //for (int i = 0; i < num; i++)
         //{
         //    CollisionManager.OverrapCheck2(vec[0], vec[1], vec[2], vec[3], vec[4], out hit);
         //}
 
+        int num = 100000;
+        int[] intArray = new int[num];
+        List<int> intList = new List<int>();
+        System.Diagnostics.Stopwatch sw = new System.Diagnostics.Stopwatch();
+        sw.Start();
+
+        for (int i = 0; i < num; i++)
+        {
+            intList.Add(i);
+        }
+       
+        sw.Stop();
+        Debug.Log(sw.ElapsedMilliseconds + "ms");
+        print(intList.Count);
     }
 
     private void Update()

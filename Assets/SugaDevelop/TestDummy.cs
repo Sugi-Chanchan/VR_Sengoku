@@ -23,24 +23,46 @@ public class TestDummy : CollisionObject {
     protected override void UpdateOfCollisionInstance()
     {
         CheckCollision();
-        //transform.position += -Vector3.up * Time.deltaTime*0.1f;
-        
+        transform.position += -Vector3.up * Time.deltaTime*0.1f;
+        cutted = 0;
     }
     // Update is called once per frame
 
     float cutted = 0;
     public override void OnCollision(CollisionInfo collision)
     {
+        if (cutted > 0) { return; }
+        cutted += 1;
         System.Diagnostics.Stopwatch sw = new System.Diagnostics.Stopwatch();
         sw.Start();
-        if (cutted > 0) { cutted -= 0.07f; return; }
-        cutted +=1;
         Polygon polygon = collision.polygon;
         Vector3 normal = Vector3.Cross(polygon.vertices[1]-polygon.vertices[0],polygon.vertices[2]-polygon.vertices[0]).normalized;
-        print(normal);
-        var gos = MeshCut.Cut(gameObject, polygon.vertices[0], normal);
+
+        var meshes = MeshCut.CutMeshRough(gameObject, polygon.vertices[0], normal);
         //print(polygon.vertices[0]+","+polygon.vertices[1]+","+polygon.vertices[2]);
-        gos[1].AddComponent<Rigidbody>();
+
+        Mesh mesh1, mesh2;
+        if (normal.y > 0)
+        {
+            mesh1 = meshes[0];
+            mesh2 = meshes[1];
+        }
+        else
+        {
+            mesh1 = meshes[1];
+            mesh2 = meshes[0];
+        }
+
+        GetComponent<MeshFilter>().mesh = mesh1;
+
+        GameObject fragment = new GameObject("Fragmet", typeof(MeshFilter), typeof(MeshRenderer));
+        fragment.transform.position = this.transform.position;
+        fragment.transform.rotation = this.transform.rotation;
+        fragment.transform.localScale = this.transform.localScale;
+        fragment.GetComponent<MeshFilter>().mesh = mesh2;
+        fragment.GetComponent<MeshRenderer>().materials = this.GetComponent<MeshRenderer>().materials;
+
+        fragment.AddComponent<Rigidbody>();
 
         //Debug.Break();
         sw.Stop();
