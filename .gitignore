@@ -49,3 +49,6 @@ Thumbs.db
 
 #python bytecode cache, for some plugins.
 *.pyc
+
+#追加したアセットを無視
+/Assets/Low Poly Free Vegetation Kit/
