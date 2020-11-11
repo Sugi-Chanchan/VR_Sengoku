@@ -45,19 +45,22 @@ public class Japanese_Bow : MonoBehaviour
         //print(interactGrab.GetGrabbedObject() != null);
         //print(interactGrab.GetGrabbedObject().transform.GetChild(0).CompareTag("Arrow"));
         if(interactGrab.IsGrabButtonPressed() && interactGrab.GetGrabbedObject() != null && interactGrab.GetGrabbedObject().transform.GetChild(0).CompareTag("Arrow"))
-        {          
-            arrowParent = interactGrab.GetGrabbedObject().transform; //矢のtransformを取得
-            print(arrowParent.name);
-            print("aaa1");
-            arrow = arrowParent.GetChild(0);
+        {
             
-            arrowSkin = arrow.GetComponent<SkinnedMeshRenderer>();
-            drowArrow = arrowSkin.sharedMesh.GetBlendShapeIndex("Key 1");
+            if(load == false) //矢がつがえられていない時だけBlend ShapeのComponentを設定する
+            {      
+                arrowParent = interactGrab.GetGrabbedObject().transform; //矢のtransformを取得
+                print(arrowParent.name);
+                //print("aaa1");
+                arrow = arrowParent.GetChild(0);
+                
+                arrowSkin = arrow.GetComponent<SkinnedMeshRenderer>();
+                drowArrow = arrowSkin.sharedMesh.GetBlendShapeIndex("Key 1");
+            }
 
             if((bowstring.position - arrowParent.position).sqrMagnitude < 0.01f)
             {
                 arrow.parent = bowstring.parent;
-
                 ArrowUnderBowMain();
             }
         }
@@ -66,12 +69,13 @@ public class Japanese_Bow : MonoBehaviour
 
         if(interactableObject.IsGrabbed()) //条件：InteractableObjectが掴まれたとき
         {
-            japaneseBowSkin.SetBlendShapeWeight(drowBow, Mathf.Clamp(per/followBowstringFloat, 0.0f, 100.0f));
+            japaneseBowSkin.SetBlendShapeWeight(drowBow, Mathf.Clamp(per/followBowstringFloat, 0.0f, 100.0f)); //弓のBlend Shapeの変更
 
             if(load)
             {
-                arrowSkin.SetBlendShapeWeight(drowArrow, Mathf.Clamp(per/followBowstringFloat, 0.0f, 100.0f));
+                arrowSkin.SetBlendShapeWeight(drowArrow, Mathf.Clamp(per/followBowstringFloat, 0.0f, 100.0f)); //矢のBlend Shapeの変更
             }
+
             flagTrigger = true;
         }
         else if(flagTrigger)
@@ -137,7 +141,7 @@ public class Japanese_Bow : MonoBehaviour
             arrowRigidbody = arrow.gameObject.AddComponent <Rigidbody> ();
         }
         arrowRigidbody.useGravity = true;
-        //arrowRigidbody.collisionDetectionMode = CollisionDetectionMode.ContinuousSpeculative;
+        arrowRigidbody.collisionDetectionMode = CollisionDetectionMode.Continuous;
         arrowRigidbody.AddForce(transform.right*per*arrowPower);
     }
 
