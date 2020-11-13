@@ -25,12 +25,13 @@ public class CollisionManager : MonoBehaviour
         {ColliderType.EnemyWeapon,enemyWeapon }
     };
 
+    //アニメーションより後で当たり判定を出すならLateUpdate内でこれを実行して, かつスクリプトの実行順でCollisionManagerが最後に来るようにする必要がある.
     public static void AddColliderDataList(ColliderInputData colliderData, ColliderType colliderType) //dictinaryとEnumを使ってポリゴンを追加する関数をかいた
     {
         PolygonTypeDic[colliderType].Add(colliderData);
     }
 
-    void LateUpdate()
+    void LateUpdate()  
     {
         //ポリゴン同士が重なっているか判定して重なっていたらOncollisionを実行
         foreach (ColliderInputData pWeapon in playerWeapon)
@@ -64,38 +65,41 @@ public class CollisionManager : MonoBehaviour
 
     void CollisionCheck(ColliderInputData A, ColliderInputData B)
     {
-        Polygon polygonA = A.polygon;
-        Polygon polygonB = B.polygon;
-
-        Vector3 _triangleVector1 = polygonA.vertices[1] - polygonA.vertices[0];
-        Vector3 _triangleVector2 = polygonA.vertices[2] - polygonA.vertices[0];
-        Vector3 hitPoint;
-
-        for (int i = 0; i < 3; i++)
+        foreach (Polygon polygonA in A.polygons)
         {
-            if (OverrapCheck(polygonA.vertices[0], _triangleVector1, _triangleVector2, polygonB.vertices[i], polygonB.vertices[(i + 1) % 3] - polygonB.vertices[i], out hitPoint))
+            foreach (Polygon polygonB in B.polygons)
             {
-                CollisionDetection(A, B, hitPoint);
-                return;
-            };
-        }
+                Vector3 _triangleVector1 = polygonA.vertices[1] - polygonA.vertices[0];
+                Vector3 _triangleVector2 = polygonA.vertices[2] - polygonA.vertices[0];
+                Vector3 hitPoint;
 
-        _triangleVector1 = polygonB.vertices[1] - polygonB.vertices[0];
-        _triangleVector2 = polygonB.vertices[2] - polygonB.vertices[0];
-        for (int i = 0; i < 3; i++)
-        {
-            if (OverrapCheck(polygonB.vertices[0], _triangleVector1, _triangleVector2, polygonA.vertices[i], polygonA.vertices[(i + 1) % 3] - polygonA.vertices[i], out hitPoint))
-            {
-                CollisionDetection(A, B, hitPoint);
-                return;
-            };
+                for (int i = 0; i < 3; i++)
+                {
+                    if (OverrapCheck(polygonA.vertices[0], _triangleVector1, _triangleVector2, polygonB.vertices[i], polygonB.vertices[(i + 1) % 3] - polygonB.vertices[i], out hitPoint))
+                    {
+                        CollisionDetection(A, B, polygonA, polygonB, hitPoint);
+                        return;
+                    };
+                }
+
+                _triangleVector1 = polygonB.vertices[1] - polygonB.vertices[0];
+                _triangleVector2 = polygonB.vertices[2] - polygonB.vertices[0];
+                for (int i = 0; i < 3; i++)
+                {
+                    if (OverrapCheck(polygonB.vertices[0], _triangleVector1, _triangleVector2, polygonA.vertices[i], polygonA.vertices[(i + 1) % 3] - polygonA.vertices[i], out hitPoint))
+                    {
+                        CollisionDetection(A, B, polygonA, polygonB, hitPoint);
+                        return;
+                    };
+                }
+            }
         }
     }
 
-    void CollisionDetection(ColliderInputData A, ColliderInputData B, Vector3 hitPoint)
+    void CollisionDetection(ColliderInputData A, ColliderInputData B, Polygon polygonA, Polygon polygonB, Vector3 hitPoint)
     {
-        CollisionInfo collisionInfoA = new CollisionInfo(B.polygon, hitPoint, B.collisionObject.ColliderType);
-        CollisionInfo collisionInfoB = new CollisionInfo(A.polygon, hitPoint, A.collisionObject.ColliderType);
+        CollisionInfo collisionInfoA = new CollisionInfo(polygonB, hitPoint, B.collisionObject.ColliderType);
+        CollisionInfo collisionInfoB = new CollisionInfo(polygonA, hitPoint, A.collisionObject.ColliderType);
         A.collisionObject.OnCollision(collisionInfoA);
         B.collisionObject.OnCollision(collisionInfoB);
     }
@@ -125,7 +129,7 @@ public class CollisionManager : MonoBehaviour
             float ep = b_yx * e.x - e.y;
             float cp = b_yx * c.x - c.y;
 
-            if (Mathf.Abs(cp) > 0.001)
+            if (Mathf.Abs(cp) > 0.001) // > 0 でないのは丸め誤差を含むため
             {
                 float cpp = (b_zx * c.x - c.z) / cp;
 
@@ -230,7 +234,6 @@ public class CollisionManager : MonoBehaviour
 
         if (k >= 0 && k <= 1 && s >= 0 && t >= 0 && s + t <= 1)
         {
-            //print("hit!");
             hitPoint = lineStartPosition + lineVector * k;
             return true;
         }
@@ -239,96 +242,6 @@ public class CollisionManager : MonoBehaviour
             return false;
         }
     }
-
-    //こっちは重かったので使いません
-    public static bool OverrapCheck2(Vector3 trianglePosition, Vector3 triangleVector1, Vector3 triangleVector2, Vector3 lineStartPosition, Vector3 lineVector, out Vector3 hitPoint)
-    {
-        hitPoint = Vector3.zero;
-        //print("A :"+trianglePosition+"B :"+ (trianglePosition+triangleVector1).ToString()+"C :"+(trianglePosition+triangleVector2).ToString()+"D :"+lineStartPosition+"E :"+(lineStartPosition+lineVector).ToString());
-
-        Vector3 n = Vector3.Cross(triangleVector1, triangleVector2);
-        float denominator = Vector3.Dot(lineVector, n);
-        if (n.sqrMagnitude < 0.001 || Mathf.Abs(denominator) < 0.001) {; return false; }
-
-        float k = (Vector3.Dot(trianglePosition, n) - Vector3.Dot(lineStartPosition, n)) / denominator;
-
-
-        if (k < 0 || k > 1) { return false; }
-
-        hitPoint = lineStartPosition + k * lineVector;
-        Vector3 F = hitPoint - trianglePosition;
-        Vector3 b = triangleVector1;
-        Vector3 c = triangleVector2;
-
-        float t, s;
-        if (Mathf.Abs(b.x) > 0.001)
-        {
-            float b_yx = b.y / b.x;
-            float denom; 
-            if (Mathf.Abs(denom = b_yx * c.x - c.y) > 0.001)
-            {
-                t = (b_yx * F.x - F.y) / denom;
-                s = (F.x - t * c.x) / b.x;
-            }else if(Mathf.Abs(denom = b_yx * c.x - c.z) > 0.001)
-            {
-                t = (b_yx * F.x - F.z) / denom;
-                s = (F.x - t * c.x) / b.x;
-            }
-            else
-            {
-                return false;
-            }
-        }
-        else if (Mathf.Abs(c.x) > 0.001)
-        {
-            t = F.x / c.x;
-            if (Mathf.Abs(b.y) > 0.001)
-            {
-                s = (F.y - t * c.y) / b.y;
-            }else if (Mathf.Abs(b.z) > 0.001)
-            {
-                s = (F.z - t * c.z) / b.z;
-            }
-            else
-            {
-                return false;
-            }
-        }
-        else if (Mathf.Abs(b.y) > 0.001)
-        {
-            float b_zy = b.z / b.y;
-            float denom = b_zy * c.y - c.z;
-            if (Mathf.Abs(denom) > 0.001)
-            {
-                t = (b_zy * F.y - F.z) / denom;
-                s = (F.y - t * c.y) / b.y;
-            }
-            else
-            {
-                return false;
-            }
-        }else if (Mathf.Abs(c.y)>0.001&& Mathf.Abs(b.z) > 0.001)
-        {
-            t = F.y / c.y;
-            s = (F.z - t * F.y) / b.z;
-        }
-        else
-        {
-            return false;
-        }
-
-        //print("2: " + "k=" + k + ", s=" + s + ", t=" + t);
-        if (s >= 0 && t >= 0 && s + t <= 1)
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
-
-    }
-
 
     void Clear()
     {
@@ -342,12 +255,12 @@ public class CollisionManager : MonoBehaviour
 
 public class ColliderInputData
 {
-    public Polygon polygon;
+    public Polygon[] polygons;
     public CollisionObject collisionObject;
 
-    public ColliderInputData(Vector3 vertex1, Vector3 vertex2, Vector3 vertex3, CollisionObject collisionObjectInstance)
+    public ColliderInputData(Polygon[] polygons, CollisionObject collisionObjectInstance)
     {
-        polygon = new Polygon( vertex1, vertex2, vertex3);
+        this.polygons = polygons;
         collisionObject = collisionObjectInstance;
     }
 }
@@ -367,7 +280,7 @@ public class CollisionInfo
     public Vector3 hitPoint;
     public CollisionManager.ColliderType colliderType;
 
-    public CollisionInfo(Polygon _polygon,Vector3 _hitPoint,CollisionManager.ColliderType _colliderType)
+    public CollisionInfo(Polygon _polygon, Vector3 _hitPoint, CollisionManager.ColliderType _colliderType)
     {
         polygon = _polygon;
         hitPoint = _hitPoint;
@@ -380,9 +293,20 @@ public class CollisionInfo
 
 public abstract class CollisionObject : MonoBehaviour
 {
+    // 自分のコライダーの種類は必ず定義する
+    public abstract CollisionManager.ColliderType ColliderType { get; }
+
+    /// <summary>
+    /// 衝突が検知されたらこれが呼ばれる
+    /// </summary>
+    public abstract void OnCollision(CollisionInfo collisionInfo);
+
+}
+
+public abstract class SwordCollider : CollisionObject
+{
     protected abstract List<Transform[]> LinesOfTrabsform { get; }
     private List<Vector3[]> linePosInBeforeFrame = new List<Vector3[]>();
-    public abstract CollisionManager.ColliderType ColliderType { get; }
     private bool setupped;
 
     void Start()
@@ -432,11 +356,9 @@ public abstract class CollisionObject : MonoBehaviour
     {
         for (int i = 0; i < LinesOfTrabsform.Count; i++)
         {
-            ColliderInputData A = new ColliderInputData(linePosInBeforeFrame[i][0], linePosInBeforeFrame[i][1], LinesOfTrabsform[i][0].position, this);
-            ColliderInputData B = new ColliderInputData(LinesOfTrabsform[i][0].position, LinesOfTrabsform[i][1].position, linePosInBeforeFrame[i][1], this);
-
-            CollisionManager.AddColliderDataList(A, ColliderType);
-            CollisionManager.AddColliderDataList(B, ColliderType);
+            Polygon A = new Polygon(linePosInBeforeFrame[i][0], linePosInBeforeFrame[i][1], LinesOfTrabsform[i][0].position);
+            Polygon B = new Polygon(LinesOfTrabsform[i][0].position, LinesOfTrabsform[i][1].position, linePosInBeforeFrame[i][1]);
+            CollisionManager.AddColliderDataList(new ColliderInputData(new Polygon[] { A, B }, this), ColliderType);
 
         }
 
@@ -446,10 +368,6 @@ public abstract class CollisionObject : MonoBehaviour
 
 
     }
-    /// <summary>
-    /// 衝突が検知されたらこれが呼ばれる
-    /// </summary>
-    public abstract void OnCollision(CollisionInfo collisionInfo);
 
 }
 
