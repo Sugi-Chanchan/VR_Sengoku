@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Halberd2 : CollisionObject
+public class Halberd2 : SwordCollider
 {
     public override CollisionManager.ColliderType ColliderType { get => CollisionManager.ColliderType.EnemyWeapon; }
     [SerializeField] Transform start, end;

@@ -14,9 +14,9 @@ public class Cavalry : Enemy
     // Start is called before the first frame update
     void Start()
     {
-        anim.SetFloat("AttackSpeed", 1.0f);
-        Invoke("SetUp", 1);
-        halberd.Prevented += this.Prevented;
+        //anim.SetFloat("AttackSpeed", 1.0f);
+        //Invoke("SetUp", 1);
+        //halberd.Prevented += this.Prevented;
         
     }
 
