@@ -51,14 +51,14 @@ public class MeshCutTest : SwordCollider {
         sw.Start();
         // for(int o = 0; o < 20; o++)
         //{
-        meshes = MeshCut.CutMesh(GetComponent<MeshFilter>().mesh,transform, polygon.vertices[0], normal,true);
+        meshes = MeshCut2.CutMesh(GetComponent<MeshFilter>().mesh,transform, polygon.vertices[0], normal,true);
         //meshes = MeshCut.CutMeshOnce(this.gameObject, polygon.vertices[0], normal);
 
         //}
         sw.Stop();
 
         Mesh mesh1, mesh2;
-        if (normal.y < 0)
+        if (normal.y > 0)
         {
             mesh1 = meshes[0];
             mesh2 = meshes[1];
@@ -68,47 +68,50 @@ public class MeshCutTest : SwordCollider {
             mesh1 = meshes[1];
             mesh2 = meshes[0];
         }
+        {
+            //Dictionary<Vector3, int> countDic = new Dictionary<Vector3, int>();
+            //for (int i = 0; i < mesh1.vertexCount; i++)
+            //{
+            //    Vector3 v = mesh1.vertices[i];
+            //    if (countDic.ContainsKey(v))
+            //    {
+            //        countDic[v] = countDic[v] + 1;
+            //    }
+            //    else
+            //    {
+            //        countDic.Add(v, 1);
+            //    }
+            //}
 
-        //Dictionary<Vector3, int> countDic = new Dictionary<Vector3, int>();
-        //for (int i = 0; i < mesh1.vertexCount; i++)
-        //{
-        //    Vector3 v = mesh1.vertices[i];
-        //    if (countDic.ContainsKey(v))
-        //    {
-        //        countDic[v] = countDic[v] + 1;
-        //    }
-        //    else
-        //    {
-        //        countDic.Add(v, 1);
-        //    }
-        //}
+            //foreach (KeyValuePair<Vector3, int> kvp in countDic)
+            //{
+            //    print(transform.localToWorldMatrix.MultiplyPoint(kvp.Key) + ":" + kvp.Value + "個");
+            //}
+        }
+        //GetComponent<MeshFilter>().mesh = mesh1;
 
-        //foreach (KeyValuePair<Vector3, int> kvp in countDic)
-        //{
-        //    print(transform.localToWorldMatrix.MultiplyPoint(kvp.Key) + ":" + kvp.Value + "個");
-        //}
+        //GameObject fragment = new GameObject("Fragment", typeof(MeshFilter), typeof(MeshRenderer));
+        //fragment.transform.position = transform.position;
+        //fragment.transform.rotation = transform.rotation;
+        //fragment.transform.localScale = transform.localScale;
 
-        GetComponent<MeshFilter>().mesh = mesh1;
-        GetComponent<MeshCollider>().sharedMesh = mesh1;
+        //fragment.GetComponent<MeshFilter>().mesh = mesh2;
+        //fragment.GetComponent<MeshRenderer>().materials = GetComponent<MeshRenderer>().materials;
+        //fragment.AddComponent<Rigidbody>();
 
-        GameObject fragment = new GameObject("Fragment", typeof(MeshFilter), typeof(MeshRenderer));
-        fragment.transform.position = transform.position;
-        fragment.transform.rotation = transform.rotation;
-        fragment.transform.localScale = transform.localScale;
-
-        fragment.GetComponent<MeshFilter>().mesh = mesh2;
-        fragment.GetComponent<MeshRenderer>().materials = GetComponent<MeshRenderer>().materials;
-        fragment.AddComponent<Rigidbody>();
-        MeshCollider fragmentMeshCollider = fragment.AddComponent<MeshCollider>();
-        fragmentMeshCollider.convex=true;
-        fragmentMeshCollider.sharedMesh = mesh2;
-        fragmentMeshCollider.material = tatamiPhysics;
+        {
+            //GetComponent<MeshCollider>().sharedMesh = mesh1;
+            //MeshCollider fragmentMeshCollider = fragment.AddComponent<MeshCollider>();
+            //fragmentMeshCollider.convex = true;
+            //fragmentMeshCollider.sharedMesh = mesh2;
+            //fragmentMeshCollider.material = tatamiPhysics;
+        }
         //time += sw.ElapsedMilliseconds;
         //count++;
         //if (count > 20)
         //{
         //    print(time / (float)count);
         //}
-        //print(sw.ElapsedMilliseconds);
+        print(sw.ElapsedMilliseconds);
     }
 }
