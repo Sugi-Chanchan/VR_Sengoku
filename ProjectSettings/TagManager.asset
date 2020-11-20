@@ -15,6 +15,7 @@ TagManager:
   - EnemyWeapon
   - Arrow
   - Mato
+  - Blade
   layers:
   - Default
   - TransparentFX
