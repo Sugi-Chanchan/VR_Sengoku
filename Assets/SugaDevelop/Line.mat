@@ -72,10 +72,12 @@ Material:
     - _OcclusionStrength: 1
     - _Parallax: 0.02
     - _RightAngle: 0
+    - _Size: 0.0448
+    - _Slide: 0
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
-    - _Thickness: 0.055
+    - _Thickness: 0.061
     - _UVSec: 0
     - _ZWrite: 1
     m_Colors:

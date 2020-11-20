@@ -9,6 +9,10 @@ public class TimeTest : MonoBehaviour
     void Start()
     {
 
+        
+
+
+
 
         Invoke("Test", 1);
     }
@@ -24,9 +28,11 @@ public class TimeTest : MonoBehaviour
     int[] win = new int[2];
     public void Test()
     {
+        Set();
+
+
         int loop = 100;
         int num = 100000;
-        Set();
         System.Diagnostics.Stopwatch sw = new System.Diagnostics.Stopwatch();
         sw.Start();
         if (turn == 0)
@@ -34,15 +40,15 @@ public class TimeTest : MonoBehaviour
             for (int j = 0; j < loop; j++)
             {
 
-                int[] array = new int[num];
-                int[] array2 = new int[num];
-                for (int i = 0; i < array.Length; i++)
+                int a = 0;
+                int b = 0;
+                for (int i = 0; i < num; i++)
                 {
-                    array[i] = i;
+                    a=-i;
                 }
-                for (int i = 0; i < array2.Length; i++)
+                for (int i = 0; i < num; i++)
                 {
-                    array2[i] = array[i];
+                    b = a * a;
                 }
             }
 
@@ -52,28 +58,16 @@ public class TimeTest : MonoBehaviour
 
             for (int j = 0; j < loop; j++)
             {
-                unsafe
+
+                int a = 0;
+                int b = 0;
+                for (int i = 0; i < num; i++)
                 {
-
-                    int[] array = new int[num];
-                    int[] array2 = new int[num];
-                    fixed (int* p1 = &array[0])
-                    {
-
-                        for (int i = 0; i < array.Length; i++)
-                        {
-                            p1[i] = i;
-                        }
-                        fixed(int* p2 = &array2[0])
-                        {
-                            for (int i = 0; i < array2.Length; i++)
-                            {
-                                p2[i] = p1[i];
-                            }
-                        }
-                    }
-                    
-                    
+                    a = -i;
+                }
+                for (int i = 0; i < num; i++)
+                {
+                    b = System.Math.Abs(a);
                 }
             }
 
@@ -109,23 +103,24 @@ public class TimeTest : MonoBehaviour
 
     void Set()
     {
+        unsafe
+        {
+            int filter = -0x00000001;
+            float f = -0.33f;
+            //int i= (int)(f*1024)<<15;
+            int i = -2;
+            int ii = i | filter;
+            int iii = i & filter;
+            print(ii);
+            print(iii);
+        }
+
     }
 
     
     public void T()
     {
-        unsafe
-        {
 
-            float x = 1.0f / 3.0f;
-            float y = 1.0f / 6.0f;
-            float z = 0.1f;
-
-
-
-            int* a = (int*)&x;
-            print(*a);
-        }
     }
 
 
