@@ -1,7 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using System;
+
 
 public class MeshCut : MonoBehaviour
 {
@@ -18,6 +18,9 @@ public class MeshCut : MonoBehaviour
     static bool[] _isFront;//頂点が切断面に対して表にあるか裏にあるか
 
     static int[] _trackedArray;
+
+    static (bool, int)[] _VerticesInfo;
+
 
     /// <summary>
     /// <para>gameObjectを切断して2つのMeshにして返します.1つ目のMeshが切断面の法線に対して表側, 2つ目が裏側です.</para>
@@ -38,8 +41,6 @@ public class MeshCut : MonoBehaviour
         _frontMeshData.ClearAll(); //staticなクラスで宣言してあるのでここで初期化(staticで宣言する意味は高速化のため？？？)
         _backMeshData.ClearAll();
 
-        int verticesLength = _targetVertices.Length;
-        _trackedArray = new int[verticesLength];
 
         Vector3 scale = targetTransform.localScale;//localscaleに合わせてPlaneに入れるnormalに補正をかける
 
@@ -55,49 +56,50 @@ public class MeshCut : MonoBehaviour
         _backMeshData.sewMesh = sewMesh;//切断面を縫い合わせるかどうか
 
 
+        int verticesLength = _targetVertices.Length;
+        _trackedArray = new int[verticesLength];
         _isFront = new bool[verticesLength];
 
-        verticesLength += 100;
-        Vector3[] frontVertices = new Vector3[verticesLength];
-        Vector3[] backVertices = new Vector3[verticesLength];
-        Vector3[] frontNormals = new Vector3[verticesLength];
-        Vector3[] backNormals = new Vector3[verticesLength];
-        Vector2[] frontUVs = new Vector2[verticesLength];
-        Vector2[] backUVs = new Vector2[verticesLength];
-        int frontCount = 0;
-        int backCount = 0;
-        for (int i = 0; i < _targetVertices.Length; i++)
         {
-            Vector3 pos = _targetVertices[i];
-            Vector3 v = pos - anchor;
-            //planeの表側にあるか裏側にあるかを判定.(たぶん表だったらtrue)
-            if (_isFront[i] = (_planeNormal.x * v.x + _planeNormal.y * v.y + _planeNormal.z * v.z) > 0)
+            float pnx = _planeNormal.x;
+            float pny = _planeNormal.y;
+            float pnz = _planeNormal.z;
+
+            float ancx = anchor.x;
+            float ancy = anchor.y;
+            float ancz = anchor.z;
+
+
+            for (int i = 0; i < _targetVertices.Length; i++)
             {
-                frontVertices[frontCount] = pos;
-                frontNormals[frontCount] = _targetNormals[i];
-                frontUVs[frontCount] = _targetUVs[i];
-                _trackedArray[i] = frontCount;
-                frontCount++;
+                Vector3 pos = _targetVertices[i];
+                //planeの表側にあるか裏側にあるかを判定.(たぶん表だったらtrue)
+                if (_isFront[i] = (pnx * (pos.x - ancx) + pny * (pos.y - ancy) + pnz * (pos.z - ancz)) > 0)
+                {
+
+                    _frontMeshData.vertices.Add(pos);
+                    _frontMeshData.normals.Add(_targetNormals[i]);
+                    _frontMeshData.uvs.Add(_targetUVs[i]);
+
+                    _trackedArray[i] = _frontMeshData.trackedVertexNum++;
+                }
+                else
+                {
+                    _backMeshData.vertices.Add(pos);
+                    _backMeshData.normals.Add(_targetNormals[i]);
+                    _backMeshData.uvs.Add(_targetUVs[i]);
+
+                    _trackedArray[i] = _backMeshData.trackedVertexNum++;
+                }
             }
-            else
-            {
-                backVertices[backCount] = pos;
-                backNormals[backCount] = _targetNormals[i];
-                backUVs[backCount] = _targetUVs[i];
-                _trackedArray[i] = backCount;
-                backCount++;
-            }
+
         }
-
-        _frontMeshData.SetVertex(frontVertices, frontNormals, frontUVs, frontCount);
-        _backMeshData.SetVertex(backVertices, backNormals, backUVs, backCount);
-
-
 
         for (int sub = 0; sub < _targetMesh.subMeshCount; sub++)
         {
-            int[] indices;
-            indices = _targetMesh.GetIndices(sub);
+
+            int[] indices = _targetMesh.GetIndices(sub);
+
 
             _frontMeshData.subMeshIndices.Add(new List<int>());//subMeshが増えたことを追加してる
 
@@ -107,35 +109,39 @@ public class MeshCut : MonoBehaviour
             _frontMeshData.fragmentDicList.Add(new Dictionary<int, List<Fragment>>());
             _backMeshData.fragmentDicList.Add(new Dictionary<int, List<Fragment>>());
 
-            bool side;
-            int p1, p2, p3;
+            List<int> frontSubmeshIndices = _frontMeshData.subMeshIndices[sub];
+            List<int> backSubmeshIndices = _backMeshData.subMeshIndices[sub];
 
             for (int i = 0; i < indices.Length; i += 3)
             {
+                int p1, p2, p3;
                 p1 = indices[i];
                 p2 = indices[i + 1];
                 p3 = indices[i + 2];
 
 
                 //予め計算しておいた結果を持ってくる(ここで計算すると同じ頂点にたいして何回も同じ計算をすることになるから最初にまとめてやっている(そのほうが処理時間が速かった))
-                side = _isFront[p1];
+                bool side1 = _isFront[p1];
+                bool side2 = _isFront[p2];
+                bool side3 = _isFront[p3];
 
 
-                if (side == _isFront[p2] && side == _isFront[p3])//3つとも表側, 3つとも裏側のときはそのまま出力
+                if (side1 && side2 && side3)//3つとも表側, 3つとも裏側のときはそのまま出力
                 {
-                    if (side)//表側か裏側かを識別
-                    {
-                        _frontMeshData.AddTriangle(p1, p2, p3, sub);
-                    }
-                    else
-                    {
-                        _backMeshData.AddTriangle(p1, p2, p3, sub);
-                    }
+                    frontSubmeshIndices.Add(_trackedArray[p1]);
+                    frontSubmeshIndices.Add(_trackedArray[p2]);
+                    frontSubmeshIndices.Add(_trackedArray[p3]);
+                }
+                else if (!side1 && !side2 && !side3)
+                {
+                    backSubmeshIndices.Add(_trackedArray[p1]);
+                    backSubmeshIndices.Add(_trackedArray[p2]);
+                    backSubmeshIndices.Add(_trackedArray[p3]);
                 }
                 else
                 {
                     //三角ポリゴンを形成する各点で面に対する表裏が異なる場合, つまり切断面と重なっている平面は分割する.
-                    Sepalate(new bool[3] { side, _isFront[p2], _isFront[p3] }, new int[3] { p1, p2, p3 }, sub);
+                    Sepalate(new bool[3] { side1, side2, side3 }, new int[3] { p1, p2, p3 }, sub);
                 }
 
             }
@@ -143,16 +149,15 @@ public class MeshCut : MonoBehaviour
 
 
         _frontMeshData.ConnectFragments(); //切断されたMeshの破片は最後にくっつけられるところはくっつけて出力
-        _frontMeshData.SetUp();
         _backMeshData.ConnectFragments();
-        _backMeshData.SetUp();
+
+
 
         Mesh frontMesh = new Mesh();
         frontMesh.name = "Split Mesh front";
-        frontMesh.vertices = _frontMeshData.verticesArray;
-        frontMesh.triangles = _frontMeshData.triangles.ToArray();
-        frontMesh.normals = _frontMeshData.normalsArray;
-        frontMesh.uv = _frontMeshData.uvsArray;
+        frontMesh.vertices = _frontMeshData.vertices.ToArray();
+        frontMesh.normals = _frontMeshData.normals.ToArray();
+        frontMesh.uv = _frontMeshData.uvs.ToArray();
 
         frontMesh.subMeshCount = _frontMeshData.subMeshIndices.Count;
         for (int i = 0; i < _frontMeshData.subMeshIndices.Count; i++)
@@ -162,10 +167,9 @@ public class MeshCut : MonoBehaviour
 
         Mesh backMesh = new Mesh();
         backMesh.name = "Split Mesh back";
-        backMesh.vertices = _backMeshData.verticesArray;
-        backMesh.triangles = _backMeshData.triangles.ToArray();
-        backMesh.normals = _backMeshData.normalsArray;
-        backMesh.uv = _backMeshData.uvsArray;
+        backMesh.vertices = _backMeshData.vertices.ToArray();
+        backMesh.normals = _backMeshData.normals.ToArray();
+        backMesh.uv = _backMeshData.uvs.ToArray();
 
         backMesh.subMeshCount = _backMeshData.subMeshIndices.Count;
         for (int i = 0; i < _backMeshData.subMeshIndices.Count; i++)
@@ -183,7 +187,8 @@ public class MeshCut : MonoBehaviour
         {
             Debug.LogError("引数のオブジェクトにはMeshFilterをアタッチしろ!");
             return null;
-        }else if (!targetGameObject.GetComponent<MeshRenderer>())
+        }
+        else if (!targetGameObject.GetComponent<MeshRenderer>())
         {
             Debug.LogError("引数のオブジェクトにはMeshrendererをアタッチしろ!");
             return null;
@@ -196,7 +201,7 @@ public class MeshCut : MonoBehaviour
 
         targetGameObject.GetComponent<MeshFilter>().mesh = meshes[0];
 
-        GameObject fragment = new GameObject("Fragment", typeof(MeshFilter),typeof(MeshRenderer));
+        GameObject fragment = new GameObject("Fragment", typeof(MeshFilter), typeof(MeshRenderer));
         fragment.transform.position = targetGameObject.transform.position;
         fragment.transform.rotation = targetGameObject.transform.rotation;
         fragment.transform.localScale = targetGameObject.transform.localScale;
@@ -205,10 +210,13 @@ public class MeshCut : MonoBehaviour
 
         if (targetGameObject.GetComponent<MeshCollider>())
         {
-            targetGameObject.GetComponent<MeshCollider>().sharedMesh = meshes[0];
-            fragment.AddComponent<MeshCollider>().sharedMesh = meshes[1];
+            MeshCollider targertMeshCollider = targetGameObject.GetComponent<MeshCollider>();
+            targertMeshCollider.sharedMesh = meshes[0];
+            MeshCollider fragMeshCollider = fragment.AddComponent<MeshCollider>();
+            fragMeshCollider.sharedMesh = meshes[1];
+            fragMeshCollider.convex = targertMeshCollider.convex;
         }
-        if (targetGameObject.GetComponent<Rigidbody>())
+        if (targetGameObject.GetComponent<Rigidbody>()||targetGameObject.transform.root.GetComponent<Rigidbody>())
         {
             fragment.GetComponent<Rigidbody>();
         }
@@ -298,13 +306,12 @@ public class MeshCut : MonoBehaviour
         float normalizedDistance0_b = 1 - normalizedDistance0;
         float normalizedDistance1_b = 1 - normalizedDistance1;
 
-        Dictionary<int, List<Fragment>> frontFragmentDic = _frontMeshData.fragmentDicList[submesh];
-        Dictionary<int, List<Fragment>> backFragmentDic = _backMeshData.fragmentDicList[submesh];
 
 
 
         Fragment fragF;
         Fragment fragB;
+
         NewVertex newVertexf0 = new NewVertex(f0, b0, normalizedDistance0, newVertexpos0);
         NewVertex newVertexf1 = new NewVertex(f1, b1, normalizedDistance1, newVertexPos1);
         NewVertex newVertexb0 = new NewVertex(b0, f0, normalizedDistance0_b, newVertexpos0);
@@ -345,6 +352,8 @@ public class MeshCut : MonoBehaviour
             }
 
         }
+        Dictionary<int, List<Fragment>> frontFragmentDic = _frontMeshData.fragmentDicList[submesh];
+        Dictionary<int, List<Fragment>> backFragmentDic = _backMeshData.fragmentDicList[submesh];
 
         List<Fragment> fraglist;
         if (frontFragmentDic.TryGetValue(KEY_CUTLINE, out fraglist))
@@ -369,60 +378,25 @@ public class MeshCut : MonoBehaviour
     public class MeshData
     {
         const int maxVerticesSize = 30000;
-        //public List<Vector3> vertices = new List<Vector3>(maxVerticesSize);
-        //public List<Vector3> normals = new List<Vector3>(maxVerticesSize);
-        //public List<Vector2> uvs = new List<Vector2>(maxVerticesSize);
+        public List<Vector3> vertices = new List<Vector3>(maxVerticesSize);
+        public List<Vector3> normals = new List<Vector3>(maxVerticesSize);
+        public List<Vector2> uvs = new List<Vector2>(maxVerticesSize);
 
 
 
-        public Vector3[] verticesArray;
-        private Vector3[] temp_verticesArray;
-        public Vector3[] normalsArray;
-        private Vector3[] temp_normalsArray;
-        public Vector2[] uvsArray;
-        private Vector2[] temp_uvsArray;
 
-
-        public void SetVertex(Vector3[] _verticesArray, Vector3[] _normalsArray, Vector2[] _uvsArray, int count)
-        {
-            temp_verticesArray = _verticesArray;
-            temp_normalsArray = _normalsArray;
-            temp_uvsArray = _uvsArray;
-
-            trackedVertexNum += count;
-        }
-
-
-
-        public List<int> triangles = new List<int>(maxVerticesSize * 2);
         public List<List<int>> subMeshIndices = new List<List<int>>(maxVerticesSize * 2);
 
-        public List<Dictionary<int, List<Fragment>>> fragmentDicList = new List<Dictionary<int, List<Fragment>>>();
+        public List<Dictionary<int, List<Fragment>>> fragmentDicList = new List<Dictionary<int, List<Fragment>>>(100);
 
 
-        public bool sewMesh = true;//切断後にMeshの切断面を縫い合わせるか
+        public bool sewMesh;//切断後にMeshの切断面を縫い合わせるか
         public Vector3 cutNormal;   //切断面の法線
 
 
 
-        int trackedVertexNum = 0; //登録された頂点の数
+        public int trackedVertexNum; //登録された頂点の数
 
-
-
-        //public void SetVertex(int index)
-        //{
-        //    vertices.Add(_targetVertices[index]);
-        //    normals.Add(_targetNormals[index]);
-        //    uvs.Add(_targetUVs[index]);
-
-        //    _trackedArray[index] = trackedVertexNum;
-
-        //    trackedVertexNum++;
-        //}
-
-
-
-        const float threshold = 0.0001f;
         public void ConnectFragments()
         {
 
@@ -476,8 +450,8 @@ public class MeshCut : MonoBehaviour
                             goto FINDCOUPLE; //もう1度同じループからやり直す
                         }
 
-                        fFragment.newVertices[0].KEY_POSITION = MakeIntFromVector3(fFragment.newVertices[0].position);
-                        fFragment.newVertices[1].KEY_POSITION = MakeIntFromVector3(fFragment.newVertices[1].position);
+                        fFragment.KEY_POSITION0 = MakeIntFromVector3(fFragment.newVertices[0].position);
+                        fFragment.KEY_POSITION1 = MakeIntFromVector3(fFragment.newVertices[1].position);
                         outPutFragments.Add(fFragment);
 
                     FINDCOUPLE:;
@@ -492,7 +466,7 @@ public class MeshCut : MonoBehaviour
                     Fragment firstFragment = outPutFragments[0];
                     AddTriangle(firstFragment, submesh);
                     SetCutSurfaceVertex(firstFragment);
-                    criterionIndex = firstFragment.newVertices[0].cutSurfaceIndex;
+                    criterionIndex = firstFragment.cutSurfaceIndex0;
                     outPutFragments.RemoveAt(0);
 
                     int cutSurfaceSubmesh = 0;
@@ -501,10 +475,10 @@ public class MeshCut : MonoBehaviour
                     {
                         AddTriangle(fragment, submesh);
                         SetCutSurfaceVertex(fragment);
-                        if (fragment.newVertices[1].cutSurfaceIndex != criterionIndex)
+                        if (fragment.cutSurfaceIndex1 != criterionIndex)
                         {
-                            Sew(fragment.newVertices[1].cutSurfaceIndex,
-                                fragment.newVertices[0].cutSurfaceIndex,
+                            Sew(fragment.cutSurfaceIndex1,
+                                fragment.cutSurfaceIndex0,
                                 criterionIndex, cutSurfaceSubmesh);
                         }
                     }
@@ -534,42 +508,33 @@ public class MeshCut : MonoBehaviour
 
             index_of_thisMesh = _trackedArray[p1];
             subMeshIndices[submeshNum].Add(index_of_thisMesh);
-            triangles.Add(index_of_thisMesh);
 
             index_of_thisMesh = _trackedArray[p2];
             subMeshIndices[submeshNum].Add(index_of_thisMesh);
-            triangles.Add(index_of_thisMesh);
 
             index_of_thisMesh = _trackedArray[p3];
             subMeshIndices[submeshNum].Add(index_of_thisMesh);
-            triangles.Add(index_of_thisMesh);
 
         }
 
         void AddTriangle(Fragment fragment, int submeshNum)
         {
+            int left0 = fragment.newVertices[0].leftVertexIndex;
+            int left1 = fragment.newVertices[1].leftVertexIndex;
+
             if (fragment.isRectangle)
             {
-                SetTriangle(fragment.newVertices[1].leftVertexIndex, submeshNum);
-                SetTriangle(fragment.newVertices[0].leftVertexIndex, submeshNum);
+                subMeshIndices[submeshNum].Add(_trackedArray[left1]);
+                subMeshIndices[submeshNum].Add(_trackedArray[left0]);
                 SetNewVertex(fragment.newVertices[1], submeshNum);
             }
-
-            SetTriangle(fragment.newVertices[0].leftVertexIndex, submeshNum);
+            subMeshIndices[submeshNum].Add(_trackedArray[left0]);
             SetNewVertex(fragment.newVertices[0], submeshNum);
             SetNewVertex(fragment.newVertices[1], submeshNum);
         }
 
 
-        //もともとのMeshに含まれていた頂点を新しいMeshに追加する関数. 
-        //すでに登録された頂点かどうかを判断(同じ頂点が複数の三角面を構成しているときはこれがないと三角面の数だけ頂点が増えてしまう)
-        void SetTriangle(int index, int submeshNum)
-        {
-            int index_of_thisMesh = _trackedArray[index];
 
-            subMeshIndices[submeshNum].Add(index_of_thisMesh);
-            triangles.Add(index_of_thisMesh);
-        }
 
 
         //このDictionaryは切断で新しくできた頂点を登録しておいて, すでに登録されていたら新規追加しないようにして頂点数を抑えるのに用いる 
@@ -581,7 +546,6 @@ public class MeshCut : MonoBehaviour
             if (trackDic.TryGetValue(newVertex.KEY_INDEX, out vertexIndex))
             {
                 subMeshIndices[submeshNum].Add(vertexIndex);
-                triangles.Add(vertexIndex);
             }
             else
             {
@@ -593,10 +557,9 @@ public class MeshCut : MonoBehaviour
                 trackDic.Add(newVertex.KEY_INDEX, vertexIndex);
 
                 subMeshIndices[submeshNum].Add(vertexIndex);
-                triangles.Add(vertexIndex);
-                temp_normalsArray[trackedVertexNum] = Vector3.Lerp(_targetNormals[left], _targetNormals[lost], parameter);
-                temp_verticesArray[trackedVertexNum] = newVertex.position;
-                temp_uvsArray[trackedVertexNum] = Vector2.Lerp(_targetUVs[left], _targetUVs[lost], parameter);
+                normals.Add(Vector3.Lerp(_targetNormals[left], _targetNormals[lost], parameter));
+                vertices.Add(newVertex.position);
+                uvs.Add(Vector2.Lerp(_targetUVs[left], _targetUVs[lost], parameter));
 
                 trackedVertexNum++;
             }
@@ -611,36 +574,36 @@ public class MeshCut : MonoBehaviour
         void SetCutSurfaceVertex(Fragment fragment)
         {
             int index = 0;
-            NewVertex newVertex = fragment.newVertices[0];
-            if (cutSurfaceTrackDic.TryGetValue(newVertex.KEY_POSITION, out index))
+            if (cutSurfaceTrackDic.TryGetValue(fragment.KEY_POSITION0, out index))
             {
-                newVertex.cutSurfaceIndex = index;
+                fragment.cutSurfaceIndex0 = index;
             }
             else
             {
-                cutSurfaceTrackDic.Add(newVertex.KEY_POSITION, trackedVertexNum);
-                temp_normalsArray[trackedVertexNum] = cutNormal;
-                Vector3 position = newVertex.position;
-                temp_verticesArray[trackedVertexNum] = position;
-                temp_uvsArray[trackedVertexNum] = new Vector2(position.x, position.z);//暫定的な処置
-                newVertex.cutSurfaceIndex = trackedVertexNum;
+
+
+                cutSurfaceTrackDic.Add(fragment.KEY_POSITION0, trackedVertexNum);
+                normals.Add(cutNormal);
+                Vector3 position = fragment.newVertices[0].position;
+                vertices.Add(position);
+                uvs.Add(new Vector2(position.x, position.z));//暫定的な処置
+                fragment.cutSurfaceIndex0 = trackedVertexNum;
                 trackedVertexNum++;
             }
 
 
-            newVertex = fragment.newVertices[1];
-            if (cutSurfaceTrackDic.TryGetValue(newVertex.KEY_POSITION, out index))
+            if (cutSurfaceTrackDic.TryGetValue(fragment.KEY_POSITION1, out index))
             {
-                newVertex.cutSurfaceIndex = index;
+                fragment.cutSurfaceIndex1 = index;
             }
             else
             {
-                cutSurfaceTrackDic.Add(newVertex.KEY_POSITION, trackedVertexNum);
-                temp_normalsArray[trackedVertexNum] = cutNormal;
-                Vector3 position = newVertex.position;
-                temp_verticesArray[trackedVertexNum] = position;
-                temp_uvsArray[trackedVertexNum] = new Vector2(position.x, position.z);//暫定的な処置
-                newVertex.cutSurfaceIndex = trackedVertexNum;
+                cutSurfaceTrackDic.Add(fragment.KEY_POSITION1, trackedVertexNum);
+                normals.Add(cutNormal);
+                Vector3 position = fragment.newVertices[1].position;
+                vertices.Add(position);
+                uvs.Add(new Vector2(position.x, position.z));//暫定的な処置
+                fragment.cutSurfaceIndex1 = trackedVertexNum;
                 trackedVertexNum++;
             }
         }
@@ -650,31 +613,17 @@ public class MeshCut : MonoBehaviour
         void Sew(int p1, int p2, int p3, int submeshNum)
         {
             subMeshIndices[submeshNum].Add(p1);
-            triangles.Add(p1);
             subMeshIndices[submeshNum].Add(p2);
-            triangles.Add(p2);
             subMeshIndices[submeshNum].Add(p3);
-            triangles.Add(p3);
         }
 
-
-        public void SetUp()
-        {
-            int num = trackedVertexNum;
-            verticesArray = new Vector3[num];
-            normalsArray = new Vector3[num];
-            uvsArray = new Vector2[num];
-            Array.Copy(temp_verticesArray, verticesArray, num);
-            Array.Copy(temp_normalsArray, normalsArray, num);
-            Array.Copy(temp_uvsArray, uvsArray, num);
-        }
 
         public void ClearAll()//staticなclassとして使っているので毎回中身をresetする必要あり
         {
-
-            triangles.Clear();
+            vertices.Clear();
+            normals.Clear();
+            uvs.Clear();
             subMeshIndices.Clear();
-            fragmentDicList.Clear();
 
             trackedVertexNum = 0;
 
@@ -682,6 +631,7 @@ public class MeshCut : MonoBehaviour
             cutSurfaceTrackDic.Clear();
 
             fragmentDicList.Clear();
+
         }
 
     }
@@ -692,6 +642,13 @@ public class MeshCut : MonoBehaviour
 
         public NewVertex[] newVertices;
         public bool isRectangle;
+
+        public int KEY_POSITION0;
+        public int KEY_POSITION1;
+        public int cutSurfaceIndex0;
+        public int cutSurfaceIndex1;
+
+
         public Fragment(NewVertex newVertex0, NewVertex newVertex1, bool _isRectangle)
         {
             newVertices = new NewVertex[2] { newVertex0, newVertex1 };
@@ -699,15 +656,13 @@ public class MeshCut : MonoBehaviour
         }
     }
 
-    public class NewVertex
+    public readonly struct NewVertex
     {
-        public int leftVertexIndex;
-        public int lostVertexIndex;
-        public float dividingParameter;
-        public int KEY_INDEX;
-        public Vector3 position;
-        public int KEY_POSITION;
-        public int cutSurfaceIndex;
+        public readonly int leftVertexIndex;
+        public readonly int lostVertexIndex;
+        public readonly float dividingParameter;
+        public readonly int KEY_INDEX;
+        public readonly Vector3 position;
 
         public NewVertex(int left, int lost, float parameter, Vector3 vertexPosition)
         {
