@@ -40,7 +40,6 @@ public class MeshCutTest : SwordCollider {
     public override void OnCollision(CollisionInfo collision)
     {
 
-        print("hit");
 
         System.Diagnostics.Stopwatch sw = new System.Diagnostics.Stopwatch();
 
@@ -49,12 +48,12 @@ public class MeshCutTest : SwordCollider {
         Transform target = transform.Find("Cube");
         Mesh[] meshes = new Mesh[2];
         sw.Start();
-        // for(int o = 0; o < 20; o++)
-        //{
-        meshes = MeshCut2.CutMesh(GetComponent<MeshFilter>().mesh,transform, polygon.vertices[0], normal,true);
+         for(int o = 0; o < 20; o++)
+        {
+        meshes = MeshCut.CutMesh(GetComponent<MeshFilter>().mesh,transform, polygon.vertices[0], normal,true);
         //meshes = MeshCut.CutMeshOnce(this.gameObject, polygon.vertices[0], normal);
 
-        //}
+        }
         sw.Stop();
 
         Mesh mesh1, mesh2;
@@ -106,12 +105,12 @@ public class MeshCutTest : SwordCollider {
             //fragmentMeshCollider.sharedMesh = mesh2;
             //fragmentMeshCollider.material = tatamiPhysics;
         }
-        //time += sw.ElapsedMilliseconds;
-        //count++;
-        //if (count > 20)
-        //{
-        //    print(time / (float)count);
-        //}
-        print(sw.ElapsedMilliseconds);
+        time += sw.ElapsedMilliseconds;
+        count++;
+        if (count > 20)
+        {
+            print(time / (float)count);
+        }
+        //print(sw.ElapsedMilliseconds);
     }
 }

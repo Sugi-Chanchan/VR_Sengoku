@@ -32,7 +32,7 @@ public class TimeTest : MonoBehaviour
 
 
         int loop = 100;
-        int num = 100000;
+        int num = 16000;
         System.Diagnostics.Stopwatch sw = new System.Diagnostics.Stopwatch();
         sw.Start();
         if (turn == 0)
@@ -40,16 +40,16 @@ public class TimeTest : MonoBehaviour
             for (int j = 0; j < loop; j++)
             {
 
-                int a = 0;
-                int b = 0;
+                int[] a = new int[num * 2];
+
                 for (int i = 0; i < num; i++)
                 {
-                    a=-i;
+                    a[i] = i;
                 }
-                for (int i = 0; i < num; i++)
-                {
-                    b = a * a;
-                }
+                int[] b = new int[num];
+                Array.Copy(a,b,num);
+
+
             }
 
         }
@@ -59,16 +59,16 @@ public class TimeTest : MonoBehaviour
             for (int j = 0; j < loop; j++)
             {
 
-                int a = 0;
-                int b = 0;
+                int[] a = new int[num * 2];
+
                 for (int i = 0; i < num; i++)
                 {
-                    a = -i;
+                    a[i]=i;
                 }
-                for (int i = 0; i < num; i++)
-                {
-                    b = System.Math.Abs(a);
-                }
+
+                Array.Resize(ref a, num);
+
+
             }
 
         }
@@ -103,17 +103,7 @@ public class TimeTest : MonoBehaviour
 
     void Set()
     {
-        unsafe
-        {
-            int filter = -0x00000001;
-            float f = -0.33f;
-            //int i= (int)(f*1024)<<15;
-            int i = -2;
-            int ii = i | filter;
-            int iii = i & filter;
-            print(ii);
-            print(iii);
-        }
+      
 
     }
 
