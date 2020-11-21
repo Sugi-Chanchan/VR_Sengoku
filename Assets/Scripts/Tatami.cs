@@ -7,6 +7,7 @@ public class Tatami : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        /*
         Mesh tatamiMesh = this.GetComponent<MeshFilter>().mesh;
         Mesh[] barabaraTatamiMesh;
 
@@ -30,6 +31,10 @@ public class Tatami : MonoBehaviour
         kiraretaMeshCollider.sharedMesh = barabaraTatamiMesh[0];
 
         this.GetComponent<MeshCollider>().sharedMesh = barabaraTatamiMesh[1];
+        */
+
+        GameObject[] barabaraTatami = MeshCut.CutMesh(this.gameObject, this.transform.position + Vector3.up, new Vector3(1, 1, 1), true);
+        //barabaraTatami[1].AddComponent<Rigidbody>();
     }
 
     // Update is called once per frame
