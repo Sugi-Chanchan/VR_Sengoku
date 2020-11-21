@@ -59,6 +59,7 @@ public class MeshCut : MonoBehaviour
         int verticesLength = _targetVertices.Length;
         _trackedArray = new int[verticesLength];
         _isFront = new bool[verticesLength];
+        //_VerticesInfo = new (bool, int)[verticesLength];
 
         {
             float pnx = _planeNormal.x;
@@ -73,6 +74,7 @@ public class MeshCut : MonoBehaviour
             for (int i = 0; i < _targetVertices.Length; i++)
             {
                 Vector3 pos = _targetVertices[i];
+                bool isFront;
                 //planeの表側にあるか裏側にあるかを判定.(たぶん表だったらtrue)
                 if (_isFront[i] = (pnx * (pos.x - ancx) + pny * (pos.y - ancy) + pnz * (pos.z - ancz)) > 0)
                 {
@@ -202,11 +204,13 @@ public class MeshCut : MonoBehaviour
         targetGameObject.GetComponent<MeshFilter>().mesh = meshes[0];
 
         GameObject fragment = new GameObject("Fragment", typeof(MeshFilter), typeof(MeshRenderer));
+        fragment.transform.parent = targetGameObject.transform.parent;
         fragment.transform.position = targetGameObject.transform.position;
         fragment.transform.rotation = targetGameObject.transform.rotation;
         fragment.transform.localScale = targetGameObject.transform.localScale;
         fragment.GetComponent<MeshFilter>().mesh = meshes[1];
         fragment.GetComponent<MeshRenderer>().materials = targetGameObject.GetComponent<MeshRenderer>().materials;
+        fragment.transform.parent = null;
 
         if (targetGameObject.GetComponent<MeshCollider>())
         {
