@@ -12,9 +12,9 @@ public class TestDummy : SwordCollider {
     Mesh[] cutMeshes=new Mesh[2];
     public override CollisionManager.ColliderType ColliderType => CollisionManager.ColliderType.PlayerBody;
     [SerializeField] Transform start, end;
-    protected override List<Transform[]> LinesOfTrabsform => new List<Transform[]> { new Transform[2] { start, end } };
+    protected override List<Transform[]> transformList => new List<Transform[]> { new Transform[2] { start, end } };
     // Start is called before the first frame update
-    protected override void StartOfCollisionInstance()
+    protected override void Start_()
     {
         Invoke("Ready", 1.5f);
 
@@ -29,9 +29,9 @@ public class TestDummy : SwordCollider {
         }
     }
 
-    protected override void UpdateOfCollisionInstance()
+    protected override void LateUpdate_()
     {
-        CheckCollision();
+        SetCollision();
         transform.position += -Vector3.up * Time.deltaTime*0.1f;
         
     }

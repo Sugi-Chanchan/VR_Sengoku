@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using UnityEngine.Rendering;
 
 public class TimeTest : MonoBehaviour
 {
@@ -9,7 +10,7 @@ public class TimeTest : MonoBehaviour
     void Start()
     {
 
-        
+
 
 
 
@@ -22,17 +23,37 @@ public class TimeTest : MonoBehaviour
 
         // print(list.Count);
     }
+
+    
+
     long[] time = new long[2];
     long[] count = new long[2];
     int turn = 0;
     int[] win = new int[2];
+    int num = 100000;
+
+
+    public class TempA
+    {
+        public int num;
+        public TempA other;
+    }
+    TempA[] arrayA;
+    void Set()
+    {
+        arrayA = new TempA[num];
+        for (int i = 0; i < num; i++)
+        {
+            arrayA[i] = new TempA();
+        }
+    }
+
     public void Test()
     {
         Set();
 
 
         int loop = 100;
-        int num = 16000;
         System.Diagnostics.Stopwatch sw = new System.Diagnostics.Stopwatch();
         sw.Start();
         if (turn == 0)
@@ -40,14 +61,18 @@ public class TimeTest : MonoBehaviour
             for (int j = 0; j < loop; j++)
             {
 
-                int[] a = new int[num * 2];
+                //ここから
 
-                for (int i = 0; i < num; i++)
+                bool b;
+                for(int i = 0; i < num; i++)
                 {
-                    a[i] = i;
+                    b = arrayA[i].other != null;
                 }
-                int[] b = new int[num];
-                Array.Copy(a,b,num);
+
+
+
+
+                //ここまで
 
 
             }
@@ -55,22 +80,25 @@ public class TimeTest : MonoBehaviour
         }
         else
         {
-
             for (int j = 0; j < loop; j++)
             {
 
-                int[] a = new int[num * 2];
 
+                //ここから
+
+
+                bool b;
                 for (int i = 0; i < num; i++)
                 {
-                    a[i]=i;
+                    b = arrayA[i].num==1000;
                 }
 
-                Array.Resize(ref a, num);
 
+
+
+                //ここまで
 
             }
-
         }
 
         sw.Stop();
@@ -99,18 +127,20 @@ public class TimeTest : MonoBehaviour
         Invoke("Test", 4f);
     }
 
-  
 
-    void Set()
+
+
+
+
+    struct Astruct
     {
-      
-
-    }
-
-    
-    public void T()
-    {
-
+        public bool b;
+        public int a;
+        public Astruct(bool _b, int _a)
+        {
+            b = _b;
+            a = _a;
+        }
     }
 
 

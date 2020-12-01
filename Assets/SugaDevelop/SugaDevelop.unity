@@ -144,6 +144,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4eaec12936aeb5b439867a7b1159dab6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cutMaterial: {fileID: 0}
   start: {fileID: 745680460}
   end: {fileID: 948288910}
   tatamiPhysics: {fileID: 13400000, guid: dfad44a0b61e0f8489389f501e79c012, type: 2}
@@ -191,7 +192,7 @@ PrefabInstance:
     - target: {fileID: 7751670369300655991, guid: bb5fe8a793ad4f04daafd459460a1327,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -1.112
+      value: -1.25
       objectReference: {fileID: 0}
     - target: {fileID: 7751670369300655991, guid: bb5fe8a793ad4f04daafd459460a1327,
         type: 3}
@@ -247,6 +248,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2424137832367096808, guid: bb5fe8a793ad4f04daafd459460a1327,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 1807909383, guid: bb5fe8a793ad4f04daafd459460a1327, type: 3}
@@ -565,7 +571,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 521380170}
   m_LocalRotation: {x: 0, y: 0.7071068, z: 0.7071068, w: 0}
-  m_LocalPosition: {x: 0, y: -0.67, z: 0}
+  m_LocalPosition: {x: 0, y: -0.934, z: 0}
   m_LocalScale: {x: 100, y: 100, z: 100}
   m_Children:
   - {fileID: 1492113293}
@@ -585,6 +591,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4eaec12936aeb5b439867a7b1159dab6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cutMaterial: {fileID: 2100000, guid: 05131497eb9b6df4fbb04437e9d49dd1, type: 2}
   start: {fileID: 1492113293}
   end: {fileID: 985687678}
   tatamiPhysics: {fileID: 0}
@@ -771,6 +778,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4eaec12936aeb5b439867a7b1159dab6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cutMaterial: {fileID: 0}
   start: {fileID: 1461144284}
   end: {fileID: 894726269}
   tatamiPhysics: {fileID: 0}
@@ -924,6 +932,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4eaec12936aeb5b439867a7b1159dab6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cutMaterial: {fileID: 0}
   start: {fileID: 1156751574}
   end: {fileID: 1202756762}
   tatamiPhysics: {fileID: 0}
@@ -972,7 +981,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 760305313}
-  m_Mesh: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
+  m_Mesh: {fileID: 4711208715938537054, guid: 4437474c067865a4ea7930a0b282eada, type: 3}
 --- !u!4 &760305317
 Transform:
   m_ObjectHideFlags: 0
@@ -981,7 +990,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 760305313}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.88, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1156751574}
@@ -1774,7 +1783,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1492113292}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -0, z: 0.0155}
+  m_LocalPosition: {x: 0, y: -0, z: 0.01819}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 521380174}
@@ -1855,6 +1864,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4eaec12936aeb5b439867a7b1159dab6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cutMaterial: {fileID: 0}
   start: {fileID: 666274341}
   end: {fileID: 2073792619}
   tatamiPhysics: {fileID: 0}
@@ -1912,7 +1922,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1789613987}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0.357, z: 0}
   m_LocalScale: {x: 1, y: 2, z: 1}
   m_Children:
   - {fileID: 666274341}
@@ -1964,7 +1974,7 @@ PrefabInstance:
     - target: {fileID: -4216859302048453862, guid: 84761ccf79222f84b8fa80ae589d5382,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 0.76
       objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: 84761ccf79222f84b8fa80ae589d5382,
         type: 3}

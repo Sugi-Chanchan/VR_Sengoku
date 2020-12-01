@@ -256,13 +256,22 @@ public class CollisionManager : MonoBehaviour
 public class ColliderInputData
 {
     public Polygon[] polygons;
-    public CollisionObject collisionObject;
+    public StickCollider collisionObject;
 
-    public ColliderInputData(Polygon[] polygons, CollisionObject collisionObjectInstance)
+    public ColliderInputData(Polygon[] polygons, StickCollider collisionObjectInstance)
     {
         this.polygons = polygons;
         collisionObject = collisionObjectInstance;
     }
+    public ColliderInputData() { }
+
+    public ColliderInputData SetNew(Polygon[] polygons, StickCollider collisionObjectInstance)
+    {
+        this.polygons = polygons;
+        collisionObject = collisionObjectInstance;
+        return this;
+    }
+
 }
 
 public class Polygon
@@ -270,7 +279,11 @@ public class Polygon
     public Vector3[] vertices;
     public Polygon(Vector3 vertex1, Vector3 vertex2, Vector3 vertex3)
     {
-        vertices = new Vector3[] { vertex1, vertex2, vertex3 };
+        vertices = new Vector3[3] { vertex1, vertex2, vertex3 };
+    }
+    public void SetNew(Vector3 vertex1, Vector3 vertex2, Vector3 vertex3)
+    {
+        vertices = new Vector3[3] { vertex1, vertex2, vertex3 };
     }
 }
 
@@ -291,7 +304,7 @@ public class CollisionInfo
 
 
 
-public abstract class CollisionObject : MonoBehaviour
+public abstract class StickCollider : MonoBehaviour
 {
     // 自分のコライダーの種類は必ず定義する
     public abstract CollisionManager.ColliderType ColliderType { get; }
@@ -301,39 +314,36 @@ public abstract class CollisionObject : MonoBehaviour
     /// </summary>
     public abstract void OnCollision(CollisionInfo collisionInfo);
 
+    ColliderInputData inputData=new ColliderInputData();
+    protected void SetCollisionPlane(Polygon[] polygons)
+    {
+        CollisionManager.AddColliderDataList(inputData.SetNew(polygons,this), ColliderType);
+    }
 }
 
-public abstract class SwordCollider : CollisionObject
+public abstract class SwordCollider : StickCollider
 {
-    protected abstract List<Transform[]> LinesOfTrabsform { get; }
+    protected abstract List<Transform[]> transformList { get; }
     private List<Vector3[]> linePosInBeforeFrame = new List<Vector3[]>();
-    private bool setupped;
 
-    void Start()
+    private void Start()
     {
-        setupped = false;
-        Invoke("CollisionSetUp", 0.1f);
-    }
-
-    private void CollisionSetUp()
-    {
-        StartOfCollisionInstance();
         MakeArray();
-        setupped = true;
+        Start_();
     }
 
     //Startのかわりにこれ使え
-    protected abstract void StartOfCollisionInstance();
+    protected abstract void Start_();
 
     private void LateUpdate()
     {
-        if (!setupped) { return; }
-        UpdateOfCollisionInstance();
+        LateUpdate_();
         //最後に今の当たり判定線の位置情報を過去の位置情報リストに加える
-        for (int i = 0; i < LinesOfTrabsform.Count; i++) { linePosInBeforeFrame[i] = new Vector3[2] { LinesOfTrabsform[i][0].position, LinesOfTrabsform[i][1].position }; }
+        for (int i = 0; i < transformList.Count; i++) { linePosInBeforeFrame[i] = new Vector3[2] { transformList[i][0].position, transformList[i][1].position }; }
+        
     }
 
-    protected abstract void UpdateOfCollisionInstance();
+    protected abstract void LateUpdate_();
 
 
     /// <summary>
@@ -343,30 +353,27 @@ public abstract class SwordCollider : CollisionObject
     /// <param name="end"></param>
     private void MakeArray()
     {
-        for (int i = 0; i < LinesOfTrabsform.Count; i++)
+        for (int i = 0; i < transformList.Count; i++)
         {
-            linePosInBeforeFrame.Add(new Vector3[2] { LinesOfTrabsform[i][0].position, LinesOfTrabsform[i][1].position });
+            linePosInBeforeFrame.Add(new Vector3[2] { transformList[i][0].position, transformList[i][1].position });
         }
     }
 
+    private List<Polygon> polygons = new List<Polygon>(10);
     /// <summary>
     /// 衝突判定をとってほしいフレームでCollisionManagerにPolygonをおくる, Update内で使うこと(LateUpdateはだめ)
     /// </summary>
-    protected void CheckCollision()
+    protected void SetCollision()
     {
-        for (int i = 0; i < LinesOfTrabsform.Count; i++)
+        for (int i = 0; i < transformList.Count; i++)
         {
-            Polygon A = new Polygon(linePosInBeforeFrame[i][0], linePosInBeforeFrame[i][1], LinesOfTrabsform[i][0].position);
-            Polygon B = new Polygon(LinesOfTrabsform[i][0].position, LinesOfTrabsform[i][1].position, linePosInBeforeFrame[i][1]);
-            CollisionManager.AddColliderDataList(new ColliderInputData(new Polygon[] { A, B }, this), ColliderType);
-
+            Polygon A = new Polygon(linePosInBeforeFrame[i][0], linePosInBeforeFrame[i][1], transformList[i][0].position);
+            Polygon B = new Polygon(transformList[i][0].position, transformList[i][1].position, linePosInBeforeFrame[i][1]);
+            polygons.Add(A);
+            polygons.Add(B);
         }
-
-        //print(this.name +"  before: "+ linePosInBeforeFrame[0][0]+" , "+linePosInBeforeFrame[0][1]+",  now : "+linesOfTransform[0][0].position+" , "+linesOfTransform[0][1].position);
-
-
-
-
+            SetCollisionPlane(polygons.ToArray());
+        polygons.Clear();
     }
 
 }

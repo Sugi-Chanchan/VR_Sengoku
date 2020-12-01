@@ -9,21 +9,22 @@ public class MeshCutTest : SwordCollider {
     {
         Application.targetFrameRate = 160;
     }
-
+    public Material cutMaterial;
     public override CollisionManager.ColliderType ColliderType => CollisionManager.ColliderType.PlayerBody;
     [SerializeField] Transform start, end;
     [SerializeField] PhysicMaterial tatamiPhysics;
-    protected override List<Transform[]> LinesOfTrabsform => new List<Transform[]> { new Transform[2] { start, end } };
+    protected override List<Transform[]> transformList => new List<Transform[]> { new Transform[2] { start, end } };
     // Start is called before the first frame update
-    protected override void StartOfCollisionInstance()
+    protected override void Start_()
     {
         Invoke("Ready", 1);
-
+        //InvokeRepeating("Test", 1, 1);
+        //Test();
     }
 
-    protected override void UpdateOfCollisionInstance()
+    protected override void LateUpdate_()
     {
-        CheckCollision();
+        SetCollision();
         //transform.position += -Vector3.up * Time.deltaTime*0.1f;
     }
     // Update is called once per frame
@@ -37,9 +38,10 @@ public class MeshCutTest : SwordCollider {
     bool ready = false;
     int count = 0;
     float time = 0;
+    float[] sum = new float[5];
     public override void OnCollision(CollisionInfo collision)
     {
-
+        
 
         System.Diagnostics.Stopwatch sw = new System.Diagnostics.Stopwatch();
 
@@ -48,12 +50,11 @@ public class MeshCutTest : SwordCollider {
         Transform target = transform.Find("Cube");
         Mesh[] meshes = new Mesh[2];
         sw.Start();
-         for(int o = 0; o < 20; o++)
+        //for(int o = 0; o < 20; o++)
         {
-        meshes = MeshCut.CutMesh(GetComponent<MeshFilter>().mesh,transform, polygon.vertices[0], normal,true);
-        //meshes = MeshCut.CutMeshOnce(this.gameObject, polygon.vertices[0], normal);
-
+        meshes = MeshCut.CutMesh(GetComponent<MeshFilter>().mesh,transform, polygon.vertices[0], normal,true,cutMaterial);
         }
+
         sw.Stop();
 
         Mesh mesh1, mesh2;
@@ -87,16 +88,16 @@ public class MeshCutTest : SwordCollider {
             //    print(transform.localToWorldMatrix.MultiplyPoint(kvp.Key) + ":" + kvp.Value + "個");
             //}
         }
-        //GetComponent<MeshFilter>().mesh = mesh1;
+        GetComponent<MeshFilter>().mesh = mesh1;
 
-        //GameObject fragment = new GameObject("Fragment", typeof(MeshFilter), typeof(MeshRenderer));
-        //fragment.transform.position = transform.position;
-        //fragment.transform.rotation = transform.rotation;
-        //fragment.transform.localScale = transform.localScale;
+        GameObject fragment = new GameObject("Fragment", typeof(MeshFilter), typeof(MeshRenderer));
+        fragment.transform.position = transform.position;
+        fragment.transform.rotation = transform.rotation;
+        fragment.transform.localScale = transform.localScale;
 
-        //fragment.GetComponent<MeshFilter>().mesh = mesh2;
-        //fragment.GetComponent<MeshRenderer>().materials = GetComponent<MeshRenderer>().materials;
-        //fragment.AddComponent<Rigidbody>();
+        fragment.GetComponent<MeshFilter>().mesh = mesh2;
+        fragment.GetComponent<MeshRenderer>().materials = GetComponent<MeshRenderer>().materials;
+        fragment.AddComponent<Rigidbody>();
 
         {
             //GetComponent<MeshCollider>().sharedMesh = mesh1;
@@ -105,12 +106,56 @@ public class MeshCutTest : SwordCollider {
             //fragmentMeshCollider.sharedMesh = mesh2;
             //fragmentMeshCollider.material = tatamiPhysics;
         }
-        time += sw.ElapsedMilliseconds;
+        //time += sw.ElapsedMilliseconds;
+        sum[count % 5] = sw.ElapsedMilliseconds;
         count++;
         if (count > 20)
         {
-            print(time / (float)count);
+            time = sum[0] + sum[1] + sum[2] + sum[3] + sum[4];
+            print(time /5);
         }
         //print(sw.ElapsedMilliseconds);
     }
+
+    float a = -1f;
+    void Test()
+    {
+
+        a += 0.0861254164567125f;
+        Vector3 normal = new Vector3(0f, 1, 0f);
+        Vector3 anchor = transform.position+new Vector3(0f,a,0);
+
+        Mesh[] meshes = new Mesh[2];
+ 
+
+        {
+            meshes = MeshCut.CutMesh(GetComponent<MeshFilter>().mesh, transform, anchor, normal, true);
+        }
+
+
+        Mesh mesh1, mesh2;
+        if (normal.y > 0)
+        {
+            mesh1 = meshes[0];
+            mesh2 = meshes[1];
+        }
+        else
+        {
+            mesh1 = meshes[1];
+            mesh2 = meshes[0];
+        }
+        GetComponent<MeshFilter>().mesh = mesh1;
+
+        GameObject fragment = new GameObject("Fragment", typeof(MeshFilter), typeof(MeshRenderer));
+        fragment.transform.position = transform.position;
+        fragment.transform.rotation = transform.rotation;
+        fragment.transform.localScale = transform.localScale;
+
+        fragment.GetComponent<MeshFilter>().mesh = mesh2;
+        fragment.GetComponent<MeshRenderer>().materials = GetComponent<MeshRenderer>().materials;
+        fragment.AddComponent<Rigidbody>();
+
+
+    }
+
 }
