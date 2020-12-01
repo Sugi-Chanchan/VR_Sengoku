@@ -4,5 +4,8 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes/Sugi.unity
+    guid: 5928c06c73d09ae49a6f68bf05cfbb75
   m_configObjects: {}

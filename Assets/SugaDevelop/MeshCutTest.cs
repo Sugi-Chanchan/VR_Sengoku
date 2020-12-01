@@ -1,13 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
-public class MeshCutTest : SwordCollider { 
+public class MeshCutTest : SwordCollider {
 
-
+    public Text text;
     void Awake()
     {
-        Application.targetFrameRate = 160;
+        //Application.targetFrameRate = 160;
     }
     public Material cutMaterial;
     public override CollisionManager.ColliderType ColliderType => CollisionManager.ColliderType.PlayerBody;
@@ -18,6 +19,7 @@ public class MeshCutTest : SwordCollider {
     protected override void Start_()
     {
         Invoke("Ready", 1);
+        text.text = GetComponent<MeshFilter>().mesh.vertexCount.ToString();
         //InvokeRepeating("Test", 1, 1);
         //Test();
     }
