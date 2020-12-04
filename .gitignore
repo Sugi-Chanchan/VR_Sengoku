@@ -53,4 +53,7 @@ Thumbs.db
 #追加したアセットを無視
 /Assets/Low Poly Free Vegetation Kit/
 /Assets/SteamVR/
+/Assets/SteamVR.meta
 /Assets/Oculus/
+/Assets/SteamVR_Resources/
+/Assets/SteamVR_Resources.meta
