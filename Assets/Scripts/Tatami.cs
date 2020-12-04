@@ -33,7 +33,7 @@ public class Tatami : MonoBehaviour
         this.GetComponent<MeshCollider>().sharedMesh = barabaraTatamiMesh[1];
         */
 
-        GameObject[] barabaraTatami = MeshCut.CutMesh(this.gameObject, this.transform.position + Vector3.up, new Vector3(1, 1, 1), true);
+        //GameObject[] barabaraTatami = MeshCut.CutMesh(this.gameObject, this.transform.position + Vector3.up, new Vector3(-1, -1, -1), true);
         //barabaraTatami[1].AddComponent<Rigidbody>();
     }
 
@@ -43,7 +43,21 @@ public class Tatami : MonoBehaviour
         
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnCollisionEnter(Collision other)
     {
+        Vector3 hitPos, hitNor;
+        print("collision");
+        foreach (ContactPoint point in other.contacts)
+        {
+            hitPos = point.point;
+            hitNor = point.normal;
+
+            print(hitPos);
+            print(hitNor);
+        }
+        if (other.transform.tag == ("Blade")) {
+            GameObject[] barabaraTatami = MeshCut.CutMesh(this.gameObject, this.transform.position + Vector3.up, new Vector3(-1, -1, -1), true);
+            barabaraTatami[1].AddComponent<Rigidbody>();
+        }
     }
 }
