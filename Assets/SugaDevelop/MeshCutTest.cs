@@ -19,7 +19,6 @@ public class MeshCutTest : SwordCollider {
     protected override void Start_()
     {
         Invoke("Ready", 1);
-        text.text = GetComponent<MeshFilter>().mesh.vertexCount.ToString();
         //InvokeRepeating("Test", 1, 1);
         //Test();
     }
@@ -119,22 +118,19 @@ public class MeshCutTest : SwordCollider {
         //print(sw.ElapsedMilliseconds);
     }
 
-    float a = -1f;
+    Vector3[] n = new Vector3[] { new Vector3(0, 1, 0), new Vector3(1, 1, 0) };
+    Vector3[] v = new Vector3[] { new Vector3(0, 0, 0), new Vector3(0.1202f, 0.1f, 0.0024f) };
+    int c = 0;
     void Test()
     {
 
-        a += 0.0861254164567125f;
-        Vector3 normal = new Vector3(0f, 1, 0f);
-        Vector3 anchor = transform.position+new Vector3(0f,a,0);
+        Vector3 normal = n[c];
+        Vector3 anchor = v[c++];
 
         Mesh[] meshes = new Mesh[2];
- 
-
         {
             meshes = MeshCut.CutMesh(GetComponent<MeshFilter>().mesh, transform, anchor, normal, true);
         }
-
-
         Mesh mesh1, mesh2;
         if (normal.y > 0)
         {

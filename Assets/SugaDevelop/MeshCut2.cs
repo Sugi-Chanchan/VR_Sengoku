@@ -30,7 +30,7 @@ public class MeshCut2 : MonoBehaviour
 
 
     //UnsafeListはListの中身の配列を引きずり出して直接書き換えるために自作したクラス. 高速だけど安全性が低い
-    const int SIZE = 20000;
+    const int SIZE = 200;
     static UnsafeList<Vector3> _frontVertices = new UnsafeList<Vector3>(SIZE);//想定されるモデルの頂点数分の領域を予め空けておく
     static UnsafeList<Vector3> _backVertices = new UnsafeList<Vector3>(SIZE);
     static UnsafeList<Vector3> _frontNormals = new UnsafeList<Vector3>(SIZE);
@@ -50,7 +50,7 @@ public class MeshCut2 : MonoBehaviour
     /// <param name="planeNormalDirection">切断面の法線</param>
     /// <param name="makeCutSurface">切断後にMeshを縫い合わせるか否か(切断面が2つ以上できるときはfalseにしてシェーダーのCull Frontで切断面を表示するようにする)</param>
     /// <returns></returns>
-    public static Mesh[] CutMesh(Mesh targetMesh, Transform targetTransform, Vector3 planeAnchorPoint, Vector3 planeNormalDirection, bool makeCutSurface)
+    public static Mesh[] CutMesh(Mesh targetMesh, Transform targetTransform, Vector3 planeAnchorPoint, Vector3 planeNormalDirection, bool makeCutSurface, Material cutSurfaceMaterial = null)
     {
 
 
@@ -66,7 +66,7 @@ public class MeshCut2 : MonoBehaviour
             int verticesLength = _targetVertices.Length;
             _makeCutSurface = makeCutSurface;
 
-            _trackedArray_List.Clear(verticesLength);//Listのサイズを確保
+            _trackedArray_List.Clear(verticesLength);//Listのサイズを確保_trackedArray_Listはここで配列のサイズを整えるためだけに使用
             _trackedArray = _trackedArray_List.unsafe_array;//中身の配列を割り当て
             _isFront_List.Clear(verticesLength);
             _isFront = _isFront_List.unsafe_array;
@@ -96,6 +96,7 @@ public class MeshCut2 : MonoBehaviour
         _planeValue = Vector3.Dot(_planeNormal, anchor);
         {
             //UnsafeListから中身の配列を取り出す(配列の要素数はverticesLengthなので要素数を超えたアクセスは発生しない)
+            //List.Addよりもちょっと早い
             Vector3[] frontVertices_array = _frontVertices.unsafe_array;
             Vector3[] backVertices_array = _backVertices.unsafe_array;
             Vector3[] frontNormals_array = _frontNormals.unsafe_array;
@@ -153,24 +154,14 @@ public class MeshCut2 : MonoBehaviour
 
             int[] indices = _targetMesh.GetIndices(sub);
 
-            //submeshごとに三角ポリゴンを入れるListをAddしてそこに詰めていく(Add_tryReuseの定義は下に書いてあるがこれは重要ではない)
+
+
             int indicesLength = indices.Length;
-            if (_frontSubmeshIndices.Add_TryReuse())
-            {
-                _frontSubmeshIndices.Top.Clear(indicesLength);//すでに中身が入っていたら使いまわし
-            }
-            else
-            {
-                _frontSubmeshIndices.Top = new UnsafeList<int>(indicesLength);
-            }
-            if (_backSubmeshIndices.Add_TryReuse())
-            {
-                _backSubmeshIndices.Top.Clear(indicesLength);
-            }
-            else
-            {
-                _backSubmeshIndices.Top = new UnsafeList<int>(indicesLength);
-            }
+            _frontSubmeshIndices.AddOnlyCount();
+            _frontSubmeshIndices.Top = _frontSubmeshIndices.Top?.Clear(indicesLength) ?? new UnsafeList<int>(indicesLength);
+            _backSubmeshIndices.AddOnlyCount();
+            _backSubmeshIndices.Top = _backSubmeshIndices.Top?.Clear(indicesLength) ?? new UnsafeList<int>(indicesLength);
+
 
             //リストから配列を引き出す
             UnsafeList<int> frontIndices = _frontSubmeshIndices[sub];
@@ -230,46 +221,87 @@ public class MeshCut2 : MonoBehaviour
 
         if (makeCutSurface)
         {
+            if (cutSurfaceMaterial == null)//特に切断面のマテリアル指定がなければ0番のマテリアルを当てる
+            {
+                roopCollection.MakeCutSurface(0);//切断面を縫い合わせる
+            }
+            else
+            {
+                MeshRenderer renderer;
+                if (renderer = targetTransform.GetComponent<MeshRenderer>())
+                {
+                    Material[] mats = renderer.materials;
+                    int matLength = mats.Length;
+                    if (mats[matLength - 1]?.name == cutSurfaceMaterial.name)//すでに切断マテリアルが追加されているときはそれを使うので追加しない
+                    {
+                        roopCollection.MakeCutSurface(matLength - 1);
+                    }
+                    else
+                    {
+                        Material[] newMats = new Material[matLength + 1];
+                        mats.CopyTo(newMats, 0);
+                        newMats[matLength] = cutSurfaceMaterial;
 
-            roopCollection.MakeCutSurface(0);//切断面を縫い合わせる
+
+                        renderer.materials = newMats;
+                        renderer.materials[matLength].name = cutSurfaceMaterial.name;//prefabのインスタンス化などで名前が変わってしまうことを防ぐ
+
+
+                        _frontSubmeshIndices.Add(new UnsafeList<int>(20));//submeshが増えるのでリスト追加
+                        _backSubmeshIndices.Add(new UnsafeList<int>(20));
+                        roopCollection.MakeCutSurface(matLength);//マテリアル追加
+                    }
+                }
+                else
+                {
+                    Debug.LogError("plese set MeshRenderer in target object");
+                    roopCollection.MakeCutSurface(0);
+                }
+            }
 
         }
 
         //2つのMeshを新規に作ってそれぞれに情報を追加して出力
         Mesh frontMesh = new Mesh();
         frontMesh.name = "Split Mesh front";
-        //frontMesh.SetVertices(_frontVertices.ToList());
-        //frontMesh.SetNormals(_frontNormals.ToList());
-        //frontMesh.SetUVs(0,_frontUVs.ToList());
-        frontMesh.vertices = _frontVertices.ToArray();
-        frontMesh.normals = _frontNormals.ToArray();
-        frontMesh.uv = _frontUVs.ToArray();
+
+        //unity2019.4以降ならこっちを使うだけで3～4割速くなる(unity2019.2以前は対応していない.2019.3は知らない)
+        //int fcount = _frontVertices.unsafe_count;//unity2019.4以降
+        //frontMesh.SetVertices(_frontVertices.unsafe_array, 0, fcount);//unity2019.4以降
+        //frontMesh.SetNormals(_frontNormals.unsafe_array, 0, fcount);//unity2019.4以降
+        //frontMesh.SetUVs(0, _frontUVs.unsafe_array, 0, fcount);//unity2019.4以降
+        frontMesh.vertices = _frontVertices.ToArray();//unity2019.2以前
+        frontMesh.normals = _frontNormals.ToArray();//unity2019.2以前
+        frontMesh.uv = _frontUVs.ToArray();//unity2019.2以前
 
 
 
         frontMesh.subMeshCount = _frontSubmeshIndices.Count;
         for (int i = 0; i < _frontSubmeshIndices.Count; i++)
         {
-            frontMesh.SetIndices(_frontSubmeshIndices[i].ToArray(), MeshTopology.Triangles, i, false);
+            frontMesh.SetIndices(_frontSubmeshIndices[i].ToArray(), MeshTopology.Triangles, i, false);//unity2019.2以前
+            //frontMesh.SetIndices(_frontSubmeshIndices[i].unsafe_array, 0, _frontSubmeshIndices[i].unsafe_count, MeshTopology.Triangles, i, false);//unity2019.4以降
         }
 
 
         Mesh backMesh = new Mesh();
         backMesh.name = "Split Mesh back";
-        //backMesh.SetVertices(_backVertices.ToList());
-        //backMesh.SetNormals(_backNormals.ToList());
-        //backMesh.SetUVs(0, _backUVs.ToList());
-        backMesh.vertices = _backVertices.ToArray();
-        backMesh.normals = _backNormals.ToArray();
-        backMesh.uv = _backUVs.ToArray();
+        //int bcount = _backVertices.unsafe_count;//unity2019.4以降
+        //backMesh.SetVertices(_backVertices.unsafe_array, 0, bcount);//unity2019.4以降
+        //backMesh.SetNormals(_backNormals.unsafe_array, 0, bcount);//unity2019.4以降
+        //backMesh.SetUVs(0, _backUVs.unsafe_array, 0, bcount);//unity2019.4以降
+        backMesh.vertices = _backVertices.ToArray();//unity2019.2以前
+        backMesh.normals = _backNormals.ToArray();//unity2019.2以前
+        backMesh.uv = _backUVs.ToArray();//unity2019.2以前
 
         backMesh.subMeshCount = _backSubmeshIndices.Count;
         for (int i = 0; i < _backSubmeshIndices.Count; i++)
         {
-            backMesh.SetIndices(_backSubmeshIndices[i].ToArray(), MeshTopology.Triangles, i, false);
+            backMesh.SetIndices(_backSubmeshIndices[i].ToArray(), MeshTopology.Triangles, i, false);//unity2019.2以前
+            //backMesh.SetIndices(_backSubmeshIndices[i].unsafe_array, 0, _backSubmeshIndices[i].unsafe_count, MeshTopology.Triangles, i, false);//unity2019.4以降
         }
 
-        Destroy(_targetMesh); //明示的に消してあげることでガベコレの処理が軽くなるかも?
+        //Destroy(_targetMesh); //明示的に消してあげることでガベコレの処理が軽くなるかも?
 
 
         return new Mesh[2] { frontMesh, backMesh };
@@ -396,7 +428,7 @@ public class MeshCut2 : MonoBehaviour
             }
         }
 
-        //切断前のポリゴンの頂点の座標を取得
+        //切断前のポリゴンの頂点の座標を取得(そのうち2つはかぶってる)
         Vector3 frontPoint0, frontPoint1, backPoint0, backPoint1;
         if (twoPointsInFrontSide)
         {
@@ -411,8 +443,10 @@ public class MeshCut2 : MonoBehaviour
             backPoint1 = _targetVertices[b1];
         }
 
-        //ベクトルを何倍したら平面に到達するかは以下の式で表される
-        //これは, 新しくできる頂点が2つの頂点を何:何に内分してできるのかを意味している
+        //ベクトル[backPoint0 - frontPoint0]を何倍したら切断平面に到達するかは以下の式で表される
+        //平面の式: dot(r,n)=A ,Aは定数,nは法線, 
+        //今回    r =frontPoint0+k*(backPoint0 - frontPoint0), (0 ≦ k ≦ 1)
+        //これは, 新しくできる頂点が2つの頂点を何対何に内分してできるのかを意味している
         float dividingParameter0 = (_planeValue - Vector3.Dot(_planeNormal, frontPoint0)) / (Vector3.Dot(_planeNormal, backPoint0 - frontPoint0));
         //Lerpで切断によってうまれる新しい頂点の座標を生成
         Vector3 newVertexPos0 = Vector3.Lerp(frontPoint0, backPoint0, dividingParameter0);
@@ -421,19 +455,17 @@ public class MeshCut2 : MonoBehaviour
         float dividingParameter1 = (_planeValue - Vector3.Dot(_planeNormal, frontPoint1)) / (Vector3.Dot(_planeNormal, backPoint1 - frontPoint1));
         Vector3 newVertexPos1 = Vector3.Lerp(frontPoint1, backPoint1, dividingParameter1);
 
-        //新しい頂点の生成
+        //新しい頂点の生成, ここではNormalとUVは計算せず後から計算できるように頂点のindex(_trackedArray[f0], _trackedArray[b0],)と内分点の情報(dividingParameter0)を持っておく
         NewVertex vertex0 = fragmentList.MakeVertex(_trackedArray[f0], _trackedArray[b0], dividingParameter0, newVertexPos0);
         NewVertex vertex1 = fragmentList.MakeVertex(_trackedArray[f1], _trackedArray[b1], dividingParameter1, newVertexPos1);
-        //NewVertex vertex0 = new NewVertex(_trackedArray[f0], _trackedArray[b0], dividingParameter0, newVertexPos0);
-        //NewVertex vertex1 = new NewVertex(_trackedArray[f1], _trackedArray[b1], dividingParameter1, newVertexPos1);
+
 
         //切断でできる辺(これが同じポリゴンは結合することで頂点数の増加を抑えられる)
         Vector3 cutLine = (newVertexPos1 - newVertexPos0).normalized;
-        int KEY_CUTLINE = MakeIntFromVector3_ErrorCut(cutLine);//Vector3だと処理が重そうなのでintにしておく
+        int KEY_CUTLINE = MakeIntFromVector3_ErrorCut(cutLine);//Vector3だと処理が重そうなのでintにしておく, ついでに丸め誤差を切り落とす
 
         //切断情報を含んだFragmentクラス
         Fragment fragment = fragmentList.MakeFragment(vertex0, vertex1, twoPointsInFrontSide, KEY_CUTLINE, submesh);
-        //Fragment fragment = new Fragment(vertex0, vertex1, twoPointsInFrontSide, KEY_CUTLINE, submesh);
         //Listに追加してListの中で同一平面のFragmentは結合とかする
         fragmentList.Add(fragment, KEY_CUTLINE, submesh);
 
@@ -493,31 +525,14 @@ public class MeshCut2 : MonoBehaviour
         {
 
 
-            if (left == right) { return; }//偶然にもポリゴンの先端で切断された場合, left=rightになるが, これはただの点なのでreturn
-
             int KEY_LEFT = MakeIntFromVector3(left); //Vector3からintへ
             int KEY_RIGHT = MakeIntFromVector3(right);
 
-            //{
-            //    string s = "";
-            //    foreach (List<RooP> list in leftLists)
-            //    {
-            //        s += list.Count.ToString() + ",";
-            //    }
-            //    print(s + ":" +KEY_LEFT);
-            //}
 
             RoopFragment target;
-            if (roopFragments.Add_TryReuse())
-            {
-                target = roopFragments.Top.SetNew(right);
-            }
-            else
-            {
-                target = new RoopFragment(right);
-                roopFragments.Top = target;
-            }
-
+            roopFragments.AddOnlyCount();
+            roopFragments.Top = roopFragments.Top?.SetNew(right) ?? new RoopFragment(right);
+            target = roopFragments.Top;
 
             //Dictionaryとにた処理
             int leftIndex = KEY_LEFT % listSize;//自分の左手の座標が格納されているindex 
@@ -555,6 +570,7 @@ public class MeshCut2 : MonoBehaviour
                 {
                     if (roop1 == roop2)
                     {
+                        //print("make roop");
                         roop1.count++;
                         roop1.center += right;
                         return;
@@ -619,7 +635,6 @@ public class MeshCut2 : MonoBehaviour
             {
                 foreach (RooP rf in list)
                 {
-
                     //roopFragmentのnextをたどっていくことでroopを一周できる
 
                     MakeVertex(rf.center / rf.count, out int center_f, out int center_b);
@@ -831,7 +846,7 @@ public class MeshCut2 : MonoBehaviour
     public class FragmentList
     {
         const int listSize = 71;
-        List<Fragment>[] fragmentLists = new List<Fragment>[listSize];
+        List<Fragment>[] fragmentLists = new List<Fragment>[listSize];//複数のListに分散させることで検索速度を上げている(Dictionaryを参考にした)
         UnsafeList<NewVertex> vertexRepository = new UnsafeList<NewVertex>(200);
         UnsafeList<Fragment> fragmentRepository = new UnsafeList<Fragment>(100);
         public FragmentList()
@@ -952,30 +967,17 @@ public class MeshCut2 : MonoBehaviour
 
         public NewVertex MakeVertex(int front, int back, float parameter, Vector3 vertexPosition)
         {
-            if (vertexRepository.Add_TryReuse())
-            {
-                return vertexRepository.Top.SetNew(front, back, parameter, vertexPosition);
-            }
-            else
-            {
-                NewVertex vertex = new NewVertex(front, back, parameter, vertexPosition);
-                vertexRepository.Top = vertex;
-                return vertex;
-            }
+            vertexRepository.AddOnlyCount();
+            vertexRepository.Top = vertexRepository.Top?.SetNew(front, back, parameter, vertexPosition) ?? new NewVertex(front, back, parameter, vertexPosition);
+            return vertexRepository.Top;
         }
 
         public Fragment MakeFragment(NewVertex _vertex0, NewVertex _vertex1, bool _twoPointsInFrontSide, int _KEY_CUTLINE, int _submesh)
         {
-            if (fragmentRepository.Add_TryReuse())
-            {
-                return fragmentRepository.Top.SetNew(_vertex0, _vertex1, _twoPointsInFrontSide, _KEY_CUTLINE, _submesh);
-            }
-            else
-            {
-                Fragment fragment = new Fragment(_vertex0, _vertex1, _twoPointsInFrontSide, _KEY_CUTLINE, _submesh);
-                fragmentRepository.Top = fragment;
-                return fragment;
-            }
+
+            fragmentRepository.AddOnlyCount();
+            fragmentRepository.Top = fragmentRepository.Top?.SetNew(_vertex0, _vertex1, _twoPointsInFrontSide, _KEY_CUTLINE, _submesh) ?? new Fragment(_vertex0, _vertex1, _twoPointsInFrontSide, _KEY_CUTLINE, _submesh);
+            return fragmentRepository.Top;
         }
     }
 
@@ -1034,14 +1036,16 @@ public class MeshCut2 : MonoBehaviour
             unsafe_array[unsafe_count++] = value;
         }
 
-        public void Clear(int _minCapacity)//初期化と同時に拡張
+        public UnsafeList<T> Clear(int _minCapacity)//初期化と同時に拡張
         {
             if (capacity < _minCapacity)
             {
                 var temp = new T[_minCapacity];
                 unsafe_array = temp;
+                capacity = _minCapacity;
             }
             unsafe_count = 0;
+            return this;
         }
 
         public T[] ToArray()
@@ -1065,7 +1069,19 @@ public class MeshCut2 : MonoBehaviour
         /// 要素を1つ増やして中身がnullでなければtrue
         /// </summary>
         /// <returns></returns>
-        public bool Add_TryReuse()
+        //public bool Add_TryReuse()
+        //{
+        //    if (capacity == unsafe_count)
+        //    {
+        //        capacity = (capacity) * 2;
+        //        var temp = new T[capacity];
+        //        Array.Copy(unsafe_array, temp, unsafe_count);
+        //        unsafe_array = temp;
+        //    }
+        //    return (unsafe_array[unsafe_count++] != null);
+        //}
+
+        public void AddOnlyCount()
         {
             if (capacity == unsafe_count)
             {
@@ -1074,7 +1090,7 @@ public class MeshCut2 : MonoBehaviour
                 Array.Copy(unsafe_array, temp, unsafe_count);
                 unsafe_array = temp;
             }
-            return (unsafe_array[unsafe_count++] != null);
+            unsafe_count++;
         }
 
         public T Top //listの先頭を返す

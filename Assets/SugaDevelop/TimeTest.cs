@@ -13,8 +13,6 @@ public class TimeTest : MonoBehaviour
 
 
 
-
-
         Invoke("Test", 1);
     }
 
@@ -41,11 +39,7 @@ public class TimeTest : MonoBehaviour
     TempA[] arrayA;
     void Set()
     {
-        arrayA = new TempA[num];
-        for (int i = 0; i < num; i++)
-        {
-            arrayA[i] = new TempA();
-        }
+        
     }
 
     public void Test()
