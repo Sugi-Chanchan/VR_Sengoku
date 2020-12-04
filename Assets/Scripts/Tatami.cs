@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Tatami : MonoBehaviour
 {
+    Transform tatami;
     // Start is called before the first frame update
     void Start()
     {
@@ -35,6 +36,8 @@ public class Tatami : MonoBehaviour
 
         //GameObject[] barabaraTatami = MeshCut.CutMesh(this.gameObject, this.transform.position + Vector3.up, new Vector3(-1, -1, -1), true);
         //barabaraTatami[1].AddComponent<Rigidbody>();
+
+        tatami = this.transform.GetChild(0).GetChild(0);
     }
 
     // Update is called once per frame
@@ -45,7 +48,7 @@ public class Tatami : MonoBehaviour
 
     private void OnCollisionEnter(Collision other)
     {
-        Vector3 hitPos, hitNor;
+        Vector3 hitPos = Vector3.zero, hitNor = Vector3.zero;
         print("collision");
         foreach (ContactPoint point in other.contacts)
         {
@@ -53,10 +56,11 @@ public class Tatami : MonoBehaviour
             hitNor = point.normal;
 
             print(hitPos);
-            print(hitNor);
+            //print(hitNor);
         }
         if (other.transform.tag == ("Blade")) {
-            GameObject[] barabaraTatami = MeshCut.CutMesh(this.gameObject, this.transform.position + Vector3.up, new Vector3(-1, -1, -1), true);
+            print("iku---");
+            GameObject[] barabaraTatami = MeshCut.CutMesh(tatami.gameObject, tatami.transform.position + Vector3.up, hitPos, true);
             barabaraTatami[1].AddComponent<Rigidbody>();
         }
     }
