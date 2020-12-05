@@ -50,9 +50,13 @@ public class MeshCut : MonoBehaviour
     /// <param name="planeNormalDirection">切断面の法線</param>
     /// <param name="makeCutSurface">切断後にMeshを縫い合わせるか否か(切断面が2つ以上できるときはfalseにしてシェーダーのCull Frontで切断面を表示するようにする)</param>
     /// <returns></returns>
-    public static Mesh[] CutMesh(Mesh targetMesh, Transform targetTransform, Vector3 planeAnchorPoint, Vector3 planeNormalDirection, bool makeCutSurface,Material cutSurfaceMaterial=null)
+    public static Mesh[] CutMesh(Mesh targetMesh, Transform targetTransform, Vector3 planeAnchorPoint, Vector3 planeNormalDirection, bool makeCutSurface = true, Material cutSurfaceMaterial = null)
     {
 
+        if (planeNormalDirection == Vector3.zero)
+        {
+            Debug.LogError("normal direction is zero!");
+        }
 
         //初期化
         {
@@ -60,7 +64,7 @@ public class MeshCut : MonoBehaviour
             //for文で_targetMeshから呼ぶのは非常に重くなるのでここで配列に格納してfor文ではここから渡す(Mesh.verticesなどは参照ではなくて毎回コピーしたものを返してるっぽい)
             _targetVertices = _targetMesh.vertices;
             _targetNormals = _targetMesh.normals;
-            _targetUVs = _targetMesh.uv; 
+            _targetUVs = _targetMesh.uv;
 
 
             int verticesLength = _targetVertices.Length;
@@ -227,9 +231,9 @@ public class MeshCut : MonoBehaviour
                 {
                     Material[] mats = renderer.materials;
                     int matLength = mats.Length;
-                    if (mats[matLength-1]?.name == cutSurfaceMaterial.name)//すでに切断マテリアルが追加されているときはそれを使うので追加しない
+                    if (mats[matLength - 1]?.name == cutSurfaceMaterial.name)//すでに切断マテリアルが追加されているときはそれを使うので追加しない
                     {
-                        roopCollection.MakeCutSurface(matLength-1);
+                        roopCollection.MakeCutSurface(matLength - 1);
                     }
                     else
                     {
@@ -297,7 +301,7 @@ public class MeshCut : MonoBehaviour
         }
 
         //Destroy(_targetMesh); //明示的に消してあげることでガベコレの処理が軽くなるかも?
-        
+
 
         return new Mesh[2] { frontMesh, backMesh };
     }
@@ -311,7 +315,7 @@ public class MeshCut : MonoBehaviour
     /// <param name="planeNormalDirection">切断平面の法線</param>
     /// <param name="makeCutSurface">切断面を作るかどうか</param>
     /// <returns></returns>
-    public static GameObject[] CutMesh(GameObject targetGameObject, Vector3 planeAnchorPoint, Vector3 planeNormalDirection, bool makeCutSurface)
+    public static GameObject[] CutMesh(GameObject targetGameObject, Vector3 planeAnchorPoint, Vector3 planeNormalDirection, bool makeCutSurface = true, Material cutSurfaceMaterial = null)
     {
         if (!targetGameObject.GetComponent<MeshFilter>())
         {
@@ -327,25 +331,41 @@ public class MeshCut : MonoBehaviour
         Mesh mesh = targetGameObject.GetComponent<MeshFilter>().mesh;
         Transform transform = targetGameObject.transform;
 
-        Mesh[] meshes = CutMesh(mesh, transform, planeAnchorPoint, planeNormalDirection, makeCutSurface);
+        Mesh[] meshes = CutMesh(mesh, transform, planeAnchorPoint, planeNormalDirection, makeCutSurface, cutSurfaceMaterial);
 
-        targetGameObject.GetComponent<MeshFilter>().mesh = meshes[0];
+        Mesh mesh0 = meshes[0];
+        Mesh mesh1 = meshes[1];
 
-        GameObject fragment = new GameObject("Fragment", typeof(MeshFilter), typeof(MeshRenderer));
-        fragment.transform.position = targetGameObject.transform.position;
-        fragment.transform.rotation = targetGameObject.transform.rotation;
+        if (mesh0.vertexCount == 0)
+        {
+            Debug.LogWarning("cut plane don't cross the target object");
+            return new GameObject[2] { null, targetGameObject };
+        }
+        else if (mesh1.vertexCount == 0)
+        {
+            Debug.LogWarning("cut plane don't cross the target object");
+            return new GameObject[2] { targetGameObject, null };
+        }
+
+
+        targetGameObject.GetComponent<MeshFilter>().mesh = mesh0;
+
+        //GameObject fragment = new GameObject("Fragment", typeof(MeshFilter), typeof(MeshRenderer));
+        GameObject fragment = Instantiate(targetGameObject);
+        fragment.transform.parent = targetGameObject.transform.parent;
+        fragment.transform.localPosition = targetGameObject.transform.localPosition;
+        fragment.transform.localRotation = targetGameObject.transform.localRotation;
         fragment.transform.localScale = targetGameObject.transform.localScale;
-        fragment.GetComponent<MeshFilter>().mesh = meshes[1];
+        fragment.transform.parent = null;
+        fragment.GetComponent<MeshFilter>().mesh = mesh1;
         fragment.GetComponent<MeshRenderer>().materials = targetGameObject.GetComponent<MeshRenderer>().materials;
 
         if (targetGameObject.GetComponent<MeshCollider>())
         {
-            targetGameObject.GetComponent<MeshCollider>().sharedMesh = meshes[0];
-            fragment.AddComponent<MeshCollider>().sharedMesh = meshes[1];
-        }
-        if (targetGameObject.GetComponent<Rigidbody>())
-        {
-            fragment.GetComponent<Rigidbody>();
+            //頂点が1点に重なっている場合にはエラーが出るので, 直したい場合はmesh.RecalculateBoundsのあとでmesh.bounds.size.magnitude<0.00001などで条件分けして対処してください
+            targetGameObject.GetComponent<MeshCollider>().sharedMesh = mesh0;
+            fragment.GetComponent<MeshCollider>().sharedMesh = mesh1;
+
         }
 
 
@@ -524,7 +544,7 @@ public class MeshCut : MonoBehaviour
 
             RoopFragment target;
             roopFragments.AddOnlyCount();
-            roopFragments.Top=roopFragments.Top?.SetNew(right)?? new RoopFragment(right);
+            roopFragments.Top = roopFragments.Top?.SetNew(right) ?? new RoopFragment(right);
             target = roopFragments.Top;
 
             //Dictionaryとにた処理
@@ -706,8 +726,8 @@ public class MeshCut : MonoBehaviour
         public NewVertex vertex0, vertex1;
         public int KEY_CUTLINE;
         public int submesh;//submesh番号(どのマテリアルを当てるか)
-        public Point firstPoint_f, lastPoint_f,firstPoint_b,lastPoint_b;
-        public int count_f,count_b;
+        public Point firstPoint_f, lastPoint_f, firstPoint_b, lastPoint_b;
+        public int count_f, count_b;
 
         public Fragment(NewVertex _vertex0, NewVertex _vertex1, bool _twoPointsInFrontSide, int _KEY_CUTLINE, int _submesh)
         {
@@ -735,7 +755,7 @@ public class MeshCut : MonoBehaviour
                 count_f = 1;
                 count_b = 2;
             }
-            
+
         }
 
         public Fragment SetNew(NewVertex _vertex0, NewVertex _vertex1, bool _twoPointsInFrontSide, int _KEY_CUTLINE, int _submesh)
@@ -759,7 +779,7 @@ public class MeshCut : MonoBehaviour
             }
             else
             {
-                firstPoint_f =fragmentList.MakePoint(_vertex0.frontsideindex_of_frontMesh);
+                firstPoint_f = fragmentList.MakePoint(_vertex0.frontsideindex_of_frontMesh);
                 lastPoint_f = firstPoint_f;
                 firstPoint_b = fragmentList.MakePoint(vertex0.backsideindex_of_backMash);
                 lastPoint_b = fragmentList.MakePoint(vertex1.backsideindex_of_backMash);
@@ -778,9 +798,9 @@ public class MeshCut : MonoBehaviour
             Point point = firstPoint_f;
             int preIndex = point.index;
 
-            int count=count_f;
+            int count = count_f;
             int halfcount = count_f / 2;
-            for(int i = 0; i < halfcount; i++)
+            for (int i = 0; i < halfcount; i++)
             {
                 point = point.next;
                 int index = point.index;
@@ -792,7 +812,7 @@ public class MeshCut : MonoBehaviour
             _frontSubmeshIndices[submesh].Add(preIndex);
             _frontSubmeshIndices[submesh].Add(findex0);
             _frontSubmeshIndices[submesh].Add(findex1);
-            int elseCount = count_f - halfcount-1;
+            int elseCount = count_f - halfcount - 1;
             for (int i = 0; i < elseCount; i++)
             {
                 point = point.next;
@@ -995,7 +1015,7 @@ public class MeshCut : MonoBehaviour
                     if (connect)
                     {
                         flist.Remove(right);
-                       
+
                         break;
                     }
 
@@ -1049,7 +1069,7 @@ public class MeshCut : MonoBehaviour
         public Fragment MakeFragment(NewVertex _vertex0, NewVertex _vertex1, bool _twoPointsInFrontSide, int _KEY_CUTLINE, int _submesh)
         {
             fragmentRepository.AddOnlyCount();
-            fragmentRepository.Top=fragmentRepository.Top?.SetNew(_vertex0, _vertex1, _twoPointsInFrontSide, _KEY_CUTLINE, _submesh)?? new Fragment(_vertex0, _vertex1, _twoPointsInFrontSide, _KEY_CUTLINE, _submesh);
+            fragmentRepository.Top = fragmentRepository.Top?.SetNew(_vertex0, _vertex1, _twoPointsInFrontSide, _KEY_CUTLINE, _submesh) ?? new Fragment(_vertex0, _vertex1, _twoPointsInFrontSide, _KEY_CUTLINE, _submesh);
             return fragmentRepository.Top;
         }
 
@@ -1059,7 +1079,7 @@ public class MeshCut : MonoBehaviour
             pointRepository.Top = pointRepository.Top?.SetNew(index) ?? new Point(index);
             return pointRepository.Top;
         }
-        
+
     }
 
 
