@@ -6051,27 +6051,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4eaec12936aeb5b439867a7b1159dab6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  text: {fileID: 463890889}
-  cutMaterial: {fileID: 2100000, guid: fd7f0405a81c02b459e068bcfdf44453, type: 2}
-  start: {fileID: 1406626988}
-  end: {fileID: 1875234845}
-  tatamiPhysics: {fileID: 0}
-  ready: 0
-  count: 0
-  time: 0
-  sum:
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
-  n:
-  - {x: 0, y: 1, z: 0}
-  - {x: 1, y: 1, z: 0}
-  v:
-  - {x: 0, y: 0, z: 0}
-  - {x: 0.1202, y: 0.1, z: 0.0024}
-  c: 0
 --- !u!23 &684140185
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -17181,7 +17160,7 @@ Rigidbody:
   m_Mass: 1
   m_Drag: 0
   m_AngularDrag: 0.05
-  m_UseGravity: 0
+  m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0

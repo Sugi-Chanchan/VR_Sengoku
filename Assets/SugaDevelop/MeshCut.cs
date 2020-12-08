@@ -52,10 +52,13 @@ public class MeshCut : MonoBehaviour
     /// <returns></returns>
     public static Mesh[] CutMesh(Mesh targetMesh, Transform targetTransform, Vector3 planeAnchorPoint, Vector3 planeNormalDirection, bool makeCutSurface = true, Material cutSurfaceMaterial = null)
     {
-
         if (planeNormalDirection == Vector3.zero)
         {
             Debug.LogError("normal direction is zero!");
+
+            Mesh empty = new Mesh();
+            empty.vertices = new Vector3[] { };
+            return new Mesh[2]{ targetMesh,empty};
         }
 
         //初期化

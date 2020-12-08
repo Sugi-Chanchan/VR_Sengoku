@@ -2,68 +2,84 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
+public delegate void SetCollisionHandler();
+
 public class CollisionManager : MonoBehaviour
 {
+
+    public static event SetCollisionHandler SetCollision;
+
     public enum ColliderType
     {
-        PlayerBody,
-        PlayerWeapon,
-        EnemyBoby,
-        EnemyWeapon
+        CuttedAndCutter,
+        CuttedOnly,
+        CutterOnly
     }
 
-    private static List<ColliderInputData> playerBody = new List<ColliderInputData>();
-    private static List<ColliderInputData> playerWeapon = new List<ColliderInputData>();
-    private static List<ColliderInputData> enemyBody = new List<ColliderInputData>();
-    private static List<ColliderInputData> enemyWeapon = new List<ColliderInputData>();
-
-    private static readonly Dictionary<ColliderType, List<ColliderInputData>> PolygonTypeDic = new Dictionary<ColliderType, List<ColliderInputData>>
-    {
-        {ColliderType.PlayerBody,playerBody },
-        {ColliderType.PlayerWeapon,playerWeapon },
-        {ColliderType.EnemyBoby,enemyBody },
-        {ColliderType.EnemyWeapon,enemyWeapon }
-    };
+    private static List<ColliderInfo> cuttedAndCutter = new List<ColliderInfo>();
+    private static List<ColliderInfo> cuttedOnly = new List<ColliderInfo>();
+    private static List<ColliderInfo> cutterOnly = new List<ColliderInfo>();
+    public static bool exist=false;
 
     //アニメーションより後で当たり判定を出すならLateUpdate内でこれを実行して, かつスクリプトの実行順でCollisionManagerが最後に来るようにする必要がある.
-    public static void AddColliderDataList(ColliderInputData colliderData, ColliderType colliderType) //dictinaryとEnumを使ってポリゴンを追加する関数をかいた
+    public static void AddColliderDataList(ColliderInfo colliderData, ColliderType colliderType) //dictinaryとEnumを使ってポリゴンを追加する関数をかいた
     {
-        PolygonTypeDic[colliderType].Add(colliderData);
+
+        switch (colliderType)
+        {
+            case ColliderType.CuttedAndCutter: cuttedAndCutter.Add(colliderData); break;
+            case ColliderType.CuttedOnly: cuttedOnly.Add(colliderData); break;
+            case ColliderType.CutterOnly: cutterOnly.Add(colliderData);break;
+            default: cuttedAndCutter.Add(colliderData); break;
+        }
     }
+
+    private void Awake()
+    {
+        exist = true;
+    }
+    private void OnDestroy()
+    {
+        exist = false;
+    }
+
 
     void LateUpdate()
     {
-        //ポリゴン同士が重なっているか判定して重なっていたらOncollisionを実行
-        foreach (ColliderInputData pWeapon in playerWeapon)
-        {
-            foreach (ColliderInputData eWeapon in enemyWeapon)
-            {
 
-                CollisionCheck(pWeapon, eWeapon);
+        SetCollision();
+
+        for(int i = 0; i < cuttedAndCutter.Count; i++)
+        {
+            ColliderInfo cutted_cutter = cuttedAndCutter[i];
+            foreach(ColliderInfo cutted in cuttedOnly)
+            {
+                CollisionCheck(cutted_cutter, cutted);
             }
 
-            foreach (ColliderInputData eBody in enemyBody)
+            for (int j = i + 1; j < cuttedAndCutter.Count; j++)
             {
-
-                CollisionCheck(pWeapon, eBody);
+                CollisionCheck(cutted_cutter, cuttedAndCutter[j]);
             }
         }
 
-
-        foreach (ColliderInputData pBody in playerBody)
+        foreach(ColliderInfo cutter in cutterOnly)
         {
-            foreach (ColliderInputData eWeapon in enemyWeapon)
+            foreach (ColliderInfo cutted in cuttedOnly)
             {
-
-                CollisionCheck(pBody, eWeapon);
+                CollisionCheck(cutter, cutted);
+            }
+            foreach(ColliderInfo cutted_cutter in cuttedAndCutter)
+            {
+                CollisionCheck(cutter, cutted_cutter);
             }
         }
-
 
         Clear();
     }
 
-    void CollisionCheck(ColliderInputData A, ColliderInputData B)
+    void CollisionCheck(ColliderInfo A, ColliderInfo B)
     {
         foreach (Polygon polygonA in A.polygons)
         {
@@ -96,12 +112,13 @@ public class CollisionManager : MonoBehaviour
         }
     }
 
-    void CollisionDetection(ColliderInputData A, ColliderInputData B, Polygon polygonA, Polygon polygonB, Vector3 hitPoint)
+    void CollisionDetection(ColliderInfo A, ColliderInfo B, Polygon polygonA, Polygon polygonB, Vector3 hitPoint)
     {
-        CollisionInfo collisionInfoA = new CollisionInfo(polygonB, hitPoint, B.collisionObject.ColliderType);
-        CollisionInfo collisionInfoB = new CollisionInfo(polygonA, hitPoint, A.collisionObject.ColliderType);
-        A.collisionObject.OnCollision(collisionInfoA);
-        B.collisionObject.OnCollision(collisionInfoB);
+        A.hitPoint = B.hitPoint = hitPoint;
+        A.hitPolygon = polygonA;
+        B.hitPolygon = polygonB;
+        A.polygonCollider.OnCollision(B);
+        B.polygonCollider.OnCollision(A);
     }
 
 
@@ -245,109 +262,130 @@ public class CollisionManager : MonoBehaviour
 
     void Clear()
     {
-        playerBody.Clear();
-        playerWeapon.Clear();
-        enemyBody.Clear();
-        enemyWeapon.Clear();
+        cuttedAndCutter.Clear();
+        cuttedOnly.Clear();
+        cutterOnly.Clear();
     }
 
 }
 
-public class ColliderInputData
+public class ColliderInfo
 {
     public Polygon[] polygons;
-    public CollisionObject collisionObject;
+    public PolygonCollider polygonCollider;
+    public GameObject collisionObject;
 
-    public ColliderInputData(Polygon[] polygons, CollisionObject collisionObjectInstance)
+    public Polygon hitPolygon;
+    public Vector3 hitPoint;
+
+    public ColliderInfo(Polygon[] polygons, PolygonCollider collisionObjectInstance,GameObject obj)
     {
         this.polygons = polygons;
-        collisionObject = collisionObjectInstance;
+        polygonCollider = collisionObjectInstance;
+        collisionObject = obj;
     }
-    public ColliderInputData() { }
+    public ColliderInfo() { }
 
-    public ColliderInputData SetNew(Polygon[] polygons, CollisionObject collisionObjectInstance)
+    public ColliderInfo Set(Polygon[] polygons, PolygonCollider collisionObjectInstance, GameObject obj)
     {
         this.polygons = polygons;
-        collisionObject = collisionObjectInstance;
+        polygonCollider = collisionObjectInstance;
+        collisionObject = obj;
         return this;
     }
 
 }
 
+
 public class Polygon
 {
     public Vector3[] vertices;
+    public Vector3 this[int index]
+    {
+        get
+        {
+            if (index < 0 && index > 2)
+            {
+                Debug.LogError("index must be from 0 to 2");
+            }
+            return vertices[index];
+        }
+    }
     public Polygon(Vector3 vertex1, Vector3 vertex2, Vector3 vertex3)
     {
         vertices = new Vector3[3] { vertex1, vertex2, vertex3 };
     }
-    public void SetNew(Vector3 vertex1, Vector3 vertex2, Vector3 vertex3)
+    public void Set(Vector3 vertex1, Vector3 vertex2, Vector3 vertex3)
     {
         vertices = new Vector3[3] { vertex1, vertex2, vertex3 };
     }
 }
 
-public class CollisionInfo
+public abstract class PolygonCollider : MonoBehaviour
 {
-    public Polygon polygon;
-    public Vector3 hitPoint;
-    public CollisionManager.ColliderType colliderType;
+    public bool enableCollision = true;
+    // 自分のコライダーの種類を定義する
+    [SerializeField] protected CollisionManager.ColliderType colliderType = CollisionManager.ColliderType.CuttedAndCutter; 
 
-    public CollisionInfo(Polygon _polygon, Vector3 _hitPoint, CollisionManager.ColliderType _colliderType)
+
+    protected virtual void OnEnable()
     {
-        polygon = _polygon;
-        hitPoint = _hitPoint;
-        colliderType = _colliderType;
+        CollisionManager.SetCollision += SendCollisionData;
     }
-}
+    protected virtual void OnDisable()
+    {
+        CollisionManager.SetCollision -= SendCollisionData;
+        
+    }
 
-
-
-
-public abstract class CollisionObject : MonoBehaviour
-{
-    // 自分のコライダーの種類は必ず定義する
-    public abstract CollisionManager.ColliderType ColliderType { get; }
+    /// <summary>
+    /// 衝突の判定に使うポリゴン(Vector3が3つ分の三角形)の配列を作成
+    /// </summary>
+    /// <returns></returns>
+    protected abstract Polygon[] SetPolygons();
 
     /// <summary>
     /// 衝突が検知されたらこれが呼ばれる
     /// </summary>
-    public abstract void OnCollision(CollisionInfo collisionInfo);
+    public abstract void OnCollision(ColliderInfo colliderInfo);
 
-    ColliderInputData inputData = new ColliderInputData();
-    protected void SetCollisionPlane(Polygon[] polygons)
-    {
-        CollisionManager.AddColliderDataList(inputData.SetNew(polygons, this), ColliderType);
-    }
-}
-
-public abstract class SwordCollider : CollisionObject
-{
-    public Transform start, end;
-    private Vector3 prePos_start, prePos_end;
-    public bool enableCollision = true;
-
-
-    protected virtual void Update()
+    ColliderInfo inputData = new ColliderInfo();
+    private void SendCollisionData()
     {
         if (enableCollision)
         {
-            SetCollision();
+            CollisionManager.AddColliderDataList(inputData.Set(SetPolygons(), this,this.gameObject), colliderType);
         }
+    }
+}
+
+public abstract class StickCollider : PolygonCollider
+{
+    public Transform start, end;
+    private Vector3 prePos_start, prePos_end;
+
+    protected override void OnEnable()
+    {
+        base.OnEnable();
         prePos_start = start.position;
         prePos_end = end.position;
     }
 
-    private Polygon[] polygons = new Polygon[2];
-    private void SetCollision()
-    {
 
+
+    private Polygon[] polygons = new Polygon[2];
+    protected override Polygon[] SetPolygons()
+    {
         Polygon A = new Polygon(prePos_start, prePos_end, start.position);
         Polygon B = new Polygon(start.position, end.position, prePos_end);
         polygons[0] = A;
         polygons[1] = B;
 
-        SetCollisionPlane(polygons);
+        prePos_start = start.position;
+        prePos_end = end.position;
+
+        return polygons;
+
     }
 
 }
