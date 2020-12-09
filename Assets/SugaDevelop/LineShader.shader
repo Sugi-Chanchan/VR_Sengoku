@@ -14,7 +14,7 @@
 
 	   Pass{
 
-			Cull Back
+			Cull Off
 			CGPROGRAM
 
 

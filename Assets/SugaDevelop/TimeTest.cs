@@ -57,13 +57,14 @@ public class TimeTest : MonoBehaviour
 
                 //ここから
 
-                bool b;
+
+                (int, int) tuple=(0,0);
                 for(int i = 0; i < num; i++)
                 {
-                    b = arrayA[i].other != null;
+                    tuple = (i%2, i%10);
                 }
 
-
+                int a = tuple.Item2;
 
 
                 //ここまで
@@ -81,15 +82,15 @@ public class TimeTest : MonoBehaviour
                 //ここから
 
 
-                bool b;
+                (int, int) tuple = (0, 0);
+
                 for (int i = 0; i < num; i++)
                 {
-                    b = arrayA[i].num==1000;
+                    tuple.Item1 = i % 2;
+                    tuple.Item2 = i % 10;
                 }
 
-
-
-
+                int a = tuple.Item2;
                 //ここまで
 
             }

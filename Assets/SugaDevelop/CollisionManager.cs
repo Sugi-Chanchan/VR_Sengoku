@@ -20,7 +20,7 @@ public class CollisionManager : MonoBehaviour
     private static List<ColliderInfo> cuttedAndCutter = new List<ColliderInfo>();
     private static List<ColliderInfo> cuttedOnly = new List<ColliderInfo>();
     private static List<ColliderInfo> cutterOnly = new List<ColliderInfo>();
-    public static bool exist=false;
+    public static bool exist = false;
 
     //アニメーションより後で当たり判定を出すならLateUpdate内でこれを実行して, かつスクリプトの実行順でCollisionManagerが最後に来るようにする必要がある.
     public static void AddColliderDataList(ColliderInfo colliderData, ColliderType colliderType) //dictinaryとEnumを使ってポリゴンを追加する関数をかいた
@@ -30,7 +30,7 @@ public class CollisionManager : MonoBehaviour
         {
             case ColliderType.CuttedAndCutter: cuttedAndCutter.Add(colliderData); break;
             case ColliderType.CuttedOnly: cuttedOnly.Add(colliderData); break;
-            case ColliderType.CutterOnly: cutterOnly.Add(colliderData);break;
+            case ColliderType.CutterOnly: cutterOnly.Add(colliderData); break;
             default: cuttedAndCutter.Add(colliderData); break;
         }
     }
@@ -50,10 +50,10 @@ public class CollisionManager : MonoBehaviour
 
         SetCollision();
 
-        for(int i = 0; i < cuttedAndCutter.Count; i++)
+        for (int i = 0; i < cuttedAndCutter.Count; i++)
         {
             ColliderInfo cutted_cutter = cuttedAndCutter[i];
-            foreach(ColliderInfo cutted in cuttedOnly)
+            foreach (ColliderInfo cutted in cuttedOnly)
             {
                 CollisionCheck(cutted_cutter, cutted);
             }
@@ -64,13 +64,13 @@ public class CollisionManager : MonoBehaviour
             }
         }
 
-        foreach(ColliderInfo cutter in cutterOnly)
+        foreach (ColliderInfo cutter in cutterOnly)
         {
             foreach (ColliderInfo cutted in cuttedOnly)
             {
                 CollisionCheck(cutter, cutted);
             }
-            foreach(ColliderInfo cutted_cutter in cuttedAndCutter)
+            foreach (ColliderInfo cutted_cutter in cuttedAndCutter)
             {
                 CollisionCheck(cutter, cutted_cutter);
             }
@@ -79,7 +79,7 @@ public class CollisionManager : MonoBehaviour
         Clear();
     }
 
-    void CollisionCheck(ColliderInfo A, ColliderInfo B)
+    void CollisionCheck3(ColliderInfo A, ColliderInfo B)
     {
         foreach (Polygon polygonA in A.polygons)
         {
@@ -93,7 +93,7 @@ public class CollisionManager : MonoBehaviour
                 {
                     if (OverrapCheck(polygonA.vertices[0], _triangleVector1, _triangleVector2, polygonB.vertices[i], polygonB.vertices[(i + 1) % 3] - polygonB.vertices[i], out hitPoint))
                     {
-                        CollisionDetection(A, B, polygonA, polygonB, hitPoint);
+                        CollisionDetection(A, B, polygonA, polygonB, new Vector3[2] { hitPoint, Vector3.zero });
                         return;
                     };
                 }
@@ -104,7 +104,7 @@ public class CollisionManager : MonoBehaviour
                 {
                     if (OverrapCheck(polygonB.vertices[0], _triangleVector1, _triangleVector2, polygonA.vertices[i], polygonA.vertices[(i + 1) % 3] - polygonA.vertices[i], out hitPoint))
                     {
-                        CollisionDetection(A, B, polygonA, polygonB, hitPoint);
+                        CollisionDetection(A, B, polygonA, polygonB, new Vector3[2] { hitPoint, Vector3.zero });
                         return;
                     };
                 }
@@ -112,9 +112,329 @@ public class CollisionManager : MonoBehaviour
         }
     }
 
-    void CollisionDetection(ColliderInfo A, ColliderInfo B, Polygon polygonA, Polygon polygonB, Vector3 hitPoint)
+    static Vector3 intersectionA0, intersectionA1, intersectionB0, intersectionB1;
+    static Vector3[] hitPoints = new Vector3[2];
+    const float threshold = 0.000000001f;
+    void CollisionCheck(ColliderInfo A, ColliderInfo B)
     {
-        A.hitPoint = B.hitPoint = hitPoint;
+        foreach (Polygon polygonA in A.polygons)
+        {
+            foreach (Polygon polygonB in B.polygons)
+            {
+                if (CoarseCheck(polygonA, polygonB))
+                {
+                    float A0x = intersectionA0.x;
+                    float A1x = intersectionA1.x;
+                    float B0x;
+                    float B1x;
+                    if ((A0x - A1x) * (A0x - A1x) < threshold)
+                    {
+                        A0x = intersectionA0.y;
+                        A1x = intersectionA1.y;
+                        if ((A0x - A1x) * (A0x - A1x) < threshold)
+                        {
+                            A0x = intersectionA0.z;
+                            A1x = intersectionA1.z;
+                            B0x = intersectionB0.z;
+                            B1x = intersectionB1.z;
+                        }
+                        else
+                        {
+                            B0x = intersectionB0.y;
+                            B1x = intersectionB1.y;
+                        }
+                    }
+                    else
+                    {
+                        B0x = intersectionB0.x;
+                        B1x = intersectionB1.x;
+                    }
+
+                    if (A0x < A1x)
+                    {
+                        if (A1x < B1x)
+                        {
+                            if (A1x < B0x)
+                            {
+                                continue;
+                            }
+                            else
+                            {
+                                if (A0x > B0x)
+                                {
+                                    hitPoints[0] = intersectionA0;
+                                    hitPoints[1] = intersectionA1;
+                                }
+                                else
+                                {
+                                    hitPoints[0] = intersectionB0;
+                                    hitPoints[1] = intersectionA1;
+                                }
+                            }
+                        }
+                        else
+                        {
+                            if (A1x < B0x)
+                            {
+                                if (A0x > B1x)
+                                {
+                                    hitPoints[0] = intersectionA0;
+                                    hitPoints[1] = intersectionA1;
+                                }
+                                else
+                                {
+                                    hitPoints[0] = intersectionB1;
+                                    hitPoints[1] = intersectionA1;
+                                }
+                            }
+                            else
+                            {
+                                if (B0x < A0x)
+                                {
+                                    if (B1x < A0x) { continue; }
+                                    else
+                                    {
+                                        hitPoints[0] = intersectionB1;
+                                        hitPoints[1] = intersectionA0;
+                                    }
+                                }
+                                else
+                                {
+                                    if (B1x < A0x)
+                                    {
+                                        hitPoints[0] = intersectionB0;
+                                        hitPoints[1] = intersectionA0;
+                                    }
+                                    else
+                                    {
+                                        hitPoints[0] = intersectionB0;
+                                        hitPoints[1] = intersectionB1;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    else
+                    {
+                        if (A0x < B1x)
+                        {
+                            if (A0x < B0x)
+                            {
+                                continue;
+                            }
+                            else
+                            {
+                                if (A1x > B0x)
+                                {
+                                    hitPoints[0] = intersectionA0;
+                                    hitPoints[1] = intersectionA1;
+                                }
+                                else
+                                {
+                                    hitPoints[0] = intersectionB0;
+                                    hitPoints[1] = intersectionA0;
+                                }
+                            }
+                        }
+                        else
+                        {
+                            if (A0x < B0x)
+                            {
+                                if (A1x > B1x)
+                                {
+                                    hitPoints[0] = intersectionA0;
+                                    hitPoints[1] = intersectionA1;
+                                }
+                                else
+                                {
+                                    hitPoints[0] = intersectionB1;
+                                    hitPoints[1] = intersectionA0;
+                                }
+                            }
+                            else
+                            {
+                                if (B0x < A1x)
+                                {
+                                    if (B1x < A1x) { continue; }
+                                    else
+                                    {
+                                        hitPoints[0] = intersectionB1;
+                                        hitPoints[1] = intersectionA1;
+                                    }
+                                }
+                                else
+                                {
+                                    if (B1x < A1x)
+                                    {
+                                        hitPoints[0] = intersectionB0;
+                                        hitPoints[1] = intersectionA1;
+                                    }
+                                    else
+                                    {
+                                        hitPoints[0] = intersectionB0;
+                                        hitPoints[1] = intersectionB1;
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    CollisionDetection(A, B, polygonA, polygonB, hitPoints);
+
+                }
+            }
+        }
+
+
+        bool CoarseCheck(Polygon polygonA, Polygon polygonB)
+        {
+            Vector3 normal = polygonB.normal;
+            Vector3 anchor = polygonB[0];
+            (float side1D_1, float side1D_2, float side2D, Vector3 side1Pos_1, Vector3 side1Pos_2, Vector3 side2Pos) AInfo;
+            float d0, d1, d2;
+
+            Vector3[] poss = polygonA.vertices;
+            Vector3 pos0 = poss[0];
+            Vector3 pos1 = poss[1];
+            Vector3 pos2 = poss[2];
+            d0 = Vector3.Dot(normal, pos0 - anchor);
+            d1 = Vector3.Dot(normal, pos1 - anchor);
+            d2 = Vector3.Dot(normal, pos2 - anchor);
+            if (d0 > 0)
+            {
+                if (d1 > 0)
+                {
+                    if (d2 > 0)
+                    {
+                        return false;
+                    }
+                    else
+                    {
+                        AInfo = (d0, d1, -d2, pos0, pos1, pos2);
+                    }
+                }
+                else
+                {
+                    if (d2 > 0)
+                    {
+                        AInfo = (d0, d2, -d1, pos0, pos2, pos1);
+                    }
+                    else
+                    {
+                        AInfo = (-d1, -d2, d0, pos1, pos2, pos0);
+                    }
+                }
+            }
+            else
+            {
+                if (d1 > 0)
+                {
+                    if (d2 > 0)
+                    {
+                        AInfo = (d1, d2, -d0, pos1, pos2, pos0);
+                    }
+                    else
+                    {
+                        AInfo = (-d0, -d2, d1, pos0, pos2, pos1);
+                    }
+                }
+                else
+                {
+                    if (d2 > 0)
+                    {
+                        AInfo = (-d0, -d1, d2, pos0, pos1, pos2);
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+            }
+
+
+
+            normal = polygonA.normal;
+            anchor = polygonA[0];
+            (float side1D_1, float side1D_2, float side2D, Vector3 side1Pos_1, Vector3 side1Pos_2, Vector3 side2Pos) BInfo;
+
+            pos0 = polygonB[0];
+            pos1 = polygonB[1];
+            pos2 = polygonB[2];
+            d0 = Vector3.Dot(normal, pos0 - anchor);
+            d1 = Vector3.Dot(normal, pos1 - anchor);
+            d2 = Vector3.Dot(normal, pos2 - anchor);
+            if (d0 > 0)
+            {
+                if (d1 > 0)
+                {
+                    if (d2 > 0)
+                    {
+                        return false;
+                    }
+                    else
+                    {
+                        BInfo = (d0, d1, -d2, pos0, pos1, pos2);
+                    }
+                }
+                else
+                {
+                    if (d2 > 0)
+                    {
+                        BInfo = (d0, d2, -d1, pos0, pos2, pos1);
+                    }
+                    else
+                    {
+                        BInfo = (-d1, -d2, d0, pos1, pos2, pos0);
+                    }
+                }
+            }
+            else
+            {
+                if (d1 > 0)
+                {
+                    if (d2 > 0)
+                    {
+                        BInfo = (d1, d2, -d0, pos1, pos2, pos0);
+                    }
+                    else
+                    {
+                        BInfo = (-d0, -d2, d1, pos0, pos2, pos1);
+                    }
+                }
+                else
+                {
+                    if (d2 > 0)
+                    {
+                        BInfo = (-d0, -d1, d2, pos0, pos1, pos2);
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+            }
+
+            float dNormalized = AInfo.side1D_1 / (AInfo.side1D_1 + AInfo.side2D);
+            intersectionA0 = (1 - dNormalized) * AInfo.side1Pos_1 + dNormalized * AInfo.side2Pos;
+            dNormalized = AInfo.side1D_2 / (AInfo.side1D_2 + AInfo.side2D);
+            intersectionA1 = (1 - dNormalized) * AInfo.side1Pos_2 + dNormalized * AInfo.side2Pos;
+
+            dNormalized = BInfo.side1D_1 / (BInfo.side1D_1 + BInfo.side2D);
+            intersectionB0 = (1 - dNormalized) * BInfo.side1Pos_1 + dNormalized * BInfo.side2Pos;
+            dNormalized = BInfo.side1D_2 / (BInfo.side1D_2 + BInfo.side2D);
+            intersectionB1 = (1 - dNormalized) * BInfo.side1Pos_2 + dNormalized * BInfo.side2Pos;
+
+            return true;
+        }
+
+    }
+
+
+
+
+    void CollisionDetection(ColliderInfo A, ColliderInfo B, Polygon polygonA, Polygon polygonB, Vector3[] hitPoints)
+    {
+        A.hitPoints = B.hitPoints = hitPoints;
         A.hitPolygon = polygonA;
         B.hitPolygon = polygonB;
         A.polygonCollider.OnCollision(B);
@@ -276,9 +596,19 @@ public class ColliderInfo
     public GameObject collisionObject;
 
     public Polygon hitPolygon;
-    public Vector3 hitPoint;
-
-    public ColliderInfo(Polygon[] polygons, PolygonCollider collisionObjectInstance,GameObject obj)
+    private Vector3[] hitpoints;
+    public Vector3[] hitPoints
+    {
+        get
+        {
+            return new Vector3[2] { hitpoints[0], hitpoints[1] };
+        }
+        set
+        {
+            hitpoints = value;
+        }
+    }
+    public ColliderInfo(Polygon[] polygons, PolygonCollider collisionObjectInstance, GameObject obj)
     {
         this.polygons = polygons;
         polygonCollider = collisionObjectInstance;
@@ -300,6 +630,7 @@ public class ColliderInfo
 public class Polygon
 {
     public Vector3[] vertices;
+    public Vector3 normal;
     public Vector3 this[int index]
     {
         get
@@ -311,13 +642,64 @@ public class Polygon
             return vertices[index];
         }
     }
+    public Polygon() { vertices = new Vector3[3]; }
     public Polygon(Vector3 vertex1, Vector3 vertex2, Vector3 vertex3)
     {
         vertices = new Vector3[3] { vertex1, vertex2, vertex3 };
+        MakeNormal();
     }
     public void Set(Vector3 vertex1, Vector3 vertex2, Vector3 vertex3)
     {
-        vertices = new Vector3[3] { vertex1, vertex2, vertex3 };
+        vertices[0] = vertex1;
+        vertices[1] = vertex2;
+        vertices[2] = vertex3;
+        MakeNormal();
+    }
+
+    private void MakeNormal()
+    {
+        var vertex0 = vertices[0];
+        var vertex1 = vertices[1];
+        var vertex2 = vertices[2];
+        normal = new Vector3(
+           vertex0.z * (vertex2.y - vertex1.y) + vertex1.z * (vertex0.y - vertex2.y) + vertex2.z * (vertex1.y - vertex0.y),
+           vertex0.x * (vertex2.z - vertex1.z) + vertex1.x * (vertex0.z - vertex2.z) + vertex2.x * (vertex1.z - vertex0.z),
+           vertex0.y * (vertex2.x - vertex1.x) + vertex1.y * (vertex0.x - vertex2.x) + vertex2.y * (vertex1.x - vertex0.x)
+           );
+        float magnitude = normal.magnitude;
+        if (magnitude != 0)
+        {
+            normal.x /= magnitude;
+            normal.y /= magnitude;
+            normal.z /= magnitude;
+        }
+        else
+        {
+            normal = new Vector3(vertex0.y - vertex1.y, vertex1.x - vertex0.x, 0);
+            magnitude = normal.magnitude;
+            if (magnitude != 0)
+            {
+                normal.x /= magnitude;
+                normal.y /= magnitude;
+                normal.z /= magnitude;
+            }
+            else
+            {
+                normal = new Vector3(vertex2.y - vertex1.y, vertex1.x - vertex2.x, 0);
+                magnitude = normal.magnitude;
+                if (magnitude != 0)
+                {
+                    normal.x /= magnitude;
+                    normal.y /= magnitude;
+                    normal.z /= magnitude;
+                }
+                else
+                {
+                    normal = new Vector3(0, 0, 1);
+                }
+            }
+        }
+        //Debug.Log(normal);
     }
 }
 
@@ -325,7 +707,7 @@ public abstract class PolygonCollider : MonoBehaviour
 {
     public bool enableCollision = true;
     // 自分のコライダーの種類を定義する
-    [SerializeField] protected CollisionManager.ColliderType colliderType = CollisionManager.ColliderType.CuttedAndCutter; 
+    [SerializeField] protected CollisionManager.ColliderType colliderType = CollisionManager.ColliderType.CuttedAndCutter;
 
 
     protected virtual void OnEnable()
@@ -335,7 +717,7 @@ public abstract class PolygonCollider : MonoBehaviour
     protected virtual void OnDisable()
     {
         CollisionManager.SetCollision -= SendCollisionData;
-        
+
     }
 
     /// <summary>
@@ -354,7 +736,7 @@ public abstract class PolygonCollider : MonoBehaviour
     {
         if (enableCollision)
         {
-            CollisionManager.AddColliderDataList(inputData.Set(SetPolygons(), this,this.gameObject), colliderType);
+            CollisionManager.AddColliderDataList(inputData.Set(SetPolygons(), this, this.gameObject), colliderType);
         }
     }
 }
@@ -363,6 +745,15 @@ public abstract class StickCollider : PolygonCollider
 {
     public Transform start, end;
     private Vector3 prePos_start, prePos_end;
+
+    protected void SetStartPos(Vector3 pos)
+    {
+        start.position = pos;
+    }
+    protected void SetEndPos(Vector3 pos)
+    {
+        end.position = pos;
+    }
 
     protected override void OnEnable()
     {
@@ -389,4 +780,5 @@ public abstract class StickCollider : PolygonCollider
     }
 
 }
+
 
