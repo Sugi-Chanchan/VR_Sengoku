@@ -50,7 +50,7 @@ public class MeshCut : MonoBehaviour
     /// <param name="planeNormalDirection">切断面の法線</param>
     /// <param name="makeCutSurface">切断後にMeshを縫い合わせるか否か(切断面が2つ以上できるときはfalseにしてシェーダーのCull Frontで切断面を表示するようにする)</param>
     /// <returns></returns>
-    public static Mesh[] CutMesh(Mesh targetMesh, Transform targetTransform, Vector3 planeAnchorPoint, Vector3 planeNormalDirection, bool makeCutSurface = true, Material cutSurfaceMaterial = null)
+    private static (Mesh frontside, Mesh backside) CutMesh(Mesh targetMesh, Transform targetTransform, Vector3 planeAnchorPoint, Vector3 planeNormalDirection, bool makeCutSurface = true, bool addNewMaterial_in_Renderer = false)
     {
         if (planeNormalDirection == Vector3.zero)
         {
@@ -58,7 +58,7 @@ public class MeshCut : MonoBehaviour
 
             Mesh empty = new Mesh();
             empty.vertices = new Vector3[] { };
-            return new Mesh[2]{ targetMesh,empty};
+            return (null, null);
         }
 
         //初期化
@@ -151,7 +151,20 @@ public class MeshCut : MonoBehaviour
             _backVertices.unsafe_count = backCount;
             _backNormals.unsafe_count = backCount;
             _backUVs.unsafe_count = backCount;
+
+
+
+            if (frontCount == 0 || backCount == 0)
+            {
+                return (null, null);
+            }
         }
+
+
+
+
+
+
 
         //次に, 三角ポリゴンの情報を追加していく
         int submeshCount = _targetMesh.subMeshCount;
@@ -219,48 +232,19 @@ public class MeshCut : MonoBehaviour
         }
 
 
+
+
+
         fragmentList.MakeTriangle();//切断されたポリゴンはここでそれぞれのMeshに追加される
 
         if (makeCutSurface)
         {
-            if (cutSurfaceMaterial == null)//特に切断面のマテリアル指定がなければ0番のマテリアルを当てる
+            if (addNewMaterial_in_Renderer)
             {
-                roopCollection.MakeCutSurface(0);//切断面を縫い合わせる
+                _frontSubmeshIndices.Add(new UnsafeList<int>(20));//submeshが増えるのでリスト追加
+                _backSubmeshIndices.Add(new UnsafeList<int>(20));
             }
-            else
-            {
-                MeshRenderer renderer;
-                if (renderer = targetTransform.GetComponent<MeshRenderer>())
-                {
-                    Material[] mats = renderer.materials;
-                    int matLength = mats.Length;
-                    if (mats[matLength - 1]?.name == cutSurfaceMaterial.name)//すでに切断マテリアルが追加されているときはそれを使うので追加しない
-                    {
-                        roopCollection.MakeCutSurface(matLength - 1);
-                    }
-                    else
-                    {
-                        Material[] newMats = new Material[matLength + 1];
-                        mats.CopyTo(newMats, 0);
-                        newMats[matLength] = cutSurfaceMaterial;
-
-
-                        renderer.materials = newMats;
-                        renderer.materials[matLength].name = cutSurfaceMaterial.name;//prefabのインスタンス化などで名前が変わってしまうことを防ぐ
-
-
-                        _frontSubmeshIndices.Add(new UnsafeList<int>(20));//submeshが増えるのでリスト追加
-                        _backSubmeshIndices.Add(new UnsafeList<int>(20));
-                        roopCollection.MakeCutSurface(matLength);//マテリアル追加
-                    }
-                }
-                else
-                {
-                    Debug.LogError("plese set MeshRenderer in target object");
-                    roopCollection.MakeCutSurface(0);
-                }
-            }
-
+            roopCollection.MakeCutSurface(_frontSubmeshIndices.Count - 1);
         }
 
         //2つのMeshを新規に作ってそれぞれに情報を追加して出力
@@ -303,10 +287,9 @@ public class MeshCut : MonoBehaviour
             //backMesh.SetIndices(_backSubmeshIndices[i].unsafe_array, 0, _backSubmeshIndices[i].unsafe_count, MeshTopology.Triangles, i, false);//unity2019.4以降
         }
 
-        //Destroy(_targetMesh); //明示的に消してあげることでガベコレの処理が軽くなるかも?
 
 
-        return new Mesh[2] { frontMesh, backMesh };
+        return (frontMesh, backMesh);
     }
 
     /// <summary>
@@ -318,61 +301,81 @@ public class MeshCut : MonoBehaviour
     /// <param name="planeNormalDirection">切断平面の法線</param>
     /// <param name="makeCutSurface">切断面を作るかどうか</param>
     /// <returns></returns>
-    public static GameObject[] CutMesh(GameObject targetGameObject, Vector3 planeAnchorPoint, Vector3 planeNormalDirection, bool makeCutSurface = true, Material cutSurfaceMaterial = null)
+    public static (GameObject copy_normalside, GameObject original_anitiNormalside) CutMesh(GameObject targetGameObject, Vector3 planeAnchorPoint, Vector3 planeNormalDirection, bool makeCutSurface = true, Material cutSurfaceMaterial = null)
     {
         if (!targetGameObject.GetComponent<MeshFilter>())
         {
             Debug.LogError("引数のオブジェクトにはMeshFilterをアタッチしろ!");
-            return null;
+            return (null, null);
         }
         else if (!targetGameObject.GetComponent<MeshRenderer>())
         {
             Debug.LogError("引数のオブジェクトにはMeshrendererをアタッチしろ!");
-            return null;
+            return (null, null);
         }
 
         Mesh mesh = targetGameObject.GetComponent<MeshFilter>().mesh;
         Transform transform = targetGameObject.transform;
-
-        Mesh[] meshes = CutMesh(mesh, transform, planeAnchorPoint, planeNormalDirection, makeCutSurface, cutSurfaceMaterial);
-
-        Mesh mesh0 = meshes[0];
-        Mesh mesh1 = meshes[1];
-
-        if (mesh0.vertexCount == 0)
+        bool addNewMaterial;
+        
+        MeshRenderer renderer = targetGameObject.GetComponent<MeshRenderer>();
+        //materialにアクセスするとその瞬間にmaterialの個別のインスタンスが作られてマテリアル名に(instance)がついてしまうので読み込みはsharedMaterialで行う
+        Material[] mats = renderer.sharedMaterials;
+        if (makeCutSurface && cutSurfaceMaterial != null)
         {
-            Debug.LogWarning("cut plane don't cross the target object");
-            return new GameObject[2] { null, targetGameObject };
+            if (mats[mats.Length - 1]?.name == cutSurfaceMaterial.name)//すでに切断マテリアルが追加されているときはそれを使うので追加しない
+            {
+                addNewMaterial = false;
+            }
+            else
+            {
+                addNewMaterial = true;
+            }
         }
-        else if (mesh1.vertexCount == 0)
+        else
         {
-            Debug.LogWarning("cut plane don't cross the target object");
-            return new GameObject[2] { targetGameObject, null };
+            addNewMaterial = false;
+        }
+
+        (Mesh fragMesh, Mesh originMesh) = CutMesh(mesh, transform, planeAnchorPoint, planeNormalDirection, makeCutSurface, addNewMaterial);
+
+
+        if (originMesh == null || fragMesh == null)
+        {
+            return (null, null);
+
+        }
+        if (addNewMaterial)
+        {
+            int matLength = mats.Length;
+            Material[] newMats = new Material[matLength + 1];
+            mats.CopyTo(newMats, 0);
+            newMats[matLength] = cutSurfaceMaterial;
+
+
+            renderer.sharedMaterials = newMats;
         }
 
 
-        targetGameObject.GetComponent<MeshFilter>().mesh = mesh0;
+        targetGameObject.GetComponent<MeshFilter>().mesh = originMesh;
 
         //GameObject fragment = new GameObject("Fragment", typeof(MeshFilter), typeof(MeshRenderer));
-        GameObject fragment = Instantiate(targetGameObject);
-        fragment.transform.parent = targetGameObject.transform.parent;
-        fragment.transform.localPosition = targetGameObject.transform.localPosition;
-        fragment.transform.localRotation = targetGameObject.transform.localRotation;
-        fragment.transform.localScale = targetGameObject.transform.localScale;
+        Transform originTransform = targetGameObject.transform;
+        GameObject fragment = Instantiate(targetGameObject, originTransform.position, originTransform.rotation, originTransform.parent);
         fragment.transform.parent = null;
-        fragment.GetComponent<MeshFilter>().mesh = mesh1;
-        fragment.GetComponent<MeshRenderer>().materials = targetGameObject.GetComponent<MeshRenderer>().materials;
+        fragment.GetComponent<MeshFilter>().mesh = fragMesh;
+        fragment.GetComponent<MeshRenderer>().sharedMaterials = targetGameObject.GetComponent<MeshRenderer>().sharedMaterials;
 
         if (targetGameObject.GetComponent<MeshCollider>())
         {
             //頂点が1点に重なっている場合にはエラーが出るので, 直したい場合はmesh.RecalculateBoundsのあとでmesh.bounds.size.magnitude<0.00001などで条件分けして対処してください
-            targetGameObject.GetComponent<MeshCollider>().sharedMesh = mesh0;
-            fragment.GetComponent<MeshCollider>().sharedMesh = mesh1;
-
+            targetGameObject.GetComponent<MeshCollider>().sharedMesh = originMesh;
+            fragment.GetComponent<MeshCollider>().sharedMesh = fragMesh;
         }
 
 
-        return new GameObject[2] { targetGameObject, fragment };
+
+        return (fragment, targetGameObject);
 
     }
 
@@ -1115,18 +1118,6 @@ public class MeshCut : MonoBehaviour
             }
         }
 
-        public void SetCount_Unsafe(int _count)
-        {
-            if (capacity < _count)
-            {
-                var temp = new T[_count];
-                Array.Copy(unsafe_array, temp, _count);
-                unsafe_array = temp;
-                capacity = _count;
-            }
-            unsafe_count = _count;
-        }
-
 
         public void Add(T value)
         {
@@ -1213,4 +1204,3 @@ public class MeshCut : MonoBehaviour
         return cutLineX | cutLineY | cutLineZ;
     }
 }
-

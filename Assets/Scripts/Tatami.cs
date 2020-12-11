@@ -75,11 +75,18 @@ public class Tatami : MonoBehaviour
             //print(hitPos);
             print(hitNor);
         }
+<<<<<<< HEAD
         if (other.transform.tag == ("Blade") && bladesDirection[0].magnitude > 0.2) {
             GameObject[] barabaraTatami = MeshCut.CutMesh(tatamiTransform.gameObject, hitPos, bladesDirection[0], true);
             Rigidbody fragRigid = barabaraTatami[1].AddComponent<Rigidbody>();
             fragRigid.useGravity = true;
             fragRigid.isKinematic = false;
+=======
+        if (other.transform.tag == ("Blade")) {
+            print("iku---");
+            (GameObject fragment,GameObject original) = MeshCut.CutMesh(tatami.gameObject, tatami.transform.position + Vector3.up, hitPos, true);
+            fragment.AddComponent<Rigidbody>();
+>>>>>>> origin/Suga
         }
     }
 }

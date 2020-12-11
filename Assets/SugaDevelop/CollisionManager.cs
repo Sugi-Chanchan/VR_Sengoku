@@ -8,6 +8,8 @@ public delegate void SetCollisionHandler();
 public class CollisionManager : MonoBehaviour
 {
 
+    
+
     public static event SetCollisionHandler SetCollision;
 
     public enum ColliderType
@@ -280,7 +282,7 @@ public class CollisionManager : MonoBehaviour
                     }
 
                     CollisionDetection(A, B, polygonA, polygonB, hitPoints);
-
+                    return;
                 }
             }
         }
@@ -297,9 +299,13 @@ public class CollisionManager : MonoBehaviour
             Vector3 pos0 = poss[0];
             Vector3 pos1 = poss[1];
             Vector3 pos2 = poss[2];
-            d0 = Vector3.Dot(normal, pos0 - anchor);
-            d1 = Vector3.Dot(normal, pos1 - anchor);
-            d2 = Vector3.Dot(normal, pos2 - anchor);
+            float anc = normal.x * anchor.x + normal.y * anchor.y + normal.z * anchor.z;
+            d0 = normal.x * pos0.x + normal.y * pos0.y + normal.z * pos0.z-anc;
+            d1 = normal.x * pos1.x + normal.y * pos1.y + normal.z * pos1.z-anc;
+            d2 = normal.x * pos2.x + normal.y * pos2.y + normal.z * pos2.z-anc;
+            //d0 = Vector3.Dot(normal, pos0 - anchor);
+            //d1 = Vector3.Dot(normal, pos1 - anchor);
+            //d2 = Vector3.Dot(normal, pos2 - anchor);
             if (d0 > 0)
             {
                 if (d1 > 0)
@@ -357,12 +363,17 @@ public class CollisionManager : MonoBehaviour
             anchor = polygonA[0];
             (float side1D_1, float side1D_2, float side2D, Vector3 side1Pos_1, Vector3 side1Pos_2, Vector3 side2Pos) BInfo;
 
-            pos0 = polygonB[0];
-            pos1 = polygonB[1];
-            pos2 = polygonB[2];
-            d0 = Vector3.Dot(normal, pos0 - anchor);
-            d1 = Vector3.Dot(normal, pos1 - anchor);
-            d2 = Vector3.Dot(normal, pos2 - anchor);
+            poss = polygonB.vertices;
+            pos0 = poss[0];
+            pos1 = poss[1];
+            pos2 = poss[2];
+            anc = normal.x * anchor.x + normal.y * anchor.y + normal.z * anchor.z;
+            d0 = normal.x * pos0.x + normal.y * pos0.y + normal.z * pos0.z - anc;
+            d1 = normal.x * pos1.x + normal.y * pos1.y + normal.z * pos1.z - anc;
+            d2 = normal.x * pos2.x + normal.y * pos2.y + normal.z * pos2.z - anc;
+            //d0 = Vector3.Dot(normal, pos0 - anchor);
+            //d1 = Vector3.Dot(normal, pos1 - anchor);
+            //d2 = Vector3.Dot(normal, pos2 - anchor);
             if (d0 > 0)
             {
                 if (d1 > 0)
@@ -426,6 +437,9 @@ public class CollisionManager : MonoBehaviour
 
             return true;
         }
+
+
+        
 
     }
 
@@ -587,13 +601,46 @@ public class CollisionManager : MonoBehaviour
         cutterOnly.Clear();
     }
 
+    //ulong a = 0b1111111111111111111111111111111111111111111111111111111111111111;
+    //static readonly ulong[] FRONTFRAG = new ulong[64] {
+    //    0b1000000000000000000000000000000000000000000000000000000000000000,
+    //    0b0100000000000000000000000000000000000000000000000000000000000000,
+    //    0b0010000000000000000000000000000000000000000000000000000000000000,
+    //    0b0001000000000000000000000000000000000000000000000000000000000000,
+    //    0b0000100000000000000000000000000000000000000000000000000000000000,
+    //    0b0000010000000000000000000000000000000000000000000000000000000000,
+    //    0b0000001000000000000000000000000000000000000000000000000000000000,
+    //    0b0000000100000000000000000000000000000000000000000000000000000000,
+    //    0b0000000010000000000000000000000000000000000000000000000000000000,
+    //    0b0000000001000000000000000000000000000000000000000000000000000000,
+    //    0b0000000000100000000000000000000000000000000000000000000000000000,
+    //    0b0000000000010000000000000000000000000000000000000000000000000000,
+    //    0b0000000000001000000000000000000000000000000000000000000000000000,
+    //    0b0000000000000100000000000000000000000000000000000000000000000000,
+    //    0b0000000000000010000000000000000000000000000000000000000000000000,
+    //    0b0000000000000001000000000000000000000000000000000000000000000000,
+    //    0b0000000000000000100000000000000000000000000000000000000000000000,
+    //    0b0000000000000000010000000000000000000000000000000000000000000000,
+    //    0b0000000000000000001000000000000000000000000000000000000000000000,
+    //    0b0000000000000000000100000000000000000000000000000000000000000000,
+    //    0b0000000000000000000010000000000000000000000000000000000000000000,
+    //    0b0000000000000000000001000000000000000000000000000000000000000000,
+    //    0b0000000000000000000000100000000000000000000000000000000000000000,
+    //    0b0000000000000000000000010000000000000000000000000000000000000000,
+    //    0b0000000000000000000000001000000000000000000000000000000000000000,
+    //}
+
 }
+
+
 
 public class ColliderInfo
 {
     public Polygon[] polygons;
     public PolygonCollider polygonCollider;
     public GameObject collisionObject;
+    public ulong COLLISION_CHECK;
+    public ulong COLLISION_CHECK_SUB;
 
     public Polygon hitPolygon;
     private Vector3[] hitpoints;
@@ -625,7 +672,6 @@ public class ColliderInfo
     }
 
 }
-
 
 public class Polygon
 {
@@ -725,6 +771,7 @@ public abstract class PolygonCollider : MonoBehaviour
     /// </summary>
     /// <returns></returns>
     protected abstract Polygon[] SetPolygons();
+    protected virtual void CollisionManagerUpdate() { }
 
     /// <summary>
     /// 衝突が検知されたらこれが呼ばれる
@@ -732,8 +779,9 @@ public abstract class PolygonCollider : MonoBehaviour
     public abstract void OnCollision(ColliderInfo colliderInfo);
 
     ColliderInfo inputData = new ColliderInfo();
-    private void SendCollisionData()
+    protected virtual void SendCollisionData()
     {
+        
         if (enableCollision)
         {
             CollisionManager.AddColliderDataList(inputData.Set(SetPolygons(), this, this.gameObject), colliderType);
@@ -772,11 +820,14 @@ public abstract class StickCollider : PolygonCollider
         polygons[0] = A;
         polygons[1] = B;
 
+        return polygons;
+    }
+
+    protected override void SendCollisionData()
+    {
+        base.SendCollisionData();
         prePos_start = start.position;
         prePos_end = end.position;
-
-        return polygons;
-
     }
 
 }
