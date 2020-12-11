@@ -337,10 +337,10 @@ public class MeshCut : MonoBehaviour
             addNewMaterial = false;
         }
 
-        (Mesh mesh0, Mesh mesh1) = CutMesh(mesh, transform, planeAnchorPoint, planeNormalDirection, makeCutSurface, addNewMaterial);
+        (Mesh fragMesh, Mesh originMesh) = CutMesh(mesh, transform, planeAnchorPoint, planeNormalDirection, makeCutSurface, addNewMaterial);
 
 
-        if (mesh0 == null || mesh1 == null)
+        if (originMesh == null || fragMesh == null)
         {
             return (null, null);
 
@@ -357,20 +357,20 @@ public class MeshCut : MonoBehaviour
         }
 
 
-        targetGameObject.GetComponent<MeshFilter>().mesh = mesh0;
+        targetGameObject.GetComponent<MeshFilter>().mesh = originMesh;
 
         //GameObject fragment = new GameObject("Fragment", typeof(MeshFilter), typeof(MeshRenderer));
         Transform originTransform = targetGameObject.transform;
         GameObject fragment = Instantiate(targetGameObject, originTransform.position, originTransform.rotation, originTransform.parent);
         fragment.transform.parent = null;
-        fragment.GetComponent<MeshFilter>().mesh = mesh1;
+        fragment.GetComponent<MeshFilter>().mesh = fragMesh;
         fragment.GetComponent<MeshRenderer>().sharedMaterials = targetGameObject.GetComponent<MeshRenderer>().sharedMaterials;
 
         if (targetGameObject.GetComponent<MeshCollider>())
         {
             //頂点が1点に重なっている場合にはエラーが出るので, 直したい場合はmesh.RecalculateBoundsのあとでmesh.bounds.size.magnitude<0.00001などで条件分けして対処してください
-            targetGameObject.GetComponent<MeshCollider>().sharedMesh = mesh0;
-            fragment.GetComponent<MeshCollider>().sharedMesh = mesh1;
+            targetGameObject.GetComponent<MeshCollider>().sharedMesh = originMesh;
+            fragment.GetComponent<MeshCollider>().sharedMesh = fragMesh;
         }
 
 

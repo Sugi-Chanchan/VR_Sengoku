@@ -39,7 +39,7 @@ public class TimeTest : MonoBehaviour
     TempA[] arrayA;
     void Set()
     {
-        ulong a = 0b1000000000000000000000000000000000000000000000000000000000000000;
+        ulong a = 0b00000000000000000000000000000000000000000000000000000000000000001;
         print(a);
         a=a << 1;
         print(a);
