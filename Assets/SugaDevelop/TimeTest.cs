@@ -39,7 +39,10 @@ public class TimeTest : MonoBehaviour
     TempA[] arrayA;
     void Set()
     {
-        
+        ulong a = 0b1000000000000000000000000000000000000000000000000000000000000000;
+        print(a);
+        a=a << 1;
+        print(a);
     }
 
     public void Test()
@@ -58,13 +61,12 @@ public class TimeTest : MonoBehaviour
                 //ここから
 
 
-                (int, int) tuple=(0,0);
+                int a;
                 for(int i = 0; i < num; i++)
                 {
-                    tuple = (i%2, i%10);
+                    a = i << 5;
                 }
 
-                int a = tuple.Item2;
 
 
                 //ここまで
@@ -82,15 +84,15 @@ public class TimeTest : MonoBehaviour
                 //ここから
 
 
-                (int, int) tuple = (0, 0);
-
-                for (int i = 0; i < num; i++)
+                ulong a;
+                var n = (ulong)num;
+                for (ulong i = 0; i < n; i++)
                 {
-                    tuple.Item1 = i % 2;
-                    tuple.Item2 = i % 10;
+                    a = i << 5;
                 }
 
-                int a = tuple.Item2;
+
+
                 //ここまで
 
             }

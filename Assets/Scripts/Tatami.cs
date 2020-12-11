@@ -60,8 +60,8 @@ public class Tatami : MonoBehaviour
         }
         if (other.transform.tag == ("Blade")) {
             print("iku---");
-            GameObject[] barabaraTatami = MeshCut.CutMesh(tatami.gameObject, tatami.transform.position + Vector3.up, hitPos, true);
-            barabaraTatami[1].AddComponent<Rigidbody>();
+            (GameObject fragment,GameObject original) = MeshCut.CutMesh(tatami.gameObject, tatami.transform.position + Vector3.up, hitPos, true);
+            fragment.AddComponent<Rigidbody>();
         }
     }
 }

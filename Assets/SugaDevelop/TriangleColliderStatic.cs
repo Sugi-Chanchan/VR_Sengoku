@@ -15,7 +15,7 @@ public class TriangleColliderStatic : PolygonCollider
 
     public override void OnCollision(ColliderInfo colliderInfo)
     {
-        //MyDebug.PutPoint("hitpoint1", colliderInfo.hitPoints[0]);
-        //MyDebug.PutPoint("hitpoint2", colliderInfo.hitPoints[1]);
+        MyDebug.PutPoint("hitpoint1", colliderInfo.hitPoints[0]);
+        MyDebug.PutPoint("hitpoint2", colliderInfo.hitPoints[1]);
     }
 }
