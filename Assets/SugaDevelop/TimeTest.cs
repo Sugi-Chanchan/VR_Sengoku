@@ -10,7 +10,49 @@ public class TimeTest : MonoBehaviour
     void Start()
     {
 
-
+        list.Add(-1);
+        list.Add(2);
+        list.Add(10);
+        list.Add(-10);
+        list.Add(2);
+        list.Add(2);
+        list.Add(2);
+        list.Add(2);
+        list.Add(2);
+        list.Add(2);
+        list.Add(2);
+        list.Add(2);
+        list.Add(2);
+        list.Add(2);
+        list.Add(2);
+        list.Add(2);
+        list.Add(2);
+        list.Add(2);
+        list.Add(2);
+        list.Add(2);
+        list.Add(2);
+        list.Add(2);
+        list.Add(2);
+        list.Add(2);
+        list.Add(2);
+        list.Add(2);
+        list.Add(2);
+        list.Add(2);
+        list.Add(2);
+        list.Add(2);
+        list.Add(2);
+        list.Add(2);
+        list.Add(2);
+        list.Add(2);
+        list.Add(2);
+        list.Add(2);
+        list.Add(2);
+        string s = "";
+        foreach (int i in list)
+        {
+            s += i + ",";
+        }
+        print(s);
 
 
         Invoke("Test", 1);
@@ -28,21 +70,16 @@ public class TimeTest : MonoBehaviour
     long[] count = new long[2];
     int turn = 0;
     int[] win = new int[2];
-    int num = 100000;
+    int num = 1000;
 
 
-    public class TempA
-    {
-        public int num;
-        public TempA other;
-    }
-    TempA[] arrayA;
-    int[] array = new int[] { 5, 1, 9, 10, 4, 23, 4, 1, 6, 3, 0, 456, 2, 4, 7, 0, 2, 4, 11 ,8264,6,5,34,16,0,46,13465,1,2,3,4,51,3};
+    int[] array = new int[] { 5, 1, 9, 10, 4, 23, 4, 1, 6, 3, 0, 456, 2, 4, 7, 0, 2, 4, 11 ,8264,6,5,34,16,0,46,13465,1,2,3,-4,-10,5,-94,51,3,6,4,3,65,2,34,52,2,35,2,5,2,334,5,23,4,25,23,45,23,52,35,32,5,23,452,35,23,53,23,5,25,3,5,6,3,747,334,734,2,-20,9183,-4212089};
+        UnsafeList<int> list = new UnsafeList<int>(5);
     void Set()
     {
-        ArraySort(array, 0, array.Length - 1);
-
-
+        //ArraySort(array, 0, array.Length - 1);
+        //PrintArray();
+        
     }
 
     public void Test()
@@ -50,7 +87,7 @@ public class TimeTest : MonoBehaviour
         Set();
 
 
-        int loop = 100;
+        int loop = 100000;
         System.Diagnostics.Stopwatch sw = new System.Diagnostics.Stopwatch();
         sw.Start();
         if (turn == 0)
@@ -60,20 +97,18 @@ public class TimeTest : MonoBehaviour
 
                 //ここから
 
-
-                int a;
-                for (int i = 0; i < num; i++)
+                int sum = 0;
+                foreach(int i in list)
                 {
-                    a = i << 5;
+                    sum += i;
                 }
-
 
 
                 //ここまで
 
 
             }
-
+            
         }
         else
         {
@@ -84,11 +119,11 @@ public class TimeTest : MonoBehaviour
                 //ここから
 
 
-                ulong a;
-                var n = (ulong)num;
-                for (ulong i = 0; i < n; i++)
+                int sum = 0;
+                int[] array = list.unsafe_array;
+                for(int i = 0; i < list.Count; i++)
                 {
-                    a = i << 5;
+                    sum += array[i];
                 }
 
 
@@ -142,7 +177,6 @@ public class TimeTest : MonoBehaviour
 
     void ArraySort(int[] array, int start, int end)
     {
-        PrintArray();
         if (start == end) return;
         //c++;
         //if (c > 100) { return; }
@@ -155,28 +189,24 @@ public class TimeTest : MonoBehaviour
             pivot = (startValue >= array[pivot])? startValue : array[pivot];
         }
 
-
-
-        int k = partition(array, start, end, pivot);
+        int k;
+        {
+            int f = start, b = end;
+            while (f <= b)
+            {
+                while (f <= end && array[f] < pivot) { f++; }
+                while (b >= start && array[b] >= pivot) { b--; }
+                if (f > b) break;
+                int tmp = array[f];
+                array[f] = array[b];
+                array[b] = tmp;
+                f++; b--;
+            }
+            k = f;
+        }
+        //int k = partition(array, start, end, pivot);
         ArraySort(array, start, k - 1);
         ArraySort(array, k, end);
-    }
-    int c = 0;
-    int partition(int[] array, int start, int end, int value)
-    {
-
-        int f = start, b = end;
-        while (f <= b)
-        {
-            while (f <= end && array[f] < value) { f++; }
-            while (b >= start && array[b] >= value) { b--;}
-            if (f > b) break;
-            int tmp = array[f];
-            array[f] = array[b];
-            array[b] = tmp;
-            f++; b--;
-        }
-        return f;
     }
 
 

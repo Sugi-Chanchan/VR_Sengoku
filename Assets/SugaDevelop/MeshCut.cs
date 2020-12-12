@@ -50,7 +50,7 @@ public class MeshCut : MonoBehaviour
     /// <param name="planeNormalDirection">切断面の法線</param>
     /// <param name="makeCutSurface">切断後にMeshを縫い合わせるか否か(切断面が2つ以上できるときはfalseにしてシェーダーのCull Frontで切断面を表示するようにする)</param>
     /// <returns></returns>
-    private static (Mesh frontside, Mesh backside) CutMesh(Mesh targetMesh, Transform targetTransform, Vector3 planeAnchorPoint, Vector3 planeNormalDirection, bool makeCutSurface = true, bool addNewMaterial_in_Renderer = false)
+    private static (Mesh frontside, Mesh backside) CutMesh(Mesh targetMesh, Transform targetTransform, Vector3 planeAnchorPoint, Vector3 planeNormalDirection, bool makeCutSurface = true, bool addNewMeshIndices = false)
     {
         if (planeNormalDirection == Vector3.zero)
         {
@@ -154,7 +154,7 @@ public class MeshCut : MonoBehaviour
 
 
 
-            if (frontCount == 0 || backCount == 0)
+            if (frontCount == 0 || backCount == 0)//片側に全部寄った場合はここで終了
             {
                 return (null, null);
             }
@@ -239,7 +239,7 @@ public class MeshCut : MonoBehaviour
 
         if (makeCutSurface)
         {
-            if (addNewMaterial_in_Renderer)
+            if (addNewMeshIndices)
             {
                 _frontSubmeshIndices.Add(new UnsafeList<int>(20));//submeshが増えるのでリスト追加
                 _backSubmeshIndices.Add(new UnsafeList<int>(20));
@@ -251,7 +251,7 @@ public class MeshCut : MonoBehaviour
         Mesh frontMesh = new Mesh();
         frontMesh.name = "Split Mesh front";
 
-        //unity2019.4以降ならこっちを使うだけで3～4割速くなる(unity2019.2以前は対応していない.2019.3は知らない)
+        //unity2019.4以降ならこっちを使うだけで2割程度速くなる(unity2019.2以前は対応していない.2019.3は知らない)
         //int fcount = _frontVertices.unsafe_count;//unity2019.4以降
         //frontMesh.SetVertices(_frontVertices.unsafe_array, 0, fcount);//unity2019.4以降
         //frontMesh.SetNormals(_frontNormals.unsafe_array, 0, fcount);//unity2019.4以降

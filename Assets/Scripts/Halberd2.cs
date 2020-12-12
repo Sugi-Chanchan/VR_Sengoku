@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Halberd2 : StickCollider
+public class Halberd2 : StickColliderDynamic
 {
 
 
 
-    public override void OnCollision(ColliderInfo collisionInfo)
+    public override void OnCollision(CollisionInfo collisionInfo)
     {
 
     }

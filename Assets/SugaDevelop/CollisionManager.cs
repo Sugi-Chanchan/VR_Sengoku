@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using System;
 
 public delegate void SetCollisionHandler();
 
@@ -12,140 +12,74 @@ public class CollisionManager : MonoBehaviour
 
     public static event SetCollisionHandler SetCollision;
 
-    public enum ColliderType
+    public enum ColliderType//AND演算をして0にならない組み合わせでは衝突判定を行わない
     {
-        CuttedAndCutter,
-        CuttedOnly,
-        CutterOnly
+        CuttedAndCutter = 0b00,
+        CuttedOnly = 0b01,
+        CutterOnly = 0b10
     }
 
-    private static List<ColliderInfo> cuttedAndCutter = new List<ColliderInfo>();
-    private static List<ColliderInfo> cuttedOnly = new List<ColliderInfo>();
-    private static List<ColliderInfo> cutterOnly = new List<ColliderInfo>();
-    public static bool exist = false;
+    private static UnsafeList<ColliderInfo> colliderInfoList = new UnsafeList<ColliderInfo>(20);//毎フレームここにColliderのデータが集まる
 
     //アニメーションより後で当たり判定を出すならLateUpdate内でこれを実行して, かつスクリプトの実行順でCollisionManagerが最後に来るようにする必要がある.
-    public static void AddColliderDataList(ColliderInfo colliderData, ColliderType colliderType) //dictinaryとEnumを使ってポリゴンを追加する関数をかいた
+    public static void AddColliderDataList(ColliderInfo colliderData) //dictinaryとEnumを使ってポリゴンを追加する関数をかいた
     {
-
-        switch (colliderType)
-        {
-            case ColliderType.CuttedAndCutter: cuttedAndCutter.Add(colliderData); break;
-            case ColliderType.CuttedOnly: cuttedOnly.Add(colliderData); break;
-            case ColliderType.CutterOnly: cutterOnly.Add(colliderData); break;
-            default: cuttedAndCutter.Add(colliderData); break;
-        }
+        colliderInfoList.Add(colliderData);
     }
 
+    enum SortAxis { X_Axis = 0, Y_Axis = 1, Z_Axis = 2 }
+    [Tooltip("Colliderをソートする軸を決める. 接触していないCollider同士が重ならないような軸を選ぶとよい")]
+    [SerializeField] private SortAxis _sortAxis = SortAxis.X_Axis;
+    static int sortAxis, axis1, axis2;
     private void Awake()
     {
-        exist = true;
-    }
-    private void OnDestroy()
-    {
-        exist = false;
+        sortAxis = (int)_sortAxis;
+        axis1 = (sortAxis + 1) % 3;
+        axis2 = (sortAxis + 2) % 3;
     }
 
-    static ulong NOWCOLLISIONINDEX;
     void LateUpdate()
     {
+        //Colliderが1つもなければreturn
+        if (SetCollision == null) return;
 
-        SetCollision();
-        int count;
-        for (count = 0; count < cuttedAndCutter.Count; count++)
+        SetCollision();//PolygonColliderの各インスタンスのSendColliderInfoを呼びだす.ここでcolliderInfoListにColliderデータが集まる
+
+        ColliderInfo[] colliderInfoArray = colliderInfoList.unsafe_array;//Listから配列を取り出す
+        int arrayLength = colliderInfoList.unsafe_count;
+        ArraySort(colliderInfoArray, 0, arrayLength - 1);//sortAxisに沿ってboundy_minの座標が小さい順に並べかえる
+
+        for (int i = 0; i < arrayLength; i++)
         {
-            if (count < 64)
-            {
-                NOWCOLLISIONINDEX = (ulong)1 << count;
-            }
-            ColliderInfo cutted_cutter = cuttedAndCutter[count];
-            foreach (ColliderInfo cutted in cuttedOnly)
-            {
-                CollisionCheck(cutted_cutter, cutted);
-            }
+            ColliderInfo first = colliderInfoArray[i];
+            Vector3 fistMaxBoundy = first.boundy_max;
+            float firstMaxBoundySortAxis = fistMaxBoundy[sortAxis];
+            Vector3 firstMinBoundy = first.boundy_min;
 
-            foreach (ColliderInfo cutter in cutterOnly)
+            int TYPE_FIRST = first.COLLIDER_TYPE;
+            for (int j = i + 1; j < arrayLength; j++)
             {
-                CollisionCheck(cutted_cutter, cutter);
-            }
-
-            for (int j = count + 1; j < cuttedAndCutter.Count; j++)
-            {
-                CollisionCheck(cutted_cutter, cuttedAndCutter[j]);
+                ColliderInfo second = colliderInfoArray[j];
+                if (firstMaxBoundySortAxis < second.boundy_min[sortAxis]) { break; }//小さい順に並んでいるのでこれ以降の要素とは衝突しないことが保証されているのでbreak
+                if ((TYPE_FIRST & second.COLLIDER_TYPE) != 0) { continue; }//cuttedOnly同士, cutterOnly同士は衝突判定を行わない
+                if (fistMaxBoundy[axis1] < second.boundy_min[axis1] || firstMinBoundy[axis1] > second.boundy_max[axis1]) { continue; }
+                if (fistMaxBoundy[axis2] < second.boundy_min[axis2] || firstMinBoundy[axis2] > second.boundy_max[axis2]) { continue; }
+                CollisionCheck(first, second);
+                
             }
         }
 
-        foreach (ColliderInfo cutter in cutterOnly)
-        {
-            if (count < 64)
-            {
-                NOWCOLLISIONINDEX = (ulong)1 << count;
-                count++;
-            }
-            foreach (ColliderInfo cutted in cuttedOnly)
-            {
-                CollisionCheck(cutter, cutted);
-            }
-        }
-
-        Clear();
+        colliderInfoList.Clear();
     }
 
-    //void CollisionCheck3(ColliderInfo A, ColliderInfo B)
-    //{
-    //    foreach (Polygon polygonA in A.polygons)
-    //    {
-    //        foreach (Polygon polygonB in B.polygons)
-    //        {
-    //            Vector3 _triangleVector1 = polygonA.vertices[1] - polygonA.vertices[0];
-    //            Vector3 _triangleVector2 = polygonA.vertices[2] - polygonA.vertices[0];
-    //            Vector3 hitPoint;
 
-    //            for (int i = 0; i < 3; i++)
-    //            {
-    //                if (OverrapCheck(polygonA.vertices[0], _triangleVector1, _triangleVector2, polygonB.vertices[i], polygonB.vertices[(i + 1) % 3] - polygonB.vertices[i], out hitPoint))
-    //                {
-    //                    CollisionDetection(A, B, polygonA, polygonB, new Vector3[2] { hitPoint, Vector3.zero });
-    //                    return;
-    //                };
-    //            }
-
-    //            _triangleVector1 = polygonB.vertices[1] - polygonB.vertices[0];
-    //            _triangleVector2 = polygonB.vertices[2] - polygonB.vertices[0];
-    //            for (int i = 0; i < 3; i++)
-    //            {
-    //                if (OverrapCheck(polygonB.vertices[0], _triangleVector1, _triangleVector2, polygonA.vertices[i], polygonA.vertices[(i + 1) % 3] - polygonA.vertices[i], out hitPoint))
-    //                {
-    //                    CollisionDetection(A, B, polygonA, polygonB, new Vector3[2] { hitPoint, Vector3.zero });
-    //                    return;
-    //                };
-    //            }
-    //        }
-    //    }
-    //}
 
     static Vector3 intersectionA0, intersectionA1, intersectionB0, intersectionB1;
     static Vector3[] hitPoints = new Vector3[2];
     const float threshold = 0.000000001f;
     void CollisionCheck(ColliderInfo A, ColliderInfo B)
     {
-        {
-            ulong KEY_A = A.COLLISION_COARSECHECK;
-            ulong SUBKEY_A = A.COLLISION_COARSECHECK_SUB;
-            ulong KEY_B = B.COLLISION_COARSECHECK;
-            ulong SUBKEY_B = B.COLLISION_COARSECHECK_SUB;
 
-            KEY_A = KEY_A | SUBKEY_B;
-            KEY_B = KEY_B | SUBKEY_A;
-            if (KEY_A != KEY_B)
-            {
-                B.COLLISION_COARSECHECK_SUB = B.COLLISION_COARSECHECK_SUB | NOWCOLLISIONINDEX;
-                B.COLLISION_COARSECHECK = B.COLLISION_COARSECHECK | NOWCOLLISIONINDEX;
-                return;
-            }
-        }
-
-        bool? isfront = null;
         foreach (Polygon polygonA in A.polygons)
         {
             foreach (Polygon polygonB in B.polygons)
@@ -315,18 +249,18 @@ public class CollisionManager : MonoBehaviour
         }
 
 
-        bool CoarseCheck(Polygon polygonA, Polygon polygonB)
+        bool CoarseCheck(Polygon polygonA, Polygon polygonB)//アバウトな判定(これを突破した後に最後の判定がある)
         {
 
+            //相手の平面に対して頂点3つとも同じ側にあるときは絶対に衝突していないのでそれをチェック(Mollerの衝突判定) //http://marupeke296.com/COL_3D_No21_TriTri.html
 
             Vector3 normal = polygonA.normal;
             Vector3 anchor = polygonA[0];
             (float side1D_1, float side1D_2, float side2D, Vector3 side1Pos_1, Vector3 side1Pos_2, Vector3 side2Pos) BInfo;
 
-            Vector3[] poss = polygonB.vertices;
-            Vector3 pos0 = poss[0];
-            Vector3 pos1 = poss[1];
-            Vector3 pos2 = poss[2];
+            Vector3 pos0 = polygonB.vertex0;
+            Vector3 pos1 = polygonB.vertex1;
+            Vector3 pos2 = polygonB.vertex2;
 
             float d0, d1, d2;
             float anc = normal.x * anchor.x + normal.y * anchor.y + normal.z * anchor.z;
@@ -339,17 +273,7 @@ public class CollisionManager : MonoBehaviour
                 {
                     if (d2 > 0)
                     {
-                        if (isfront == false)
-                        {
-                            B.COLLISION_COARSECHECK_SUB = B.COLLISION_COARSECHECK_SUB | NOWCOLLISIONINDEX;
-                            B.COLLISION_COARSECHECK = B.COLLISION_COARSECHECK | NOWCOLLISIONINDEX;
-                        }
-                        else
-                        {
-                            B.COLLISION_COARSECHECK = B.COLLISION_COARSECHECK | NOWCOLLISIONINDEX;
-                            isfront = true;
-                        }
-                        return false;
+                        return false;//3つとも同じ側にあるので衝突しない
                     }
                     else
                     {
@@ -389,16 +313,7 @@ public class CollisionManager : MonoBehaviour
                     }
                     else
                     {
-                        if (isfront == true)
-                        {
-                            B.COLLISION_COARSECHECK_SUB = B.COLLISION_COARSECHECK_SUB | NOWCOLLISIONINDEX;
-                            B.COLLISION_COARSECHECK = B.COLLISION_COARSECHECK | NOWCOLLISIONINDEX;
-                        }
-                        else
-                        {
-                            isfront = false;
-                        }
-                        return false;
+                        return false;//3つとも同じ側にあるので衝突しない
                     }
                 }
             }
@@ -409,10 +324,9 @@ public class CollisionManager : MonoBehaviour
             (float side1D_1, float side1D_2, float side2D, Vector3 side1Pos_1, Vector3 side1Pos_2, Vector3 side2Pos) AInfo;
 
 
-            poss = polygonA.vertices;
-            pos0 = poss[0];
-            pos1 = poss[1];
-            pos2 = poss[2];
+            pos0 = polygonA.vertex0;
+            pos1 = polygonA.vertex1;
+            pos2 = polygonA.vertex2;
             anc = normal.x * anchor.x + normal.y * anchor.y + normal.z * anchor.z;
             d0 = normal.x * pos0.x + normal.y * pos0.y + normal.z * pos0.z - anc;
             d1 = normal.x * pos1.x + normal.y * pos1.y + normal.z * pos1.z - anc;
@@ -470,6 +384,7 @@ public class CollisionManager : MonoBehaviour
 
 
 
+            //Mollerの衝突判定法を利用してそれぞれのポリゴンと相手の平面との交点を計算
 
             float dNormalized = AInfo.side1D_1 / (AInfo.side1D_1 + AInfo.side2D);
             intersectionA0 = (1 - dNormalized) * AInfo.side1Pos_1 + dNormalized * AInfo.side2Pos;
@@ -483,168 +398,53 @@ public class CollisionManager : MonoBehaviour
 
             return true;
         }
-
-
-
-
     }
 
 
 
-
-    void CollisionDetection(ColliderInfo A, ColliderInfo B, Polygon polygonA, Polygon polygonB, Vector3[] hitPoints)
+    void CollisionDetection(ColliderInfo A, ColliderInfo B, Polygon polygonA, Polygon polygonB, Vector3[] hitPoints)//衝突を見つけたとき
     {
-        A.hitPoints = B.hitPoints = hitPoints;
-        A.hitPolygon = polygonA;
-        B.hitPolygon = polygonB;
-        A.polygonCollider.OnCollision(B);
-        B.polygonCollider.OnCollision(A);
+        CollisionInfo Ainfo = new CollisionInfo();
+        CollisionInfo Binfo = new CollisionInfo();
+        Ainfo.hitPoints = Binfo.hitPoints = hitPoints;
+        Ainfo.hitPolygon = polygonA.Copy;
+        Binfo.hitPolygon = polygonB.Copy;
+        A.OnCollision(Binfo);
+        B.OnCollision(Ainfo);
     }
 
-
-
-    //線分と三角ポリゴンが接触しているか判定. 三角形の1つの点の位置ベクトルと2つのベクトル, 線分の始点の位置ベクトルと1つの方向・大きさベクトル
-    //D→ + k*e→ = A→ + s*b→ + t*c→ を解いている. F→ = D→ - A→
-    public static bool OverrapCheck(Vector3 trianglePosition, Vector3 triangleVector1, Vector3 triangleVector2, Vector3 lineStartPosition, Vector3 lineVector, out Vector3 hitPoint)
+    //クイックソート(これ考えた人めっちゃ頭いい) //http://www.ics.kagoshima-u.ac.jp/~fuchida/edu/algorithm/sort-algorithm/quick-sort.html
+    private void ArraySort(ColliderInfo[] infoArray, int start, int end)
     {
-        hitPoint = Vector3.zero;
-        //print("A :"+trianglePosition+"B :"+ (trianglePosition+triangleVector1).ToString()+"C :"+(trianglePosition+triangleVector2).ToString()+"D :"+lineStartPosition+"E :"+(lineStartPosition+lineVector).ToString());
-
-
-        Vector3 F = lineStartPosition - trianglePosition;
-        Vector3 b = triangleVector1;
-        Vector3 c = triangleVector2;
-        Vector3 e = lineVector;
-
-        float k, t, s;
-
-        if (Mathf.Abs(b.x) > 0.001) //係数が0のときの場合分けをしている. 非常に面倒くさかった
+        if (start == end) return;
+        float pivot;
         {
-            float b_yx = b.y / b.x;
-            float b_zx = b.z / b.x;
-            float Fp = b_yx * F.x - F.y;
-            float ep = b_yx * e.x - e.y;
-            float cp = b_yx * c.x - c.y;
-
-            if (Mathf.Abs(cp) > 0.001) // > 0 でないのは丸め誤差を含むため
-            {
-                float cpp = (b_zx * c.x - c.z) / cp;
-
-                var denom = (cpp * ep + e.z - b_zx * e.x);
-                if (Mathf.Abs(denom) < 0.001)
-                {
-                    //print("pin"); 
-                    return false;
-                }
-                k = -(F.z - b_zx * F.x + cpp * Fp) / denom;
-                t = (Fp + ep * k) / cp;
-                s = (F.x - t * c.x + k * e.x) / b.x; //例外処理をしなければここまででいい
-                //print("marker");
-            }
-            else if (Mathf.Abs(ep) > 0.001)
-            {
-                k = -Fp / ep;
-                float e_xp = e.x / ep;
-                float e_zp = e.z / ep;
-                var denom = (b_zx * c.x - c.z);
-                if (Mathf.Abs(denom) < 0.001)
-                {
-                    //print("pin"); 
-                    return false;
-                }
-                t = (b_zx * F.x - b_zx * e_xp * Fp + e_zp * Fp - F.z) / denom;
-                s = (F.x - t * c.x + k * e.x) / b.x;
-                //print("marker");
-            }
-            else { return false; }
-
-        }
-        else if (Mathf.Abs(c.x) > 0.001)
-        {
-            float c_yx = c.y / c.x;
-            float Fo = c_yx * F.x - F.y;
-            float eo = c_yx * e.x - e.y;
-
-
-            if (Mathf.Abs(b.y) > 0.001)
-            {
-                float b_zy = b.z / b.y;
-                float c_zx = c.z / c.x;
-                var denom = (c_zx * e.x - b_zy * eo - e.z);
-                if (Mathf.Abs(denom) < 0.001)
-                {
-                    //print("pin"); 
-                    return false;
-                }
-                k = -(c_zx * F.x - b_zy * Fo - F.z) / denom;
-                s = -(Fo + k * eo) / b.y;
-                t = (F.x + k * e.x) / c.x;
-                //print("marker");
-            }
-            else if (Mathf.Abs(b.z) > 0.001 && Mathf.Abs(eo) > 0.001)
-            {
-                k = -Fo / eo;
-                t = (F.x + k * e.x) / c.x;
-                //s = (F.z - c_zx * (F.x + k * e.x) + k * e.y) / b.z;
-                s = (F.z - t * c.z + k * e.z) / b.z;
-                //print("marker");
-            }
-            else { return false; }
-        }
-        else if (Mathf.Abs(e.x) > 0.001)
-        {
-            k = -F.x / e.x;
-            float e_yx = e.y / e.x;
-            float e_zx = e.z / e.x;
-            if (Mathf.Abs(c.y) > 0.001)
-            {
-                float c_zy = c.z / c.y;
-
-                var denom = (b.z - c_zy * b.y);
-                if (Mathf.Abs(denom) < 0.001)
-                {
-                    //print("pin"); 
-                    return false;
-                }
-                s = (F.z + c_zy * e_yx * F.x - c_zy * F.y - e_zx * F.x) / denom;
-                t = -(e_yx * F.x - F.y + s * b.y) / c.y;
-                //print("marker");
-            }
-            else if (Mathf.Abs(b.y) > 0.001 && Mathf.Abs(c.z) > 0.001)
-            {
-                s = -(e_yx * F.x - F.y) / b.y;
-                t = (F.z - s * b.z + k * e.z) / c.z;
-                //print("marker");
-            }
-            else { return false; }
-        }
-        else
-        {
-
-            return false;
+            int index = start + 1;
+            float startValue = infoArray[start].boundy_min[sortAxis];
+            while (index <= end && startValue == infoArray[index].boundy_min[sortAxis]) { index++; }
+            if (index > end) return;
+            pivot = (startValue >= infoArray[index].boundy_min[sortAxis]) ? startValue : infoArray[index].boundy_min[sortAxis];
         }
 
-        //print("1: "+"k=" + k + ", s=" + s + ", t=" + t);
-        //print("triangleSide : " + (trianglePosition + triangleVector1 * s + triangleVector2 * t).ToString());
-        // print("lineSide : " + (lineStartPosition + lineVector * k).ToString());
-
-
-        if (k >= 0 && k <= 1 && s >= 0 && t >= 0 && s + t <= 1)
+        int k;
         {
-            hitPoint = lineStartPosition + lineVector * k;
-            return true;
+            int f = start, b = end;
+            while (f <= b)
+            {
+                while (f <= end && infoArray[f].boundy_min[sortAxis] < pivot) { f++; }
+                while (b >= start && infoArray[b].boundy_min[sortAxis] >= pivot) { b--; }
+                if (f > b) break;
+                ColliderInfo tmp = infoArray[f];
+                infoArray[f] = infoArray[b];
+                infoArray[b] = tmp;
+                f++; b--;
+            }
+            k = f;
         }
-        else
-        {
-            return false;
-        }
-    }
 
-    void Clear()
-    {
-        cuttedAndCutter.Clear();
-        cuttedOnly.Clear();
-        cutterOnly.Clear();
+        ArraySort(infoArray, start, k - 1);
+        ArraySort(infoArray, k, end);
+
     }
 
 }
@@ -653,12 +453,45 @@ public class CollisionManager : MonoBehaviour
 
 public class ColliderInfo
 {
+    private PolygonCollider polygonCollider;
     public Polygon[] polygons;
-    public PolygonCollider polygonCollider;
     public GameObject collisionObject;
-    public ulong COLLISION_COARSECHECK;
-    public ulong COLLISION_COARSECHECK_SUB;
+    public Vector3 boundy_max, boundy_min;
+    public int COLLIDER_TYPE;
 
+    public ColliderInfo(Polygon[] polygons, PolygonCollider polygonCollider, GameObject obj)
+    {
+        this.polygons = polygons;
+        this.polygonCollider = polygonCollider;
+        collisionObject = obj;
+    }
+    public ColliderInfo() { }
+
+    public ColliderInfo Set(Polygon[] polygons, PolygonCollider collisionObjectInstance, GameObject obj)
+    {
+        this.polygons = polygons;
+        polygonCollider = collisionObjectInstance;
+        collisionObject = obj;
+        return this;
+    }
+
+    public void SetBoundy((Vector3 min, Vector3 max) set)
+    {
+        boundy_min = set.min;
+        boundy_max = set.max;
+    }
+
+    public void OnCollision(CollisionInfo info)
+    {
+        if (polygonCollider == null) { Debug.LogError("polygonCollider isn't setted in ColliderInfo!"); return; }
+        polygonCollider.OnCollision(info);
+    }
+
+}
+
+public class CollisionInfo
+{
+    public GameObject collisionObject;
     public Polygon hitPolygon;
     private Vector3[] hitpoints;
     public Vector3[] hitPoints
@@ -672,59 +505,43 @@ public class ColliderInfo
             hitpoints = value;
         }
     }
-    public ColliderInfo(Polygon[] polygons, PolygonCollider collisionObjectInstance, GameObject obj)
-    {
-        this.polygons = polygons;
-        polygonCollider = collisionObjectInstance;
-        collisionObject = obj;
-    }
-    public ColliderInfo() { }
-
-    public ColliderInfo Set(Polygon[] polygons, PolygonCollider collisionObjectInstance, GameObject obj)
-    {
-        this.polygons = polygons;
-        polygonCollider = collisionObjectInstance;
-        collisionObject = obj;
-        COLLISION_COARSECHECK = COLLISION_COARSECHECK_SUB = 0;
-        return this;
-    }
-
 }
 
 public class Polygon
 {
-    public Vector3[] vertices;
+    public Vector3 vertex0, vertex1, vertex2;
     public Vector3 normal;
     public Vector3 this[int index]
     {
         get
         {
-            if (index < 0 && index > 2)
+            switch (index)
             {
-                Debug.LogError("index must be from 0 to 2");
+                case 0: return vertex0;
+                case 1: return vertex1;
+                case 2: return vertex2;
+                default: Debug.LogError("index must be from 0 to 2"); return vertex0;
             }
-            return vertices[index];
         }
     }
-    public Polygon() { vertices = new Vector3[3]; }
-    public Polygon(Vector3 vertex1, Vector3 vertex2, Vector3 vertex3)
+    public Polygon() { }
+    public Polygon(Vector3 _vertex0, Vector3 _vertex1, Vector3 _vertex2)
     {
-        vertices = new Vector3[3] { vertex1, vertex2, vertex3 };
+        vertex0 = _vertex0;
+        vertex1 = _vertex1;
+        vertex2 = _vertex2;
         MakeNormal();
     }
-    public void Set(Vector3 vertex1, Vector3 vertex2, Vector3 vertex3)
+    public void Set(Vector3 _vertex0, Vector3 _vertex1, Vector3 _vertex2)
     {
-        vertices[0] = vertex1;
-        vertices[1] = vertex2;
-        vertices[2] = vertex3;
+        vertex0 = _vertex0;
+        vertex1 = _vertex1;
+        vertex2 = _vertex2;
         MakeNormal();
     }
 
     private void MakeNormal()
     {
-        var vertex0 = vertices[0];
-        var vertex1 = vertices[1];
-        var vertex2 = vertices[2];
         normal = new Vector3(
            vertex0.z * (vertex2.y - vertex1.y) + vertex1.z * (vertex0.y - vertex2.y) + vertex2.z * (vertex1.y - vertex0.y),
            vertex0.x * (vertex2.z - vertex1.z) + vertex1.x * (vertex0.z - vertex2.z) + vertex2.x * (vertex1.z - vertex0.z),
@@ -765,80 +582,219 @@ public class Polygon
         }
         //Debug.Log(normal);
     }
+
+    public Polygon Copy { get { return (Polygon)MemberwiseClone(); } }
 }
 
 public abstract class PolygonCollider : MonoBehaviour
 {
-    public bool enableCollision = true;
     // 自分のコライダーの種類を定義する
     [SerializeField] protected CollisionManager.ColliderType colliderType = CollisionManager.ColliderType.CuttedAndCutter;
-
-
-    protected virtual void OnEnable()
-    {
-        CollisionManager.SetCollision += SendCollisionData;
-    }
-    protected virtual void OnDisable()
-    {
-        CollisionManager.SetCollision -= SendCollisionData;
-
-    }
-
-    /// <summary>
-    /// 衝突の判定に使うポリゴン(Vector3が3つ分の三角形)の配列を作成
-    /// </summary>
-    /// <returns></returns>
-    protected abstract Polygon[] SetPolygons();
-    protected virtual void CollisionManagerUpdate() { }
 
     /// <summary>
     /// 衝突が検知されたらこれが呼ばれる
     /// </summary>
-    public abstract void OnCollision(ColliderInfo colliderInfo);
+    public abstract void OnCollision(CollisionInfo collisionInfo);
+
+    /// <summary>
+    /// 衝突の判定に使うポリゴン(Vector3が3つで構成される三角形)の配列を作成
+    /// </summary>
+    /// <returns></returns>
+    protected abstract Polygon[] SetPolygons();
+
+    private bool _enableCollision = true;
+    public bool enableCollision
+    {
+        get { return _enableCollision; }
+        set
+        {
+            if (value != _enableCollision)
+            {
+                _enableCollision = value;
+                if (value)
+                {
+                    _OnEnableCollision();
+                }
+                else
+                {
+                    _OnDisableCollision();
+                }
+            }
+        }
+    }
+
+    protected virtual void OnEnable() { _OnEnableCollision(); }
+    protected virtual void OnDisable() { _OnDisableCollision(); }
+    protected virtual void OnEnableCollision() { }
+    protected virtual void OnDisableCollision() { }
+
+    private void _OnEnableCollision()
+    {
+        if (_enableCollision && enabled && gameObject.activeInHierarchy)
+        {
+            CollisionManager.SetCollision += SendCollisionData;
+            OnEnableCollision();
+        }
+    }
+    private void _OnDisableCollision()
+    {
+        CollisionManager.SetCollision -= SendCollisionData;
+        OnDisableCollision();
+    }
+
 
     ColliderInfo inputData = new ColliderInfo();
+    private Polygon[] polygons;
     protected virtual void SendCollisionData()
     {
+        polygons = SetPolygons();
+        inputData.Set(polygons, this, this.gameObject);
+        inputData.SetBoundy(CalculateBoundy());
+        CollisionManager.AddColliderDataList(inputData);
+    }
 
-        if (enableCollision)
+    protected virtual (Vector3 boundy_min, Vector3 boundy_max) CalculateBoundy()//ポリゴンが完全にはいる箱の大きさを計算.(処理を軽くしたければoverride)
+    {
+        Vector3 min = polygons[0].vertex0;
+        Vector3 max = polygons[0].vertex0;
+        foreach (Polygon poly in polygons)
         {
-            CollisionManager.AddColliderDataList(inputData.Set(SetPolygons(), this, this.gameObject), colliderType);
+            min = Vector3.Min(min, poly.vertex0);
+            min = Vector3.Min(min, poly.vertex1);
+            min = Vector3.Min(min, poly.vertex2);
+            max = Vector3.Max(max, poly.vertex0);
+            max = Vector3.Max(max, poly.vertex1);
+            max = Vector3.Max(max, poly.vertex2);
         }
+        return (min, max);
     }
 }
 
-public abstract class StickCollider : PolygonCollider
+public abstract class StickColliderDynamic : PolygonCollider
 {
-    public Transform start, end;
+    [SerializeField] Transform start, end;
     private Vector3 prePos_start, prePos_end;
 
-    protected void SetStartPos(Vector3 pos)
+    public Vector3 startPos
     {
-        start.position = pos;
+        get { return start.position; }
+        set { start.position = value; }
     }
-    protected void SetEndPos(Vector3 pos)
+    public Vector3 endPos
     {
-        end.position = pos;
+        get { return end.position; }
+        set { end.position = value; }
     }
 
-    protected override void OnEnable()
+    protected override void OnEnableCollision()
     {
-        base.OnEnable();
         prePos_start = start.position;
         prePos_end = end.position;
     }
 
 
 
+
     private Polygon[] polygons = new Polygon[2];
+    Polygon polygon1 = new Polygon();
+    Polygon polygon2 = new Polygon();
     protected override Polygon[] SetPolygons()
     {
-        Polygon A = new Polygon(prePos_start, prePos_end, start.position);
-        Polygon B = new Polygon(start.position, end.position, prePos_end);
-        polygons[0] = A;
-        polygons[1] = B;
-
+        polygon1.Set(prePos_start, prePos_end, start.position);
+        polygon2.Set(start.position, end.position, prePos_end);
+        polygons[0] = polygon1;
+        polygons[1] = polygon2;
         return polygons;
+    }
+
+    protected override (Vector3 boundy_min, Vector3 boundy_max) CalculateBoundy()
+    {
+
+
+        return CalculateMinMax();
+
+        (Vector3 min, Vector3 max) CalculateMinMax()
+        {
+            Vector3 ps = prePos_start;
+            Vector3 pe = prePos_end;
+            Vector3 startpos = start.position;
+            Vector3 endpos = end.position;
+
+
+
+
+            float minTemp1, minTemp2, maxTemp1, maxTemp2;
+            if (ps.x > pe.x)
+            {
+                minTemp1 = pe.x;
+                maxTemp1 = ps.x;
+            }
+            else
+            {
+                minTemp1 = ps.x;
+                maxTemp1 = pe.x;
+            }
+            if (startpos.x > endpos.x)
+            {
+                minTemp2 = endpos.x;
+                maxTemp2 = startpos.x;
+            }
+            else
+            {
+                minTemp2 = startpos.x;
+                maxTemp2 = endpos.x;
+            }
+            float minx = (minTemp1 > minTemp2) ? minTemp2 : minTemp1;
+            float maxx = (maxTemp1 > maxTemp2) ? maxTemp1 : maxTemp2;
+
+            if (ps.y > pe.y)
+            {
+                minTemp1 = pe.y;
+                maxTemp1 = ps.y;
+            }
+            else
+            {
+                minTemp1 = ps.y;
+                maxTemp1 = pe.y;
+            }
+            if (startpos.y > endpos.y)
+            {
+                minTemp2 = endpos.y;
+                maxTemp2 = startpos.y;
+            }
+            else
+            {
+                minTemp2 = startpos.y;
+                maxTemp2 = endpos.y;
+            }
+            float miny = (minTemp1 > minTemp2) ? minTemp2 : minTemp1;
+            float maxy = (maxTemp1 > maxTemp2) ? maxTemp1 : maxTemp2;
+            if (ps.z > pe.z)
+            {
+                minTemp1 = pe.z;
+                maxTemp1 = ps.z;
+            }
+            else
+            {
+                minTemp1 = ps.z;
+                maxTemp1 = pe.z;
+            }
+            if (startpos.z > endpos.z)
+            {
+                minTemp2 = endpos.z;
+                maxTemp2 = startpos.z;
+            }
+            else
+            {
+                minTemp2 = startpos.z;
+                maxTemp2 = endpos.z;
+            }
+            float minz = (minTemp1 > minTemp2) ? minTemp2 : minTemp1;
+            float maxz = (maxTemp1 > maxTemp2) ? maxTemp1 : maxTemp2;
+
+            return (new Vector3(minx, miny, minz), new Vector3(maxx, maxy, maxz));
+        }
+
     }
 
     protected override void SendCollisionData()
@@ -847,7 +803,6 @@ public abstract class StickCollider : PolygonCollider
         prePos_start = start.position;
         prePos_end = end.position;
     }
-
 }
 
 

@@ -212,8 +212,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bc8b60e63e0d60418072da3d82c3545, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enableCollision: 1
-  colliderType: 1
+  colliderType: 0
   start: {fileID: 1047189486}
   end: {fileID: 85970513}
   cutSurfaceMaterial: {fileID: 2100000, guid: c05aa33c6ee25d1469ba112bde31dad1, type: 2}
@@ -445,8 +444,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bc8b60e63e0d60418072da3d82c3545, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enableCollision: 1
-  colliderType: 1
+  colliderType: 0
   start: {fileID: 1105493885}
   end: {fileID: 1604241670}
   cutSurfaceMaterial: {fileID: 2100000, guid: c05aa33c6ee25d1469ba112bde31dad1, type: 2}
@@ -588,8 +586,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bc8b60e63e0d60418072da3d82c3545, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enableCollision: 1
-  colliderType: 1
+  colliderType: 0
   start: {fileID: 395544997}
   end: {fileID: 1901090037}
   cutSurfaceMaterial: {fileID: 2100000, guid: c05aa33c6ee25d1469ba112bde31dad1, type: 2}
@@ -787,8 +784,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bc8b60e63e0d60418072da3d82c3545, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enableCollision: 1
-  colliderType: 1
+  colliderType: 0
   start: {fileID: 801833302}
   end: {fileID: 402827520}
   cutSurfaceMaterial: {fileID: 2100000, guid: c05aa33c6ee25d1469ba112bde31dad1, type: 2}
@@ -960,8 +956,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bc8b60e63e0d60418072da3d82c3545, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enableCollision: 1
-  colliderType: 1
+  colliderType: 0
   start: {fileID: 64932840}
   end: {fileID: 650248940}
   cutSurfaceMaterial: {fileID: 2100000, guid: c05aa33c6ee25d1469ba112bde31dad1, type: 2}
@@ -1119,8 +1114,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bc8b60e63e0d60418072da3d82c3545, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enableCollision: 1
-  colliderType: 1
+  colliderType: 0
   start: {fileID: 373975851}
   end: {fileID: 276512775}
   cutSurfaceMaterial: {fileID: 2100000, guid: c05aa33c6ee25d1469ba112bde31dad1, type: 2}
@@ -1426,8 +1420,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bc8b60e63e0d60418072da3d82c3545, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enableCollision: 1
-  colliderType: 1
+  colliderType: 0
   start: {fileID: 121715095}
   end: {fileID: 1032420879}
   cutSurfaceMaterial: {fileID: 2100000, guid: c05aa33c6ee25d1469ba112bde31dad1, type: 2}
@@ -1629,8 +1622,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bc8b60e63e0d60418072da3d82c3545, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enableCollision: 1
-  colliderType: 1
+  colliderType: 0
   start: {fileID: 792777883}
   end: {fileID: 762692234}
   cutSurfaceMaterial: {fileID: 2100000, guid: c05aa33c6ee25d1469ba112bde31dad1, type: 2}
@@ -1725,12 +1717,12 @@ PrefabInstance:
     - target: {fileID: 3499084828272019287, guid: bb5fe8a793ad4f04daafd459460a1327,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7751670369300655991, guid: bb5fe8a793ad4f04daafd459460a1327,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.03
+      value: 4.11
       objectReference: {fileID: 0}
     - target: {fileID: 7751670369300655991, guid: bb5fe8a793ad4f04daafd459460a1327,
         type: 3}
@@ -1740,7 +1732,7 @@ PrefabInstance:
     - target: {fileID: 7751670369300655991, guid: bb5fe8a793ad4f04daafd459460a1327,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -20.8
+      value: -0.96
       objectReference: {fileID: 0}
     - target: {fileID: 7751670369300655991, guid: bb5fe8a793ad4f04daafd459460a1327,
         type: 3}
@@ -1898,8 +1890,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bc8b60e63e0d60418072da3d82c3545, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enableCollision: 1
-  colliderType: 1
+  colliderType: 0
   start: {fileID: 1593566032}
   end: {fileID: 181232704}
   cutSurfaceMaterial: {fileID: 2100000, guid: c05aa33c6ee25d1469ba112bde31dad1, type: 2}
@@ -2011,8 +2002,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bc8b60e63e0d60418072da3d82c3545, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enableCollision: 1
-  colliderType: 1
+  colliderType: 0
   start: {fileID: 995696013}
   end: {fileID: 1440115406}
   cutSurfaceMaterial: {fileID: 2100000, guid: c05aa33c6ee25d1469ba112bde31dad1, type: 2}
@@ -2124,8 +2114,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bc8b60e63e0d60418072da3d82c3545, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enableCollision: 1
-  colliderType: 1
+  colliderType: 0
   start: {fileID: 2062079221}
   end: {fileID: 347161003}
   cutSurfaceMaterial: {fileID: 2100000, guid: c05aa33c6ee25d1469ba112bde31dad1, type: 2}
@@ -2327,8 +2316,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bc8b60e63e0d60418072da3d82c3545, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enableCollision: 1
-  colliderType: 1
+  colliderType: 0
   start: {fileID: 703556141}
   end: {fileID: 1572577509}
   cutSurfaceMaterial: {fileID: 2100000, guid: c05aa33c6ee25d1469ba112bde31dad1, type: 2}
@@ -2530,8 +2518,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bc8b60e63e0d60418072da3d82c3545, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enableCollision: 1
-  colliderType: 1
+  colliderType: 0
   start: {fileID: 769494006}
   end: {fileID: 1445376956}
   cutSurfaceMaterial: {fileID: 2100000, guid: c05aa33c6ee25d1469ba112bde31dad1, type: 2}
@@ -2719,8 +2706,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bc8b60e63e0d60418072da3d82c3545, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enableCollision: 1
-  colliderType: 1
+  colliderType: 0
   start: {fileID: 1082344874}
   end: {fileID: 993292714}
   cutSurfaceMaterial: {fileID: 2100000, guid: c05aa33c6ee25d1469ba112bde31dad1, type: 2}
@@ -2846,8 +2832,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bc8b60e63e0d60418072da3d82c3545, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enableCollision: 1
-  colliderType: 1
+  colliderType: 0
   start: {fileID: 700756648}
   end: {fileID: 598219711}
   cutSurfaceMaterial: {fileID: 2100000, guid: c05aa33c6ee25d1469ba112bde31dad1, type: 2}
@@ -2959,8 +2944,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bc8b60e63e0d60418072da3d82c3545, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enableCollision: 1
-  colliderType: 1
+  colliderType: 0
   start: {fileID: 786090856}
   end: {fileID: 1452191021}
   cutSurfaceMaterial: {fileID: 2100000, guid: c05aa33c6ee25d1469ba112bde31dad1, type: 2}
@@ -3132,8 +3116,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bc8b60e63e0d60418072da3d82c3545, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enableCollision: 1
-  colliderType: 1
+  colliderType: 0
   start: {fileID: 2070788400}
   end: {fileID: 418816743}
   cutSurfaceMaterial: {fileID: 2100000, guid: c05aa33c6ee25d1469ba112bde31dad1, type: 2}
@@ -3245,8 +3228,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bc8b60e63e0d60418072da3d82c3545, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enableCollision: 1
-  colliderType: 1
+  colliderType: 0
   start: {fileID: 1404660246}
   end: {fileID: 1902730334}
   cutSurfaceMaterial: {fileID: 2100000, guid: c05aa33c6ee25d1469ba112bde31dad1, type: 2}
@@ -3478,8 +3460,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bc8b60e63e0d60418072da3d82c3545, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enableCollision: 1
-  colliderType: 1
+  colliderType: 0
   start: {fileID: 647791163}
   end: {fileID: 1439696200}
   cutSurfaceMaterial: {fileID: 2100000, guid: c05aa33c6ee25d1469ba112bde31dad1, type: 2}
@@ -3591,8 +3572,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bc8b60e63e0d60418072da3d82c3545, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enableCollision: 1
-  colliderType: 1
+  colliderType: 0
   start: {fileID: 306141437}
   end: {fileID: 323908776}
   cutSurfaceMaterial: {fileID: 2100000, guid: c05aa33c6ee25d1469ba112bde31dad1, type: 2}
@@ -4139,8 +4119,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bc8b60e63e0d60418072da3d82c3545, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enableCollision: 1
-  colliderType: 1
+  colliderType: 0
   start: {fileID: 914002044}
   end: {fileID: 700415706}
   cutSurfaceMaterial: {fileID: 2100000, guid: c05aa33c6ee25d1469ba112bde31dad1, type: 2}
@@ -4312,8 +4291,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bc8b60e63e0d60418072da3d82c3545, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enableCollision: 1
-  colliderType: 1
+  colliderType: 0
   start: {fileID: 603733458}
   end: {fileID: 774297689}
   cutSurfaceMaterial: {fileID: 2100000, guid: c05aa33c6ee25d1469ba112bde31dad1, type: 2}
@@ -4425,8 +4403,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bc8b60e63e0d60418072da3d82c3545, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enableCollision: 1
-  colliderType: 1
+  colliderType: 0
   start: {fileID: 1989770959}
   end: {fileID: 561256979}
   cutSurfaceMaterial: {fileID: 2100000, guid: c05aa33c6ee25d1469ba112bde31dad1, type: 2}
@@ -4568,8 +4545,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bc8b60e63e0d60418072da3d82c3545, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enableCollision: 1
-  colliderType: 1
+  colliderType: 0
   start: {fileID: 657922853}
   end: {fileID: 1557635345}
   cutSurfaceMaterial: {fileID: 2100000, guid: c05aa33c6ee25d1469ba112bde31dad1, type: 2}
@@ -4891,8 +4867,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bc8b60e63e0d60418072da3d82c3545, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enableCollision: 1
-  colliderType: 1
+  colliderType: 0
   start: {fileID: 344445087}
   end: {fileID: 1358427185}
   cutSurfaceMaterial: {fileID: 2100000, guid: c05aa33c6ee25d1469ba112bde31dad1, type: 2}
@@ -5003,7 +4978,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7520583d9ef0a3e4899d0eac5c4d2688, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enableCollision: 1
   colliderType: 0
   t0: {fileID: 1890199755}
   t1: {fileID: 710838686}
@@ -5062,7 +5036,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 412738784}
   m_LocalRotation: {x: -0.7071068, y: -0, z: -0, w: 0.7071067}
-  m_LocalPosition: {x: -0.22332144, y: 2.2505095, z: -5.271674}
+  m_LocalPosition: {x: -0.22332144, y: 2.2505095, z: -3.89}
   m_LocalScale: {x: 100, y: 99.99997, z: 99.99997}
   m_Children:
   - {fileID: 1890199755}
@@ -5343,8 +5317,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bc8b60e63e0d60418072da3d82c3545, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enableCollision: 1
-  colliderType: 1
+  colliderType: 0
   start: {fileID: 551271883}
   end: {fileID: 879413978}
   cutSurfaceMaterial: {fileID: 2100000, guid: c05aa33c6ee25d1469ba112bde31dad1, type: 2}
@@ -5486,8 +5459,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bc8b60e63e0d60418072da3d82c3545, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enableCollision: 1
-  colliderType: 1
+  colliderType: 0
   start: {fileID: 513969050}
   end: {fileID: 889703042}
   cutSurfaceMaterial: {fileID: 2100000, guid: c05aa33c6ee25d1469ba112bde31dad1, type: 2}
@@ -5599,8 +5571,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bc8b60e63e0d60418072da3d82c3545, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enableCollision: 1
-  colliderType: 1
+  colliderType: 0
   start: {fileID: 760787292}
   end: {fileID: 2081903668}
   cutSurfaceMaterial: {fileID: 2100000, guid: c05aa33c6ee25d1469ba112bde31dad1, type: 2}
@@ -5862,8 +5833,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bc8b60e63e0d60418072da3d82c3545, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enableCollision: 1
-  colliderType: 1
+  colliderType: 0
   start: {fileID: 1315329518}
   end: {fileID: 2014332970}
   cutSurfaceMaterial: {fileID: 2100000, guid: c05aa33c6ee25d1469ba112bde31dad1, type: 2}
@@ -5975,8 +5945,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bc8b60e63e0d60418072da3d82c3545, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enableCollision: 1
-  colliderType: 1
+  colliderType: 0
   start: {fileID: 1974944732}
   end: {fileID: 108655109}
   cutSurfaceMaterial: {fileID: 2100000, guid: c05aa33c6ee25d1469ba112bde31dad1, type: 2}
@@ -6178,8 +6147,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bc8b60e63e0d60418072da3d82c3545, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enableCollision: 1
-  colliderType: 1
+  colliderType: 0
   start: {fileID: 1584195120}
   end: {fileID: 276270750}
   cutSurfaceMaterial: {fileID: 2100000, guid: c05aa33c6ee25d1469ba112bde31dad1, type: 2}
@@ -6291,8 +6259,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bc8b60e63e0d60418072da3d82c3545, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enableCollision: 1
-  colliderType: 1
+  colliderType: 0
   start: {fileID: 1115474201}
   end: {fileID: 96666079}
   cutSurfaceMaterial: {fileID: 2100000, guid: c05aa33c6ee25d1469ba112bde31dad1, type: 2}
@@ -6484,8 +6451,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bc8b60e63e0d60418072da3d82c3545, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enableCollision: 1
-  colliderType: 1
+  colliderType: 0
   start: {fileID: 564090064}
   end: {fileID: 476685829}
   cutSurfaceMaterial: {fileID: 2100000, guid: c05aa33c6ee25d1469ba112bde31dad1, type: 2}
@@ -6597,8 +6563,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bc8b60e63e0d60418072da3d82c3545, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enableCollision: 1
-  colliderType: 1
+  colliderType: 0
   start: {fileID: 2078202480}
   end: {fileID: 896888205}
   cutSurfaceMaterial: {fileID: 2100000, guid: c05aa33c6ee25d1469ba112bde31dad1, type: 2}
@@ -6710,8 +6675,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bc8b60e63e0d60418072da3d82c3545, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enableCollision: 1
-  colliderType: 1
+  colliderType: 0
   start: {fileID: 1177026707}
   end: {fileID: 161598211}
   cutSurfaceMaterial: {fileID: 2100000, guid: c05aa33c6ee25d1469ba112bde31dad1, type: 2}
@@ -6853,8 +6817,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bc8b60e63e0d60418072da3d82c3545, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enableCollision: 1
-  colliderType: 1
+  colliderType: 0
   start: {fileID: 190759479}
   end: {fileID: 205540058}
   cutSurfaceMaterial: {fileID: 2100000, guid: c05aa33c6ee25d1469ba112bde31dad1, type: 2}
@@ -6996,8 +6959,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bc8b60e63e0d60418072da3d82c3545, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enableCollision: 1
-  colliderType: 1
+  colliderType: 0
   start: {fileID: 1974971227}
   end: {fileID: 904579885}
   cutSurfaceMaterial: {fileID: 2100000, guid: c05aa33c6ee25d1469ba112bde31dad1, type: 2}
@@ -7245,8 +7207,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bc8b60e63e0d60418072da3d82c3545, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enableCollision: 1
-  colliderType: 1
+  colliderType: 0
   start: {fileID: 1894304010}
   end: {fileID: 94778876}
   cutSurfaceMaterial: {fileID: 2100000, guid: c05aa33c6ee25d1469ba112bde31dad1, type: 2}
@@ -7462,8 +7423,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bc8b60e63e0d60418072da3d82c3545, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enableCollision: 1
-  colliderType: 1
+  colliderType: 0
   start: {fileID: 254513657}
   end: {fileID: 1565211341}
   cutSurfaceMaterial: {fileID: 2100000, guid: c05aa33c6ee25d1469ba112bde31dad1, type: 2}
@@ -7695,8 +7655,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bc8b60e63e0d60418072da3d82c3545, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enableCollision: 1
-  colliderType: 1
+  colliderType: 0
   start: {fileID: 1519335142}
   end: {fileID: 871926741}
   cutSurfaceMaterial: {fileID: 2100000, guid: c05aa33c6ee25d1469ba112bde31dad1, type: 2}
@@ -7958,8 +7917,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bc8b60e63e0d60418072da3d82c3545, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enableCollision: 1
-  colliderType: 1
+  colliderType: 0
   start: {fileID: 415470903}
   end: {fileID: 1213358647}
   cutSurfaceMaterial: {fileID: 2100000, guid: c05aa33c6ee25d1469ba112bde31dad1, type: 2}
@@ -8131,8 +8089,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bc8b60e63e0d60418072da3d82c3545, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enableCollision: 1
-  colliderType: 1
+  colliderType: 0
   start: {fileID: 554812116}
   end: {fileID: 19079168}
   cutSurfaceMaterial: {fileID: 2100000, guid: c05aa33c6ee25d1469ba112bde31dad1, type: 2}
@@ -8296,7 +8253,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6409938c33f10624a914597c19762dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enableCollision: 1
   colliderType: 2
   start: {fileID: 1887260961}
   end: {fileID: 137441016}
@@ -8452,8 +8408,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bc8b60e63e0d60418072da3d82c3545, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enableCollision: 1
-  colliderType: 1
+  colliderType: 0
   start: {fileID: 1794144199}
   end: {fileID: 1278991929}
   cutSurfaceMaterial: {fileID: 2100000, guid: c05aa33c6ee25d1469ba112bde31dad1, type: 2}
@@ -8685,8 +8640,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bc8b60e63e0d60418072da3d82c3545, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enableCollision: 1
-  colliderType: 1
+  colliderType: 0
   start: {fileID: 1071801624}
   end: {fileID: 1746484108}
   cutSurfaceMaterial: {fileID: 2100000, guid: c05aa33c6ee25d1469ba112bde31dad1, type: 2}
@@ -8798,8 +8752,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bc8b60e63e0d60418072da3d82c3545, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enableCollision: 1
-  colliderType: 1
+  colliderType: 0
   start: {fileID: 1436123476}
   end: {fileID: 109977894}
   cutSurfaceMaterial: {fileID: 2100000, guid: c05aa33c6ee25d1469ba112bde31dad1, type: 2}
@@ -8897,7 +8850,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bc8b60e63e0d60418072da3d82c3545, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enableCollision: 1
   colliderType: 1
   start: {fileID: 1461144284}
   end: {fileID: 894726269}
@@ -9083,8 +9035,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bc8b60e63e0d60418072da3d82c3545, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enableCollision: 1
-  colliderType: 1
+  colliderType: 0
   start: {fileID: 370945937}
   end: {fileID: 933086379}
   cutSurfaceMaterial: {fileID: 2100000, guid: c05aa33c6ee25d1469ba112bde31dad1, type: 2}
@@ -9195,7 +9146,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bc8b60e63e0d60418072da3d82c3545, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enableCollision: 1
   colliderType: 0
   start: {fileID: 1156751574}
   end: {fileID: 1202756762}
@@ -9354,8 +9304,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bc8b60e63e0d60418072da3d82c3545, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enableCollision: 1
-  colliderType: 1
+  colliderType: 0
   start: {fileID: 1089463247}
   end: {fileID: 1106674003}
   cutSurfaceMaterial: {fileID: 2100000, guid: c05aa33c6ee25d1469ba112bde31dad1, type: 2}
@@ -9707,8 +9656,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bc8b60e63e0d60418072da3d82c3545, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enableCollision: 1
-  colliderType: 1
+  colliderType: 0
   start: {fileID: 1041860744}
   end: {fileID: 1351072306}
   cutSurfaceMaterial: {fileID: 2100000, guid: c05aa33c6ee25d1469ba112bde31dad1, type: 2}
@@ -9850,8 +9798,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bc8b60e63e0d60418072da3d82c3545, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enableCollision: 1
-  colliderType: 1
+  colliderType: 0
   start: {fileID: 1646223864}
   end: {fileID: 2108665561}
   cutSurfaceMaterial: {fileID: 2100000, guid: c05aa33c6ee25d1469ba112bde31dad1, type: 2}
@@ -9963,8 +9910,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bc8b60e63e0d60418072da3d82c3545, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enableCollision: 1
-  colliderType: 1
+  colliderType: 0
   start: {fileID: 1861571740}
   end: {fileID: 18739882}
   cutSurfaceMaterial: {fileID: 2100000, guid: c05aa33c6ee25d1469ba112bde31dad1, type: 2}
@@ -10106,8 +10052,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bc8b60e63e0d60418072da3d82c3545, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enableCollision: 1
-  colliderType: 1
+  colliderType: 0
   start: {fileID: 408304604}
   end: {fileID: 1854704963}
   cutSurfaceMaterial: {fileID: 2100000, guid: c05aa33c6ee25d1469ba112bde31dad1, type: 2}
@@ -10219,8 +10164,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bc8b60e63e0d60418072da3d82c3545, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enableCollision: 1
-  colliderType: 1
+  colliderType: 0
   start: {fileID: 682039632}
   end: {fileID: 1617524460}
   cutSurfaceMaterial: {fileID: 2100000, guid: c05aa33c6ee25d1469ba112bde31dad1, type: 2}
@@ -10348,8 +10292,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bc8b60e63e0d60418072da3d82c3545, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enableCollision: 1
-  colliderType: 1
+  colliderType: 0
   start: {fileID: 1316702965}
   end: {fileID: 1524587199}
   cutSurfaceMaterial: {fileID: 2100000, guid: c05aa33c6ee25d1469ba112bde31dad1, type: 2}
@@ -10685,8 +10628,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bc8b60e63e0d60418072da3d82c3545, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enableCollision: 1
-  colliderType: 1
+  colliderType: 0
   start: {fileID: 1719330396}
   end: {fileID: 431402237}
   cutSurfaceMaterial: {fileID: 2100000, guid: c05aa33c6ee25d1469ba112bde31dad1, type: 2}
@@ -10918,8 +10860,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bc8b60e63e0d60418072da3d82c3545, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enableCollision: 1
-  colliderType: 1
+  colliderType: 0
   start: {fileID: 1440941555}
   end: {fileID: 887837341}
   cutSurfaceMaterial: {fileID: 2100000, guid: c05aa33c6ee25d1469ba112bde31dad1, type: 2}
@@ -11061,8 +11002,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bc8b60e63e0d60418072da3d82c3545, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enableCollision: 1
-  colliderType: 1
+  colliderType: 0
   start: {fileID: 314802559}
   end: {fileID: 1264385607}
   cutSurfaceMaterial: {fileID: 2100000, guid: c05aa33c6ee25d1469ba112bde31dad1, type: 2}
@@ -11324,8 +11264,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bc8b60e63e0d60418072da3d82c3545, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enableCollision: 1
-  colliderType: 1
+  colliderType: 0
   start: {fileID: 1814213797}
   end: {fileID: 1881825589}
   cutSurfaceMaterial: {fileID: 2100000, guid: c05aa33c6ee25d1469ba112bde31dad1, type: 2}
@@ -11437,8 +11376,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bc8b60e63e0d60418072da3d82c3545, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enableCollision: 1
-  colliderType: 1
+  colliderType: 0
   start: {fileID: 687042985}
   end: {fileID: 919232989}
   cutSurfaceMaterial: {fileID: 2100000, guid: c05aa33c6ee25d1469ba112bde31dad1, type: 2}
@@ -11700,8 +11638,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bc8b60e63e0d60418072da3d82c3545, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enableCollision: 1
-  colliderType: 1
+  colliderType: 0
   start: {fileID: 49876950}
   end: {fileID: 84242833}
   cutSurfaceMaterial: {fileID: 2100000, guid: c05aa33c6ee25d1469ba112bde31dad1, type: 2}
@@ -11813,8 +11750,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bc8b60e63e0d60418072da3d82c3545, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enableCollision: 1
-  colliderType: 1
+  colliderType: 0
   start: {fileID: 1982324194}
   end: {fileID: 712982128}
   cutSurfaceMaterial: {fileID: 2100000, guid: c05aa33c6ee25d1469ba112bde31dad1, type: 2}
@@ -11956,8 +11892,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bc8b60e63e0d60418072da3d82c3545, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enableCollision: 1
-  colliderType: 1
+  colliderType: 0
   start: {fileID: 1818817260}
   end: {fileID: 437011872}
   cutSurfaceMaterial: {fileID: 2100000, guid: c05aa33c6ee25d1469ba112bde31dad1, type: 2}
@@ -12069,8 +12004,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bc8b60e63e0d60418072da3d82c3545, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enableCollision: 1
-  colliderType: 1
+  colliderType: 0
   start: {fileID: 1686710563}
   end: {fileID: 1489006778}
   cutSurfaceMaterial: {fileID: 2100000, guid: c05aa33c6ee25d1469ba112bde31dad1, type: 2}
@@ -12182,8 +12116,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bc8b60e63e0d60418072da3d82c3545, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enableCollision: 1
-  colliderType: 1
+  colliderType: 0
   start: {fileID: 1992979496}
   end: {fileID: 31025369}
   cutSurfaceMaterial: {fileID: 2100000, guid: c05aa33c6ee25d1469ba112bde31dad1, type: 2}
@@ -12506,8 +12439,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bc8b60e63e0d60418072da3d82c3545, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enableCollision: 1
-  colliderType: 1
+  colliderType: 0
   start: {fileID: 8478552}
   end: {fileID: 610270297}
   cutSurfaceMaterial: {fileID: 2100000, guid: c05aa33c6ee25d1469ba112bde31dad1, type: 2}
@@ -12649,8 +12581,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bc8b60e63e0d60418072da3d82c3545, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enableCollision: 1
-  colliderType: 1
+  colliderType: 0
   start: {fileID: 305378091}
   end: {fileID: 673205641}
   cutSurfaceMaterial: {fileID: 2100000, guid: c05aa33c6ee25d1469ba112bde31dad1, type: 2}
@@ -12822,8 +12753,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bc8b60e63e0d60418072da3d82c3545, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enableCollision: 1
-  colliderType: 1
+  colliderType: 0
   start: {fileID: 909150955}
   end: {fileID: 1003445111}
   cutSurfaceMaterial: {fileID: 2100000, guid: c05aa33c6ee25d1469ba112bde31dad1, type: 2}
@@ -13055,8 +12985,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bc8b60e63e0d60418072da3d82c3545, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enableCollision: 1
-  colliderType: 1
+  colliderType: 0
   start: {fileID: 788444863}
   end: {fileID: 55561721}
   cutSurfaceMaterial: {fileID: 2100000, guid: c05aa33c6ee25d1469ba112bde31dad1, type: 2}
@@ -13198,8 +13127,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bc8b60e63e0d60418072da3d82c3545, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enableCollision: 1
-  colliderType: 1
+  colliderType: 0
   start: {fileID: 1403368677}
   end: {fileID: 425431751}
   cutSurfaceMaterial: {fileID: 2100000, guid: c05aa33c6ee25d1469ba112bde31dad1, type: 2}
@@ -13371,8 +13299,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bc8b60e63e0d60418072da3d82c3545, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enableCollision: 1
-  colliderType: 1
+  colliderType: 0
   start: {fileID: 2113288073}
   end: {fileID: 1888711779}
   cutSurfaceMaterial: {fileID: 2100000, guid: c05aa33c6ee25d1469ba112bde31dad1, type: 2}
@@ -13484,8 +13411,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bc8b60e63e0d60418072da3d82c3545, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enableCollision: 1
-  colliderType: 1
+  colliderType: 0
   start: {fileID: 516524125}
   end: {fileID: 1393306358}
   cutSurfaceMaterial: {fileID: 2100000, guid: c05aa33c6ee25d1469ba112bde31dad1, type: 2}
@@ -13816,8 +13742,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bc8b60e63e0d60418072da3d82c3545, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enableCollision: 1
-  colliderType: 1
+  colliderType: 0
   start: {fileID: 1486350610}
   end: {fileID: 493897754}
   cutSurfaceMaterial: {fileID: 2100000, guid: c05aa33c6ee25d1469ba112bde31dad1, type: 2}
@@ -13959,8 +13884,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bc8b60e63e0d60418072da3d82c3545, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enableCollision: 1
-  colliderType: 1
+  colliderType: 0
   start: {fileID: 1096928045}
   end: {fileID: 198890758}
   cutSurfaceMaterial: {fileID: 2100000, guid: c05aa33c6ee25d1469ba112bde31dad1, type: 2}
@@ -14072,8 +13996,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bc8b60e63e0d60418072da3d82c3545, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enableCollision: 1
-  colliderType: 1
+  colliderType: 0
   start: {fileID: 1601561014}
   end: {fileID: 1544250339}
   cutSurfaceMaterial: {fileID: 2100000, guid: c05aa33c6ee25d1469ba112bde31dad1, type: 2}
@@ -14185,8 +14108,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bc8b60e63e0d60418072da3d82c3545, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enableCollision: 1
-  colliderType: 1
+  colliderType: 0
   start: {fileID: 1395975918}
   end: {fileID: 897784390}
   cutSurfaceMaterial: {fileID: 2100000, guid: c05aa33c6ee25d1469ba112bde31dad1, type: 2}
@@ -14328,8 +14250,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bc8b60e63e0d60418072da3d82c3545, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enableCollision: 1
-  colliderType: 1
+  colliderType: 0
   start: {fileID: 1824168340}
   end: {fileID: 1205196765}
   cutSurfaceMaterial: {fileID: 2100000, guid: c05aa33c6ee25d1469ba112bde31dad1, type: 2}
@@ -14561,8 +14482,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bc8b60e63e0d60418072da3d82c3545, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enableCollision: 1
-  colliderType: 1
+  colliderType: 0
   start: {fileID: 1748508127}
   end: {fileID: 124851103}
   cutSurfaceMaterial: {fileID: 2100000, guid: c05aa33c6ee25d1469ba112bde31dad1, type: 2}
@@ -14704,8 +14624,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bc8b60e63e0d60418072da3d82c3545, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enableCollision: 1
-  colliderType: 1
+  colliderType: 0
   start: {fileID: 1462173453}
   end: {fileID: 1946119009}
   cutSurfaceMaterial: {fileID: 2100000, guid: c05aa33c6ee25d1469ba112bde31dad1, type: 2}
@@ -14847,8 +14766,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bc8b60e63e0d60418072da3d82c3545, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enableCollision: 1
-  colliderType: 1
+  colliderType: 0
   start: {fileID: 501985811}
   end: {fileID: 88810941}
   cutSurfaceMaterial: {fileID: 2100000, guid: c05aa33c6ee25d1469ba112bde31dad1, type: 2}
@@ -14960,8 +14878,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bc8b60e63e0d60418072da3d82c3545, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enableCollision: 1
-  colliderType: 1
+  colliderType: 0
   start: {fileID: 1277405221}
   end: {fileID: 109212833}
   cutSurfaceMaterial: {fileID: 2100000, guid: c05aa33c6ee25d1469ba112bde31dad1, type: 2}
@@ -15163,8 +15080,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bc8b60e63e0d60418072da3d82c3545, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enableCollision: 1
-  colliderType: 1
+  colliderType: 0
   start: {fileID: 11180297}
   end: {fileID: 399751994}
   cutSurfaceMaterial: {fileID: 2100000, guid: c05aa33c6ee25d1469ba112bde31dad1, type: 2}
@@ -15276,8 +15192,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bc8b60e63e0d60418072da3d82c3545, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enableCollision: 1
-  colliderType: 1
+  colliderType: 0
   start: {fileID: 4954598}
   end: {fileID: 1673995834}
   cutSurfaceMaterial: {fileID: 2100000, guid: c05aa33c6ee25d1469ba112bde31dad1, type: 2}
@@ -15389,8 +15304,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bc8b60e63e0d60418072da3d82c3545, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enableCollision: 1
-  colliderType: 1
+  colliderType: 0
   start: {fileID: 1639171977}
   end: {fileID: 1748075983}
   cutSurfaceMaterial: {fileID: 2100000, guid: c05aa33c6ee25d1469ba112bde31dad1, type: 2}
@@ -15691,8 +15605,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bc8b60e63e0d60418072da3d82c3545, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enableCollision: 1
-  colliderType: 1
+  colliderType: 0
   start: {fileID: 1937349418}
   end: {fileID: 1124084363}
   cutSurfaceMaterial: {fileID: 2100000, guid: c05aa33c6ee25d1469ba112bde31dad1, type: 2}
@@ -15924,8 +15837,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bc8b60e63e0d60418072da3d82c3545, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enableCollision: 1
-  colliderType: 1
+  colliderType: 0
   start: {fileID: 1525568716}
   end: {fileID: 705826794}
   cutSurfaceMaterial: {fileID: 2100000, guid: c05aa33c6ee25d1469ba112bde31dad1, type: 2}
@@ -16174,8 +16086,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bc8b60e63e0d60418072da3d82c3545, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enableCollision: 1
-  colliderType: 1
+  colliderType: 0
   start: {fileID: 698138000}
   end: {fileID: 571019832}
   cutSurfaceMaterial: {fileID: 2100000, guid: c05aa33c6ee25d1469ba112bde31dad1, type: 2}
@@ -16287,8 +16198,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bc8b60e63e0d60418072da3d82c3545, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enableCollision: 1
-  colliderType: 1
+  colliderType: 0
   start: {fileID: 1889646294}
   end: {fileID: 1984020230}
   cutSurfaceMaterial: {fileID: 2100000, guid: c05aa33c6ee25d1469ba112bde31dad1, type: 2}
@@ -16400,8 +16310,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bc8b60e63e0d60418072da3d82c3545, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enableCollision: 1
-  colliderType: 1
+  colliderType: 0
   start: {fileID: 1334019313}
   end: {fileID: 1873531614}
   cutSurfaceMaterial: {fileID: 2100000, guid: c05aa33c6ee25d1469ba112bde31dad1, type: 2}
@@ -16954,8 +16863,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bc8b60e63e0d60418072da3d82c3545, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enableCollision: 1
-  colliderType: 1
+  colliderType: 0
   start: {fileID: 270271098}
   end: {fileID: 653931104}
   cutSurfaceMaterial: {fileID: 2100000, guid: c05aa33c6ee25d1469ba112bde31dad1, type: 2}
@@ -17215,8 +17123,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bc8b60e63e0d60418072da3d82c3545, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enableCollision: 1
-  colliderType: 1
+  colliderType: 0
   start: {fileID: 302928142}
   end: {fileID: 684758440}
   cutSurfaceMaterial: {fileID: 2100000, guid: c05aa33c6ee25d1469ba112bde31dad1, type: 2}
@@ -17418,8 +17325,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bc8b60e63e0d60418072da3d82c3545, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enableCollision: 1
-  colliderType: 1
+  colliderType: 0
   start: {fileID: 1758437438}
   end: {fileID: 1983179559}
   cutSurfaceMaterial: {fileID: 2100000, guid: c05aa33c6ee25d1469ba112bde31dad1, type: 2}
@@ -17621,8 +17527,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bc8b60e63e0d60418072da3d82c3545, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enableCollision: 1
-  colliderType: 1
+  colliderType: 0
   start: {fileID: 1051662811}
   end: {fileID: 983902265}
   cutSurfaceMaterial: {fileID: 2100000, guid: c05aa33c6ee25d1469ba112bde31dad1, type: 2}
@@ -18004,8 +17909,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bc8b60e63e0d60418072da3d82c3545, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enableCollision: 1
-  colliderType: 1
+  colliderType: 0
   start: {fileID: 1025895708}
   end: {fileID: 378896755}
   cutSurfaceMaterial: {fileID: 2100000, guid: c05aa33c6ee25d1469ba112bde31dad1, type: 2}
@@ -18218,6 +18122,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4b7b352556142f544a918b75142c6ba1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _sortAxis: 0
 --- !u!1 &1528868494
 GameObject:
   m_ObjectHideFlags: 0
@@ -18266,8 +18171,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bc8b60e63e0d60418072da3d82c3545, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enableCollision: 1
-  colliderType: 1
+  colliderType: 0
   start: {fileID: 679536219}
   end: {fileID: 406821922}
   cutSurfaceMaterial: {fileID: 2100000, guid: c05aa33c6ee25d1469ba112bde31dad1, type: 2}
@@ -18393,8 +18297,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bc8b60e63e0d60418072da3d82c3545, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enableCollision: 1
-  colliderType: 1
+  colliderType: 0
   start: {fileID: 498232173}
   end: {fileID: 137799965}
   cutSurfaceMaterial: {fileID: 2100000, guid: c05aa33c6ee25d1469ba112bde31dad1, type: 2}
@@ -18625,7 +18528,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7520583d9ef0a3e4899d0eac5c4d2688, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enableCollision: 1
   colliderType: 0
   t0: {fileID: 694554315}
   t1: {fileID: 2121363553}
@@ -18684,7 +18586,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1565698362}
   m_LocalRotation: {x: -0.5910049, y: 0.388218, z: -0.3882178, w: 0.591005}
-  m_LocalPosition: {x: -0.727, y: 2.232, z: -5.716}
+  m_LocalPosition: {x: -0.24, y: 1.83, z: -3.86}
   m_LocalScale: {x: 100, y: 99.99997, z: 99.99997}
   m_Children:
   - {fileID: 694554315}
@@ -18721,7 +18623,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1571080965}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.412, y: -0.08, z: 0}
+  m_LocalPosition: {x: 0.412, y: -0.08, z: 4.1}
   m_LocalScale: {x: 0.1, y: 2, z: 1}
   m_Children:
   - {fileID: 1397845509}
@@ -18741,8 +18643,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bc8b60e63e0d60418072da3d82c3545, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enableCollision: 1
-  colliderType: 1
+  colliderType: 0
   start: {fileID: 1397845509}
   end: {fileID: 1509207277}
   cutSurfaceMaterial: {fileID: 2100000, guid: c05aa33c6ee25d1469ba112bde31dad1, type: 2}
@@ -18868,8 +18769,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bc8b60e63e0d60418072da3d82c3545, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enableCollision: 1
-  colliderType: 1
+  colliderType: 0
   start: {fileID: 544073768}
   end: {fileID: 616998263}
   cutSurfaceMaterial: {fileID: 2100000, guid: c05aa33c6ee25d1469ba112bde31dad1, type: 2}
@@ -18981,8 +18881,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bc8b60e63e0d60418072da3d82c3545, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enableCollision: 1
-  colliderType: 1
+  colliderType: 0
   start: {fileID: 1886866014}
   end: {fileID: 1760689977}
   cutSurfaceMaterial: {fileID: 2100000, guid: c05aa33c6ee25d1469ba112bde31dad1, type: 2}
@@ -19094,8 +18993,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bc8b60e63e0d60418072da3d82c3545, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enableCollision: 1
-  colliderType: 1
+  colliderType: 0
   start: {fileID: 787343996}
   end: {fileID: 1082235221}
   cutSurfaceMaterial: {fileID: 2100000, guid: c05aa33c6ee25d1469ba112bde31dad1, type: 2}
@@ -19237,8 +19135,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bc8b60e63e0d60418072da3d82c3545, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enableCollision: 1
-  colliderType: 1
+  colliderType: 0
   start: {fileID: 1274826479}
   end: {fileID: 2135733564}
   cutSurfaceMaterial: {fileID: 2100000, guid: c05aa33c6ee25d1469ba112bde31dad1, type: 2}
@@ -19470,8 +19367,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bc8b60e63e0d60418072da3d82c3545, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enableCollision: 1
-  colliderType: 1
+  colliderType: 0
   start: {fileID: 1502753990}
   end: {fileID: 1942947668}
   cutSurfaceMaterial: {fileID: 2100000, guid: c05aa33c6ee25d1469ba112bde31dad1, type: 2}
@@ -19583,8 +19479,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bc8b60e63e0d60418072da3d82c3545, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enableCollision: 1
-  colliderType: 1
+  colliderType: 0
   start: {fileID: 1672646159}
   end: {fileID: 254766676}
   cutSurfaceMaterial: {fileID: 2100000, guid: c05aa33c6ee25d1469ba112bde31dad1, type: 2}
@@ -19756,8 +19651,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bc8b60e63e0d60418072da3d82c3545, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enableCollision: 1
-  colliderType: 1
+  colliderType: 0
   start: {fileID: 1984100663}
   end: {fileID: 293946945}
   cutSurfaceMaterial: {fileID: 2100000, guid: c05aa33c6ee25d1469ba112bde31dad1, type: 2}
@@ -19899,8 +19793,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bc8b60e63e0d60418072da3d82c3545, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enableCollision: 1
-  colliderType: 1
+  colliderType: 0
   start: {fileID: 214883086}
   end: {fileID: 843818741}
   cutSurfaceMaterial: {fileID: 2100000, guid: c05aa33c6ee25d1469ba112bde31dad1, type: 2}
@@ -20042,8 +19935,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bc8b60e63e0d60418072da3d82c3545, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enableCollision: 1
-  colliderType: 1
+  colliderType: 0
   start: {fileID: 2109647211}
   end: {fileID: 813239232}
   cutSurfaceMaterial: {fileID: 2100000, guid: c05aa33c6ee25d1469ba112bde31dad1, type: 2}
@@ -20185,8 +20077,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bc8b60e63e0d60418072da3d82c3545, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enableCollision: 1
-  colliderType: 1
+  colliderType: 0
   start: {fileID: 668589711}
   end: {fileID: 1204679051}
   cutSurfaceMaterial: {fileID: 2100000, guid: c05aa33c6ee25d1469ba112bde31dad1, type: 2}
@@ -20298,8 +20189,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bc8b60e63e0d60418072da3d82c3545, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enableCollision: 1
-  colliderType: 1
+  colliderType: 0
   start: {fileID: 596918594}
   end: {fileID: 1080944410}
   cutSurfaceMaterial: {fileID: 2100000, guid: c05aa33c6ee25d1469ba112bde31dad1, type: 2}
@@ -20411,8 +20301,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bc8b60e63e0d60418072da3d82c3545, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enableCollision: 1
-  colliderType: 1
+  colliderType: 0
   start: {fileID: 374226802}
   end: {fileID: 493670204}
   cutSurfaceMaterial: {fileID: 2100000, guid: c05aa33c6ee25d1469ba112bde31dad1, type: 2}
@@ -20644,8 +20533,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bc8b60e63e0d60418072da3d82c3545, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enableCollision: 1
-  colliderType: 1
+  colliderType: 0
   start: {fileID: 1393083668}
   end: {fileID: 121299907}
   cutSurfaceMaterial: {fileID: 2100000, guid: c05aa33c6ee25d1469ba112bde31dad1, type: 2}
@@ -20757,8 +20645,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bc8b60e63e0d60418072da3d82c3545, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enableCollision: 1
-  colliderType: 1
+  colliderType: 0
   start: {fileID: 870911056}
   end: {fileID: 1373251221}
   cutSurfaceMaterial: {fileID: 2100000, guid: c05aa33c6ee25d1469ba112bde31dad1, type: 2}
@@ -20870,8 +20757,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bc8b60e63e0d60418072da3d82c3545, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enableCollision: 1
-  colliderType: 1
+  colliderType: 0
   start: {fileID: 198957243}
   end: {fileID: 1530379652}
   cutSurfaceMaterial: {fileID: 2100000, guid: c05aa33c6ee25d1469ba112bde31dad1, type: 2}
@@ -20983,8 +20869,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bc8b60e63e0d60418072da3d82c3545, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enableCollision: 1
-  colliderType: 1
+  colliderType: 0
   start: {fileID: 1072396785}
   end: {fileID: 735450258}
   cutSurfaceMaterial: {fileID: 2100000, guid: c05aa33c6ee25d1469ba112bde31dad1, type: 2}
@@ -21096,8 +20981,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bc8b60e63e0d60418072da3d82c3545, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enableCollision: 1
-  colliderType: 1
+  colliderType: 0
   start: {fileID: 2037705132}
   end: {fileID: 1783342194}
   cutSurfaceMaterial: {fileID: 2100000, guid: c05aa33c6ee25d1469ba112bde31dad1, type: 2}
@@ -21285,8 +21169,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bc8b60e63e0d60418072da3d82c3545, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enableCollision: 1
-  colliderType: 1
+  colliderType: 0
   start: {fileID: 1629266123}
   end: {fileID: 978090265}
   cutSurfaceMaterial: {fileID: 2100000, guid: c05aa33c6ee25d1469ba112bde31dad1, type: 2}
@@ -21532,8 +21415,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bc8b60e63e0d60418072da3d82c3545, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enableCollision: 1
-  colliderType: 1
+  colliderType: 0
   start: {fileID: 1206941799}
   end: {fileID: 408887373}
   cutSurfaceMaterial: {fileID: 2100000, guid: c05aa33c6ee25d1469ba112bde31dad1, type: 2}
@@ -21675,8 +21557,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bc8b60e63e0d60418072da3d82c3545, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enableCollision: 1
-  colliderType: 1
+  colliderType: 0
   start: {fileID: 451171025}
   end: {fileID: 1821662750}
   cutSurfaceMaterial: {fileID: 2100000, guid: c05aa33c6ee25d1469ba112bde31dad1, type: 2}
@@ -21788,8 +21669,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bc8b60e63e0d60418072da3d82c3545, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enableCollision: 1
-  colliderType: 1
+  colliderType: 0
   start: {fileID: 918474296}
   end: {fileID: 514808805}
   cutSurfaceMaterial: {fileID: 2100000, guid: c05aa33c6ee25d1469ba112bde31dad1, type: 2}
@@ -21901,8 +21781,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bc8b60e63e0d60418072da3d82c3545, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enableCollision: 1
-  colliderType: 1
+  colliderType: 0
   start: {fileID: 1623936319}
   end: {fileID: 483994591}
   cutSurfaceMaterial: {fileID: 2100000, guid: c05aa33c6ee25d1469ba112bde31dad1, type: 2}
@@ -22044,7 +21923,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bc8b60e63e0d60418072da3d82c3545, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enableCollision: 1
   colliderType: 0
   start: {fileID: 666274341}
   end: {fileID: 2073792619}
@@ -22187,8 +22065,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bc8b60e63e0d60418072da3d82c3545, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enableCollision: 1
-  colliderType: 1
+  colliderType: 0
   start: {fileID: 1329621401}
   end: {fileID: 621663853}
   cutSurfaceMaterial: {fileID: 2100000, guid: c05aa33c6ee25d1469ba112bde31dad1, type: 2}
@@ -22524,8 +22401,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bc8b60e63e0d60418072da3d82c3545, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enableCollision: 1
-  colliderType: 1
+  colliderType: 0
   start: {fileID: 1887871341}
   end: {fileID: 1716703612}
   cutSurfaceMaterial: {fileID: 2100000, guid: c05aa33c6ee25d1469ba112bde31dad1, type: 2}
@@ -22637,8 +22513,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bc8b60e63e0d60418072da3d82c3545, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enableCollision: 1
-  colliderType: 1
+  colliderType: 0
   start: {fileID: 2032133192}
   end: {fileID: 1442009767}
   cutSurfaceMaterial: {fileID: 2100000, guid: c05aa33c6ee25d1469ba112bde31dad1, type: 2}
@@ -22780,8 +22655,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bc8b60e63e0d60418072da3d82c3545, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enableCollision: 1
-  colliderType: 1
+  colliderType: 0
   start: {fileID: 1835227394}
   end: {fileID: 1540192477}
   cutSurfaceMaterial: {fileID: 2100000, guid: c05aa33c6ee25d1469ba112bde31dad1, type: 2}
@@ -22953,8 +22827,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bc8b60e63e0d60418072da3d82c3545, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enableCollision: 1
-  colliderType: 1
+  colliderType: 0
   start: {fileID: 1668562342}
   end: {fileID: 433252718}
   cutSurfaceMaterial: {fileID: 2100000, guid: c05aa33c6ee25d1469ba112bde31dad1, type: 2}
@@ -23126,8 +22999,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bc8b60e63e0d60418072da3d82c3545, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enableCollision: 1
-  colliderType: 1
+  colliderType: 0
   start: {fileID: 199188484}
   end: {fileID: 47957393}
   cutSurfaceMaterial: {fileID: 2100000, guid: c05aa33c6ee25d1469ba112bde31dad1, type: 2}
@@ -23359,8 +23231,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bc8b60e63e0d60418072da3d82c3545, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enableCollision: 1
-  colliderType: 1
+  colliderType: 0
   start: {fileID: 1958031200}
   end: {fileID: 2135579800}
   cutSurfaceMaterial: {fileID: 2100000, guid: c05aa33c6ee25d1469ba112bde31dad1, type: 2}
@@ -23472,8 +23343,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bc8b60e63e0d60418072da3d82c3545, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enableCollision: 1
-  colliderType: 1
+  colliderType: 0
   start: {fileID: 1265320082}
   end: {fileID: 2059052926}
   cutSurfaceMaterial: {fileID: 2100000, guid: c05aa33c6ee25d1469ba112bde31dad1, type: 2}
@@ -23645,8 +23515,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bc8b60e63e0d60418072da3d82c3545, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enableCollision: 1
-  colliderType: 1
+  colliderType: 0
   start: {fileID: 1126757384}
   end: {fileID: 1987334008}
   cutSurfaceMaterial: {fileID: 2100000, guid: c05aa33c6ee25d1469ba112bde31dad1, type: 2}
@@ -23878,8 +23747,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bc8b60e63e0d60418072da3d82c3545, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enableCollision: 1
-  colliderType: 1
+  colliderType: 0
   start: {fileID: 783301074}
   end: {fileID: 402304217}
   cutSurfaceMaterial: {fileID: 2100000, guid: c05aa33c6ee25d1469ba112bde31dad1, type: 2}
@@ -23991,8 +23859,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bc8b60e63e0d60418072da3d82c3545, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enableCollision: 1
-  colliderType: 1
+  colliderType: 0
   start: {fileID: 1390045839}
   end: {fileID: 1336837543}
   cutSurfaceMaterial: {fileID: 2100000, guid: c05aa33c6ee25d1469ba112bde31dad1, type: 2}
@@ -24284,8 +24151,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bc8b60e63e0d60418072da3d82c3545, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enableCollision: 1
-  colliderType: 1
+  colliderType: 0
   start: {fileID: 34185621}
   end: {fileID: 1912204757}
   cutSurfaceMaterial: {fileID: 2100000, guid: c05aa33c6ee25d1469ba112bde31dad1, type: 2}
@@ -24457,8 +24323,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bc8b60e63e0d60418072da3d82c3545, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enableCollision: 1
-  colliderType: 1
+  colliderType: 0
   start: {fileID: 1123741518}
   end: {fileID: 1589328865}
   cutSurfaceMaterial: {fileID: 2100000, guid: c05aa33c6ee25d1469ba112bde31dad1, type: 2}
@@ -24750,8 +24615,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bc8b60e63e0d60418072da3d82c3545, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enableCollision: 1
-  colliderType: 1
+  colliderType: 0
   start: {fileID: 852594121}
   end: {fileID: 221401723}
   cutSurfaceMaterial: {fileID: 2100000, guid: c05aa33c6ee25d1469ba112bde31dad1, type: 2}
@@ -24923,8 +24787,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bc8b60e63e0d60418072da3d82c3545, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enableCollision: 1
-  colliderType: 1
+  colliderType: 0
   start: {fileID: 1246397861}
   end: {fileID: 830490379}
   cutSurfaceMaterial: {fileID: 2100000, guid: c05aa33c6ee25d1469ba112bde31dad1, type: 2}
@@ -25246,8 +25109,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bc8b60e63e0d60418072da3d82c3545, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enableCollision: 1
-  colliderType: 1
+  colliderType: 0
   start: {fileID: 897791201}
   end: {fileID: 1234393552}
   cutSurfaceMaterial: {fileID: 2100000, guid: c05aa33c6ee25d1469ba112bde31dad1, type: 2}
@@ -25509,8 +25371,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bc8b60e63e0d60418072da3d82c3545, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enableCollision: 1
-  colliderType: 1
+  colliderType: 0
   start: {fileID: 1320314811}
   end: {fileID: 1758976764}
   cutSurfaceMaterial: {fileID: 2100000, guid: c05aa33c6ee25d1469ba112bde31dad1, type: 2}

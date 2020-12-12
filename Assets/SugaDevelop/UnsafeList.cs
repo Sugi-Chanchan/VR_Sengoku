@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-public class UnsafeList<T> //List.Add()が遅いのでListから配列を引きずり出して直接入力するために使用. 結構速い
+public class UnsafeList<T>:IEnumerable<T> //List.Add()が遅いのでListから配列を引きずり出して直接入力するために使用.
 {
     public T[] unsafe_array;
     int capacity;
     public int unsafe_count;
     public int Count { get { return unsafe_count; } }//unsafe_countと違って安全
-    public int Capacity { get { return capacity; } }//内部ではcapacityを使ったほうが速い
+    public int Capacity { get { return capacity; } }//内部配列の最大収容数(要素数よりも常に多い)
 
     public UnsafeList(int cap)
     {
@@ -35,7 +35,7 @@ public class UnsafeList<T> //List.Add()が遅いのでListから配列を引き�
 
     public void Add(T value)
     {
-        if (capacity == unsafe_count)
+        if (capacity == unsafe_count)//配列が埋まったら新しい配列に移し替える
         {
             capacity = (capacity) * 2;
             var temp = new T[capacity];
@@ -45,7 +45,7 @@ public class UnsafeList<T> //List.Add()が遅いのでListから配列を引き�
         unsafe_array[unsafe_count++] = value;
     }
 
-    public UnsafeList<T> Clear(int _minCapacity)//初期化と同時に拡張
+    public UnsafeList<T> Clear(int _minCapacity=20)//初期化と同時に拡張
     {
         if (capacity < _minCapacity)
         {
@@ -71,7 +71,7 @@ public class UnsafeList<T> //List.Add()が遅いのでListから配列を引き�
         return new List<T>(output);
     }
 
-    public void AddOnlyCount()
+    public void AddOnlyCount()//カウントだけ増やして以前に使っていたものがそのまま入ってる状態にする(クラスの使いまわしに利用)
     {
         if (capacity == unsafe_count)
         {
@@ -93,5 +93,42 @@ public class UnsafeList<T> //List.Add()が遅いのでListから配列を引き�
         {
             unsafe_array[unsafe_count - 1] = value;
         }
+    }
+
+
+    //ここから下はforeachで回せるようにIEnumerableの実装をしている
+    public IEnumerator<T> GetEnumerator() { return new UnsafeListEnumerator(unsafe_array, unsafe_count); }
+    IEnumerator IEnumerable.GetEnumerator() { return this.GetEnumerator(); }
+
+    class UnsafeListEnumerator:IEnumerator<T>
+    {
+        int index;
+        int arrayLength;
+        T[] array;
+
+        public T Current { get { return array[index]; } }
+        object IEnumerator.Current { get { return array[index]; } }
+
+        public UnsafeListEnumerator(T[] array,int arrayLength)
+        {
+            index = -1;
+            this.arrayLength = arrayLength;
+            this.array = array;
+        }
+
+        public bool MoveNext()
+        {
+            if (++index >= arrayLength)
+            {
+                return false;
+            }
+
+            return true;
+        }
+        public void Reset()
+        {
+            index = -1;
+        }
+        void IDisposable.Dispose() { }
     }
 }
