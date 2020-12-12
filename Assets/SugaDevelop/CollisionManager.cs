@@ -8,7 +8,7 @@ public delegate void SetCollisionHandler();
 public class CollisionManager : MonoBehaviour
 {
 
-    
+
 
     public static event SetCollisionHandler SetCollision;
 
@@ -46,21 +46,30 @@ public class CollisionManager : MonoBehaviour
         exist = false;
     }
 
-
+    static ulong NOWCOLLISIONINDEX;
     void LateUpdate()
     {
 
         SetCollision();
-
-        for (int i = 0; i < cuttedAndCutter.Count; i++)
+        int count;
+        for (count = 0; count < cuttedAndCutter.Count; count++)
         {
-            ColliderInfo cutted_cutter = cuttedAndCutter[i];
+            if (count < 64)
+            {
+                NOWCOLLISIONINDEX = (ulong)1 << count;
+            }
+            ColliderInfo cutted_cutter = cuttedAndCutter[count];
             foreach (ColliderInfo cutted in cuttedOnly)
             {
                 CollisionCheck(cutted_cutter, cutted);
             }
 
-            for (int j = i + 1; j < cuttedAndCutter.Count; j++)
+            foreach (ColliderInfo cutter in cutterOnly)
+            {
+                CollisionCheck(cutted_cutter, cutter);
+            }
+
+            for (int j = count + 1; j < cuttedAndCutter.Count; j++)
             {
                 CollisionCheck(cutted_cutter, cuttedAndCutter[j]);
             }
@@ -68,57 +77,75 @@ public class CollisionManager : MonoBehaviour
 
         foreach (ColliderInfo cutter in cutterOnly)
         {
+            if (count < 64)
+            {
+                NOWCOLLISIONINDEX = (ulong)1 << count;
+                count++;
+            }
             foreach (ColliderInfo cutted in cuttedOnly)
             {
                 CollisionCheck(cutter, cutted);
-            }
-            foreach (ColliderInfo cutted_cutter in cuttedAndCutter)
-            {
-                CollisionCheck(cutter, cutted_cutter);
             }
         }
 
         Clear();
     }
 
-    void CollisionCheck3(ColliderInfo A, ColliderInfo B)
-    {
-        foreach (Polygon polygonA in A.polygons)
-        {
-            foreach (Polygon polygonB in B.polygons)
-            {
-                Vector3 _triangleVector1 = polygonA.vertices[1] - polygonA.vertices[0];
-                Vector3 _triangleVector2 = polygonA.vertices[2] - polygonA.vertices[0];
-                Vector3 hitPoint;
+    //void CollisionCheck3(ColliderInfo A, ColliderInfo B)
+    //{
+    //    foreach (Polygon polygonA in A.polygons)
+    //    {
+    //        foreach (Polygon polygonB in B.polygons)
+    //        {
+    //            Vector3 _triangleVector1 = polygonA.vertices[1] - polygonA.vertices[0];
+    //            Vector3 _triangleVector2 = polygonA.vertices[2] - polygonA.vertices[0];
+    //            Vector3 hitPoint;
 
-                for (int i = 0; i < 3; i++)
-                {
-                    if (OverrapCheck(polygonA.vertices[0], _triangleVector1, _triangleVector2, polygonB.vertices[i], polygonB.vertices[(i + 1) % 3] - polygonB.vertices[i], out hitPoint))
-                    {
-                        CollisionDetection(A, B, polygonA, polygonB, new Vector3[2] { hitPoint, Vector3.zero });
-                        return;
-                    };
-                }
+    //            for (int i = 0; i < 3; i++)
+    //            {
+    //                if (OverrapCheck(polygonA.vertices[0], _triangleVector1, _triangleVector2, polygonB.vertices[i], polygonB.vertices[(i + 1) % 3] - polygonB.vertices[i], out hitPoint))
+    //                {
+    //                    CollisionDetection(A, B, polygonA, polygonB, new Vector3[2] { hitPoint, Vector3.zero });
+    //                    return;
+    //                };
+    //            }
 
-                _triangleVector1 = polygonB.vertices[1] - polygonB.vertices[0];
-                _triangleVector2 = polygonB.vertices[2] - polygonB.vertices[0];
-                for (int i = 0; i < 3; i++)
-                {
-                    if (OverrapCheck(polygonB.vertices[0], _triangleVector1, _triangleVector2, polygonA.vertices[i], polygonA.vertices[(i + 1) % 3] - polygonA.vertices[i], out hitPoint))
-                    {
-                        CollisionDetection(A, B, polygonA, polygonB, new Vector3[2] { hitPoint, Vector3.zero });
-                        return;
-                    };
-                }
-            }
-        }
-    }
+    //            _triangleVector1 = polygonB.vertices[1] - polygonB.vertices[0];
+    //            _triangleVector2 = polygonB.vertices[2] - polygonB.vertices[0];
+    //            for (int i = 0; i < 3; i++)
+    //            {
+    //                if (OverrapCheck(polygonB.vertices[0], _triangleVector1, _triangleVector2, polygonA.vertices[i], polygonA.vertices[(i + 1) % 3] - polygonA.vertices[i], out hitPoint))
+    //                {
+    //                    CollisionDetection(A, B, polygonA, polygonB, new Vector3[2] { hitPoint, Vector3.zero });
+    //                    return;
+    //                };
+    //            }
+    //        }
+    //    }
+    //}
 
     static Vector3 intersectionA0, intersectionA1, intersectionB0, intersectionB1;
     static Vector3[] hitPoints = new Vector3[2];
     const float threshold = 0.000000001f;
     void CollisionCheck(ColliderInfo A, ColliderInfo B)
     {
+        {
+            ulong KEY_A = A.COLLISION_COARSECHECK;
+            ulong SUBKEY_A = A.COLLISION_COARSECHECK_SUB;
+            ulong KEY_B = B.COLLISION_COARSECHECK;
+            ulong SUBKEY_B = B.COLLISION_COARSECHECK_SUB;
+
+            KEY_A = KEY_A | SUBKEY_B;
+            KEY_B = KEY_B | SUBKEY_A;
+            if (KEY_A != KEY_B)
+            {
+                B.COLLISION_COARSECHECK_SUB = B.COLLISION_COARSECHECK_SUB | NOWCOLLISIONINDEX;
+                B.COLLISION_COARSECHECK = B.COLLISION_COARSECHECK | NOWCOLLISIONINDEX;
+                return;
+            }
+        }
+
+        bool? isfront = null;
         foreach (Polygon polygonA in A.polygons)
         {
             foreach (Polygon polygonB in B.polygons)
@@ -290,22 +317,106 @@ public class CollisionManager : MonoBehaviour
 
         bool CoarseCheck(Polygon polygonA, Polygon polygonB)
         {
-            Vector3 normal = polygonB.normal;
-            Vector3 anchor = polygonB[0];
-            (float side1D_1, float side1D_2, float side2D, Vector3 side1Pos_1, Vector3 side1Pos_2, Vector3 side2Pos) AInfo;
-            float d0, d1, d2;
 
-            Vector3[] poss = polygonA.vertices;
+
+            Vector3 normal = polygonA.normal;
+            Vector3 anchor = polygonA[0];
+            (float side1D_1, float side1D_2, float side2D, Vector3 side1Pos_1, Vector3 side1Pos_2, Vector3 side2Pos) BInfo;
+
+            Vector3[] poss = polygonB.vertices;
             Vector3 pos0 = poss[0];
             Vector3 pos1 = poss[1];
             Vector3 pos2 = poss[2];
+
+            float d0, d1, d2;
             float anc = normal.x * anchor.x + normal.y * anchor.y + normal.z * anchor.z;
-            d0 = normal.x * pos0.x + normal.y * pos0.y + normal.z * pos0.z-anc;
-            d1 = normal.x * pos1.x + normal.y * pos1.y + normal.z * pos1.z-anc;
-            d2 = normal.x * pos2.x + normal.y * pos2.y + normal.z * pos2.z-anc;
-            //d0 = Vector3.Dot(normal, pos0 - anchor);
-            //d1 = Vector3.Dot(normal, pos1 - anchor);
-            //d2 = Vector3.Dot(normal, pos2 - anchor);
+            d0 = normal.x * pos0.x + normal.y * pos0.y + normal.z * pos0.z - anc;
+            d1 = normal.x * pos1.x + normal.y * pos1.y + normal.z * pos1.z - anc;
+            d2 = normal.x * pos2.x + normal.y * pos2.y + normal.z * pos2.z - anc;
+            if (d0 > 0)
+            {
+                if (d1 > 0)
+                {
+                    if (d2 > 0)
+                    {
+                        if (isfront == false)
+                        {
+                            B.COLLISION_COARSECHECK_SUB = B.COLLISION_COARSECHECK_SUB | NOWCOLLISIONINDEX;
+                            B.COLLISION_COARSECHECK = B.COLLISION_COARSECHECK | NOWCOLLISIONINDEX;
+                        }
+                        else
+                        {
+                            B.COLLISION_COARSECHECK = B.COLLISION_COARSECHECK | NOWCOLLISIONINDEX;
+                            isfront = true;
+                        }
+                        return false;
+                    }
+                    else
+                    {
+                        BInfo = (d0, d1, -d2, pos0, pos1, pos2);
+                    }
+                }
+                else
+                {
+                    if (d2 > 0)
+                    {
+                        BInfo = (d0, d2, -d1, pos0, pos2, pos1);
+                    }
+                    else
+                    {
+                        BInfo = (-d1, -d2, d0, pos1, pos2, pos0);
+                    }
+                }
+            }
+            else
+            {
+                if (d1 > 0)
+                {
+                    if (d2 > 0)
+                    {
+                        BInfo = (d1, d2, -d0, pos1, pos2, pos0);
+                    }
+                    else
+                    {
+                        BInfo = (-d0, -d2, d1, pos0, pos2, pos1);
+                    }
+                }
+                else
+                {
+                    if (d2 > 0)
+                    {
+                        BInfo = (-d0, -d1, d2, pos0, pos1, pos2);
+                    }
+                    else
+                    {
+                        if (isfront == true)
+                        {
+                            B.COLLISION_COARSECHECK_SUB = B.COLLISION_COARSECHECK_SUB | NOWCOLLISIONINDEX;
+                            B.COLLISION_COARSECHECK = B.COLLISION_COARSECHECK | NOWCOLLISIONINDEX;
+                        }
+                        else
+                        {
+                            isfront = false;
+                        }
+                        return false;
+                    }
+                }
+            }
+
+
+            normal = polygonB.normal;
+            anchor = polygonB[0];
+            (float side1D_1, float side1D_2, float side2D, Vector3 side1Pos_1, Vector3 side1Pos_2, Vector3 side2Pos) AInfo;
+
+
+            poss = polygonA.vertices;
+            pos0 = poss[0];
+            pos1 = poss[1];
+            pos2 = poss[2];
+            anc = normal.x * anchor.x + normal.y * anchor.y + normal.z * anchor.z;
+            d0 = normal.x * pos0.x + normal.y * pos0.y + normal.z * pos0.z - anc;
+            d1 = normal.x * pos1.x + normal.y * pos1.y + normal.z * pos1.z - anc;
+            d2 = normal.x * pos2.x + normal.y * pos2.y + normal.z * pos2.z - anc;
             if (d0 > 0)
             {
                 if (d1 > 0)
@@ -359,71 +470,6 @@ public class CollisionManager : MonoBehaviour
 
 
 
-            normal = polygonA.normal;
-            anchor = polygonA[0];
-            (float side1D_1, float side1D_2, float side2D, Vector3 side1Pos_1, Vector3 side1Pos_2, Vector3 side2Pos) BInfo;
-
-            poss = polygonB.vertices;
-            pos0 = poss[0];
-            pos1 = poss[1];
-            pos2 = poss[2];
-            anc = normal.x * anchor.x + normal.y * anchor.y + normal.z * anchor.z;
-            d0 = normal.x * pos0.x + normal.y * pos0.y + normal.z * pos0.z - anc;
-            d1 = normal.x * pos1.x + normal.y * pos1.y + normal.z * pos1.z - anc;
-            d2 = normal.x * pos2.x + normal.y * pos2.y + normal.z * pos2.z - anc;
-            //d0 = Vector3.Dot(normal, pos0 - anchor);
-            //d1 = Vector3.Dot(normal, pos1 - anchor);
-            //d2 = Vector3.Dot(normal, pos2 - anchor);
-            if (d0 > 0)
-            {
-                if (d1 > 0)
-                {
-                    if (d2 > 0)
-                    {
-                        return false;
-                    }
-                    else
-                    {
-                        BInfo = (d0, d1, -d2, pos0, pos1, pos2);
-                    }
-                }
-                else
-                {
-                    if (d2 > 0)
-                    {
-                        BInfo = (d0, d2, -d1, pos0, pos2, pos1);
-                    }
-                    else
-                    {
-                        BInfo = (-d1, -d2, d0, pos1, pos2, pos0);
-                    }
-                }
-            }
-            else
-            {
-                if (d1 > 0)
-                {
-                    if (d2 > 0)
-                    {
-                        BInfo = (d1, d2, -d0, pos1, pos2, pos0);
-                    }
-                    else
-                    {
-                        BInfo = (-d0, -d2, d1, pos0, pos2, pos1);
-                    }
-                }
-                else
-                {
-                    if (d2 > 0)
-                    {
-                        BInfo = (-d0, -d1, d2, pos0, pos1, pos2);
-                    }
-                    else
-                    {
-                        return false;
-                    }
-                }
-            }
 
             float dNormalized = AInfo.side1D_1 / (AInfo.side1D_1 + AInfo.side2D);
             intersectionA0 = (1 - dNormalized) * AInfo.side1Pos_1 + dNormalized * AInfo.side2Pos;
@@ -439,7 +485,7 @@ public class CollisionManager : MonoBehaviour
         }
 
 
-        
+
 
     }
 
@@ -601,35 +647,6 @@ public class CollisionManager : MonoBehaviour
         cutterOnly.Clear();
     }
 
-    //ulong a = 0b1111111111111111111111111111111111111111111111111111111111111111;
-    //static readonly ulong[] FRONTFRAG = new ulong[64] {
-    //    0b1000000000000000000000000000000000000000000000000000000000000000,
-    //    0b0100000000000000000000000000000000000000000000000000000000000000,
-    //    0b0010000000000000000000000000000000000000000000000000000000000000,
-    //    0b0001000000000000000000000000000000000000000000000000000000000000,
-    //    0b0000100000000000000000000000000000000000000000000000000000000000,
-    //    0b0000010000000000000000000000000000000000000000000000000000000000,
-    //    0b0000001000000000000000000000000000000000000000000000000000000000,
-    //    0b0000000100000000000000000000000000000000000000000000000000000000,
-    //    0b0000000010000000000000000000000000000000000000000000000000000000,
-    //    0b0000000001000000000000000000000000000000000000000000000000000000,
-    //    0b0000000000100000000000000000000000000000000000000000000000000000,
-    //    0b0000000000010000000000000000000000000000000000000000000000000000,
-    //    0b0000000000001000000000000000000000000000000000000000000000000000,
-    //    0b0000000000000100000000000000000000000000000000000000000000000000,
-    //    0b0000000000000010000000000000000000000000000000000000000000000000,
-    //    0b0000000000000001000000000000000000000000000000000000000000000000,
-    //    0b0000000000000000100000000000000000000000000000000000000000000000,
-    //    0b0000000000000000010000000000000000000000000000000000000000000000,
-    //    0b0000000000000000001000000000000000000000000000000000000000000000,
-    //    0b0000000000000000000100000000000000000000000000000000000000000000,
-    //    0b0000000000000000000010000000000000000000000000000000000000000000,
-    //    0b0000000000000000000001000000000000000000000000000000000000000000,
-    //    0b0000000000000000000000100000000000000000000000000000000000000000,
-    //    0b0000000000000000000000010000000000000000000000000000000000000000,
-    //    0b0000000000000000000000001000000000000000000000000000000000000000,
-    //}
-
 }
 
 
@@ -639,8 +656,8 @@ public class ColliderInfo
     public Polygon[] polygons;
     public PolygonCollider polygonCollider;
     public GameObject collisionObject;
-    public ulong COLLISION_CHECK;
-    public ulong COLLISION_CHECK_SUB;
+    public ulong COLLISION_COARSECHECK;
+    public ulong COLLISION_COARSECHECK_SUB;
 
     public Polygon hitPolygon;
     private Vector3[] hitpoints;
@@ -668,6 +685,7 @@ public class ColliderInfo
         this.polygons = polygons;
         polygonCollider = collisionObjectInstance;
         collisionObject = obj;
+        COLLISION_COARSECHECK = COLLISION_COARSECHECK_SUB = 0;
         return this;
     }
 
@@ -781,7 +799,7 @@ public abstract class PolygonCollider : MonoBehaviour
     ColliderInfo inputData = new ColliderInfo();
     protected virtual void SendCollisionData()
     {
-        
+
         if (enableCollision)
         {
             CollisionManager.AddColliderDataList(inputData.Set(SetPolygons(), this, this.gameObject), colliderType);

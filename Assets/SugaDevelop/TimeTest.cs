@@ -22,7 +22,7 @@ public class TimeTest : MonoBehaviour
         // print(list.Count);
     }
 
-    
+
 
     long[] time = new long[2];
     long[] count = new long[2];
@@ -37,12 +37,12 @@ public class TimeTest : MonoBehaviour
         public TempA other;
     }
     TempA[] arrayA;
+    int[] array = new int[] { 5, 1, 9, 10, 4, 23, 4, 1, 6, 3, 0, 456, 2, 4, 7, 0, 2, 4, 11 ,8264,6,5,34,16,0,46,13465,1,2,3,4,51,3};
     void Set()
     {
-        ulong a = 0b00000000000000000000000000000000000000000000000000000000000000001;
-        print(a);
-        a=a << 1;
-        print(a);
+        ArraySort(array, 0, array.Length - 1);
+
+
     }
 
     public void Test()
@@ -62,7 +62,7 @@ public class TimeTest : MonoBehaviour
 
 
                 int a;
-                for(int i = 0; i < num; i++)
+                for (int i = 0; i < num; i++)
                 {
                     a = i << 5;
                 }
@@ -140,7 +140,56 @@ public class TimeTest : MonoBehaviour
         }
     }
 
+    void ArraySort(int[] array, int start, int end)
+    {
+        PrintArray();
+        if (start == end) return;
+        //c++;
+        //if (c > 100) { return; }
+        int pivot;
+        {
+            pivot = start + 1;
+            int startValue = array[start];
+            while (pivot <= end && startValue == array[pivot]) { pivot++; }
+            if (pivot > end) return;
+            pivot = (startValue >= array[pivot])? startValue : array[pivot];
+        }
 
+
+
+        int k = partition(array, start, end, pivot);
+        ArraySort(array, start, k - 1);
+        ArraySort(array, k, end);
+    }
+    int c = 0;
+    int partition(int[] array, int start, int end, int value)
+    {
+
+        int f = start, b = end;
+        while (f <= b)
+        {
+            while (f <= end && array[f] < value) { f++; }
+            while (b >= start && array[b] >= value) { b--;}
+            if (f > b) break;
+            int tmp = array[f];
+            array[f] = array[b];
+            array[b] = tmp;
+            f++; b--;
+        }
+        return f;
+    }
+
+
+
+    void PrintArray()
+    {
+        string s = "";
+        foreach (int num in array)
+        {
+            s += num + ",";
+        }
+        print(s);
+    }
 }
 
 
