@@ -4,7 +4,11 @@ using UnityEngine;
 
 public class Tatami : MonoBehaviour
 {
-    Transform tatami;
+    Transform tatamiTransform;
+    GameObject[] blades;
+    Vector3[] bladesPositionTemp, bladesDirection;
+
+    int i;
     // Start is called before the first frame update
     void Start()
     {
@@ -37,13 +41,26 @@ public class Tatami : MonoBehaviour
         //GameObject[] barabaraTatami = MeshCut.CutMesh(this.gameObject, this.transform.position + Vector3.up, new Vector3(-1, -1, -1), true);
         //barabaraTatami[1].AddComponent<Rigidbody>();
 
-        tatami = this.transform.GetChild(0).GetChild(0);
+        tatamiTransform = this.transform.GetChild(0).GetChild(0);
+        if (blades == null)
+        {
+            blades = GameObject.FindGameObjectsWithTag("Blade");
+        }
+
+        i = blades.Length;
+        bladesPositionTemp = new Vector3[i];
+        bladesDirection = new Vector3[i];
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        for(int k = 0; k < i; k++)
+        {
+            bladesDirection[k] = blades[k].transform.position - bladesPositionTemp[k];
+            bladesPositionTemp[k] = blades[k].transform.position;
+        }
+        print(bladesDirection[0]);
     }
 
     private void OnCollisionEnter(Collision other)
@@ -53,15 +70,16 @@ public class Tatami : MonoBehaviour
         foreach (ContactPoint point in other.contacts)
         {
             hitPos = point.point;
-            hitNor = point.normal;
+            hitNor = Vector3.Cross(point.normal, other.transform.right);
 
-            print(hitPos);
-            //print(hitNor);
+            //print(hitPos);
+            print(hitNor);
         }
-        if (other.transform.tag == ("Blade")) {
-            print("iku---");
-            (GameObject fragment,GameObject original) = MeshCut.CutMesh(tatami.gameObject, tatami.transform.position + Vector3.up, hitPos, true);
-            fragment.AddComponent<Rigidbody>();
+        if (other.transform.tag == ("Blade") && bladesDirection[0].magnitude > 0.2) {
+            (GameObject barabaraTatamiCopy, GameObject barabaraTatamiOriginal) = MeshCut.CutMesh(tatamiTransform.gameObject, hitPos, bladesDirection[0], true);
+            Rigidbody fragRigid = barabaraTatamiOriginal.AddComponent<Rigidbody>();
+            fragRigid.useGravity = true;
+            fragRigid.isKinematic = false;
         }
     }
 }
