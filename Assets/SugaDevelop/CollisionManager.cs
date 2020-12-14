@@ -8,8 +8,6 @@ public delegate void SetCollisionHandler();
 public class CollisionManager : MonoBehaviour
 {
 
-
-
     public static event SetCollisionHandler SetCollision;
 
     public enum ColliderType//AND演算をして0にならない組み合わせでは衝突判定を行わない
@@ -40,6 +38,7 @@ public class CollisionManager : MonoBehaviour
 
     void LateUpdate()
     {
+
         //Colliderが1つもなければreturn
         if (SetCollision == null) return;
 
@@ -65,11 +64,12 @@ public class CollisionManager : MonoBehaviour
                 if (fistMaxBoundy[axis1] < second.boundy_min[axis1] || firstMinBoundy[axis1] > second.boundy_max[axis1]) { continue; }
                 if (fistMaxBoundy[axis2] < second.boundy_min[axis2] || firstMinBoundy[axis2] > second.boundy_max[axis2]) { continue; }
                 CollisionCheck(first, second);
-                
+
             }
         }
 
         colliderInfoList.Clear();
+
     }
 
 
@@ -586,7 +586,7 @@ public class Polygon
     public Polygon Copy { get { return (Polygon)MemberwiseClone(); } }
 }
 
-public abstract class PolygonCollider : MonoBehaviour
+public abstract class PolygonCollider : MonoBehaviour //CollisionManagerで衝突を検知するためにはこれを継承する必要がある
 {
     // 自分のコライダーの種類を定義する
     [SerializeField] protected CollisionManager.ColliderType colliderType = CollisionManager.ColliderType.CuttedAndCutter;
@@ -670,20 +670,21 @@ public abstract class PolygonCollider : MonoBehaviour
     }
 }
 
-public abstract class StickColliderDynamic : PolygonCollider
+public abstract class StickColliderDynamic : PolygonCollider //棒の運動を扱うにはこれを継承すると便利
 {
     [SerializeField] Transform start, end;
     private Vector3 prePos_start, prePos_end;
 
+
     public Vector3 startPos
     {
         get { return start.position; }
-        set { start.position = value; }
+        set { if (start != null) { start.position = value; } else { Debug.LogError("null!"); } }
     }
     public Vector3 endPos
     {
         get { return end.position; }
-        set { end.position = value; }
+        set { if (end != null) { end.position = value; } else { Debug.LogError("null!"); } }
     }
 
     protected override void OnEnableCollision()
@@ -691,8 +692,6 @@ public abstract class StickColliderDynamic : PolygonCollider
         prePos_start = start.position;
         prePos_end = end.position;
     }
-
-
 
 
     private Polygon[] polygons = new Polygon[2];
@@ -709,92 +708,81 @@ public abstract class StickColliderDynamic : PolygonCollider
 
     protected override (Vector3 boundy_min, Vector3 boundy_max) CalculateBoundy()
     {
+        Vector3 ps = prePos_start;
+        Vector3 pe = prePos_end;
+        Vector3 startpos = start.position;
+        Vector3 endpos = end.position;
 
-
-        return CalculateMinMax();
-
-        (Vector3 min, Vector3 max) CalculateMinMax()
+        float minTemp1, minTemp2, maxTemp1, maxTemp2;
+        if (ps.x > pe.x)
         {
-            Vector3 ps = prePos_start;
-            Vector3 pe = prePos_end;
-            Vector3 startpos = start.position;
-            Vector3 endpos = end.position;
-
-
-
-
-            float minTemp1, minTemp2, maxTemp1, maxTemp2;
-            if (ps.x > pe.x)
-            {
-                minTemp1 = pe.x;
-                maxTemp1 = ps.x;
-            }
-            else
-            {
-                minTemp1 = ps.x;
-                maxTemp1 = pe.x;
-            }
-            if (startpos.x > endpos.x)
-            {
-                minTemp2 = endpos.x;
-                maxTemp2 = startpos.x;
-            }
-            else
-            {
-                minTemp2 = startpos.x;
-                maxTemp2 = endpos.x;
-            }
-            float minx = (minTemp1 > minTemp2) ? minTemp2 : minTemp1;
-            float maxx = (maxTemp1 > maxTemp2) ? maxTemp1 : maxTemp2;
-
-            if (ps.y > pe.y)
-            {
-                minTemp1 = pe.y;
-                maxTemp1 = ps.y;
-            }
-            else
-            {
-                minTemp1 = ps.y;
-                maxTemp1 = pe.y;
-            }
-            if (startpos.y > endpos.y)
-            {
-                minTemp2 = endpos.y;
-                maxTemp2 = startpos.y;
-            }
-            else
-            {
-                minTemp2 = startpos.y;
-                maxTemp2 = endpos.y;
-            }
-            float miny = (minTemp1 > minTemp2) ? minTemp2 : minTemp1;
-            float maxy = (maxTemp1 > maxTemp2) ? maxTemp1 : maxTemp2;
-            if (ps.z > pe.z)
-            {
-                minTemp1 = pe.z;
-                maxTemp1 = ps.z;
-            }
-            else
-            {
-                minTemp1 = ps.z;
-                maxTemp1 = pe.z;
-            }
-            if (startpos.z > endpos.z)
-            {
-                minTemp2 = endpos.z;
-                maxTemp2 = startpos.z;
-            }
-            else
-            {
-                minTemp2 = startpos.z;
-                maxTemp2 = endpos.z;
-            }
-            float minz = (minTemp1 > minTemp2) ? minTemp2 : minTemp1;
-            float maxz = (maxTemp1 > maxTemp2) ? maxTemp1 : maxTemp2;
-
-            return (new Vector3(minx, miny, minz), new Vector3(maxx, maxy, maxz));
+            minTemp1 = pe.x;
+            maxTemp1 = ps.x;
         }
+        else
+        {
+            minTemp1 = ps.x;
+            maxTemp1 = pe.x;
+        }
+        if (startpos.x > endpos.x)
+        {
+            minTemp2 = endpos.x;
+            maxTemp2 = startpos.x;
+        }
+        else
+        {
+            minTemp2 = startpos.x;
+            maxTemp2 = endpos.x;
+        }
+        float minx = (minTemp1 > minTemp2) ? minTemp2 : minTemp1;
+        float maxx = (maxTemp1 > maxTemp2) ? maxTemp1 : maxTemp2;
 
+        if (ps.y > pe.y)
+        {
+            minTemp1 = pe.y;
+            maxTemp1 = ps.y;
+        }
+        else
+        {
+            minTemp1 = ps.y;
+            maxTemp1 = pe.y;
+        }
+        if (startpos.y > endpos.y)
+        {
+            minTemp2 = endpos.y;
+            maxTemp2 = startpos.y;
+        }
+        else
+        {
+            minTemp2 = startpos.y;
+            maxTemp2 = endpos.y;
+        }
+        float miny = (minTemp1 > minTemp2) ? minTemp2 : minTemp1;
+        float maxy = (maxTemp1 > maxTemp2) ? maxTemp1 : maxTemp2;
+        if (ps.z > pe.z)
+        {
+            minTemp1 = pe.z;
+            maxTemp1 = ps.z;
+        }
+        else
+        {
+            minTemp1 = ps.z;
+            maxTemp1 = pe.z;
+        }
+        if (startpos.z > endpos.z)
+        {
+            minTemp2 = endpos.z;
+            maxTemp2 = startpos.z;
+        }
+        else
+        {
+            minTemp2 = startpos.z;
+            maxTemp2 = endpos.z;
+        }
+        float minz = (minTemp1 > minTemp2) ? minTemp2 : minTemp1;
+        float maxz = (maxTemp1 > maxTemp2) ? maxTemp1 : maxTemp2;
+
+        return (new Vector3(minx, miny, minz), new Vector3(maxx, maxy, maxz));
     }
 
     protected override void SendCollisionData()

@@ -9,7 +9,6 @@ public class Cuttable : StickColliderDynamic
     {
 
         Polygon polygon = collisionInfo.hitPolygon;
-        //Vector3 normal = Vector3.Cross(polygon.vertices[1] - polygon.vertices[0], polygon.vertices[2] - polygon.vertices[0]);
         Vector3 normal = polygon.normal;
         //if (normal.y < 0) { normal *= -1; }
         Vector3 hitpoint = collisionInfo.hitPoints[0];

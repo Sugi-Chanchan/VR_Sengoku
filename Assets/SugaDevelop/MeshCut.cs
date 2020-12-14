@@ -45,12 +45,14 @@ public class MeshCut : MonoBehaviour
     /// <para>gameObjectを切断して2つのMeshにして返します.1つ目のMeshが切断面の法線に対して表側, 2つ目が裏側です.</para>
     /// <para>何度も切るようなオブジェクトでも頂点数が増えないように処理をしてあるほか, 簡単な物体なら切断面を縫い合わせることもできます</para>
     /// </summary>
-    /// <param name="target">切断対象のgameObject</param>
-    /// <param name="planeAnchorPoint">切断面上の1点</param>
-    /// <param name="planeNormalDirection">切断面の法線</param>
-    /// <param name="makeCutSurface">切断後にMeshを縫い合わせるか否か(切断面が2つ以上できるときはfalseにしてシェーダーのCull Frontで切断面を表示するようにする)</param>
+    /// <param name="targetMesh">切断するMesh</param>
+    /// <param name="targetTransform">切断するMeshのTransform</param>
+    /// <param name="planeAnchorPoint">切断面上のワールド空間上での1点</param>
+    /// <param name="planeNormalDirection">切断面のワールド空間上での法線</param>
+    /// <param name="makeCutSurface">切断後にMeshを縫い合わせるか否か</param>
+    /// <param name="addNewMeshIndices">新しいsubMeshを作るか(切断面に新しいマテリアルを割り当てる場合にはtrue, すでに切断面のマテリアルがRendererについてる場合はfalse)</param>
     /// <returns></returns>
-    private static (Mesh frontside, Mesh backside) CutMesh(Mesh targetMesh, Transform targetTransform, Vector3 planeAnchorPoint, Vector3 planeNormalDirection, bool makeCutSurface = true, bool addNewMeshIndices = false)
+    public static (Mesh frontside, Mesh backside) CutMesh(Mesh targetMesh, Transform targetTransform, Vector3 planeAnchorPoint, Vector3 planeNormalDirection, bool makeCutSurface = true, bool addNewMeshIndices = false)
     {
         if (planeNormalDirection == Vector3.zero)
         {
@@ -175,7 +177,7 @@ public class MeshCut : MonoBehaviour
             int[] indices = _targetMesh.GetIndices(sub);
 
 
-
+            //ポリゴンを形成する頂点の番号を入れるintの配列を作っている.(submeshごとに追加)
             int indicesLength = indices.Length;
             _frontSubmeshIndices.AddOnlyCount();
             _frontSubmeshIndices.Top = _frontSubmeshIndices.Top?.Clear(indicesLength) ?? new UnsafeList<int>(indicesLength);
@@ -294,12 +296,13 @@ public class MeshCut : MonoBehaviour
 
     /// <summary>
     /// Meshを切断します. 
-    /// 配列の1番目の要素には入力したGameObjectが入っています
+    /// 1つ目のGameObjectが法線の向いている方向で新しくInstantiateしたもの, 1つ目のGameObjectが法線と反対方向で入力したものを返します
     /// </summary>
     /// <param name="targetGameObject">切断されるGameObject</param>
-    /// <param name="planeAnchorPoint">切断平面上のどこか1点</param>
-    /// <param name="planeNormalDirection">切断平面の法線</param>
+    /// <param name="planeAnchorPoint">切断平面上のどこか1点(ワールド座標)</param>
+    /// <param name="planeNormalDirection">切断平面の法線(ワールド座標)</param>
     /// <param name="makeCutSurface">切断面を作るかどうか</param>
+    /// <param name="cutSurfaceMaterial">切断面に割り当てるマテリアル(nullの場合は適当なマテリアルを割り当てる)</param>
     /// <returns></returns>
     public static (GameObject copy_normalside, GameObject original_anitiNormalside) CutMesh(GameObject targetGameObject, Vector3 planeAnchorPoint, Vector3 planeNormalDirection, bool makeCutSurface = true, Material cutSurfaceMaterial = null)
     {
@@ -529,8 +532,8 @@ public class MeshCut : MonoBehaviour
     public class RoopFragmentCollection
     {
         const int listSize = 31;
-        List<RooP>[] leftLists = new List<RooP>[listSize];
-        List<RooP>[] rightLists = new List<RooP>[listSize];
+        List<RooP>[] leftLists = new List<RooP>[listSize];//左手リスト配列(同じvector3なら同じListに入る)
+        List<RooP>[] rightLists = new List<RooP>[listSize];//右手リスト配列
         UnsafeList<RoopFragment> roopFragments = new UnsafeList<RoopFragment>(100);
 
         public RoopFragmentCollection()
@@ -737,31 +740,7 @@ public class MeshCut : MonoBehaviour
 
         public Fragment(NewVertex _vertex0, NewVertex _vertex1, bool _twoPointsInFrontSide, int _KEY_CUTLINE, int _submesh)
         {
-            vertex0 = _vertex0;
-            vertex1 = _vertex1;
-            KEY_CUTLINE = _KEY_CUTLINE;
-            submesh = _submesh;
-            if (_twoPointsInFrontSide)
-            {
-                firstPoint_f = new Point(_vertex0.frontsideindex_of_frontMesh);
-                lastPoint_f = new Point(_vertex1.frontsideindex_of_frontMesh);
-                firstPoint_f.next = lastPoint_f;
-                firstPoint_b = new Point(vertex0.backsideindex_of_backMash);
-                lastPoint_b = firstPoint_b;
-                count_f = 2;
-                count_b = 1;
-            }
-            else
-            {
-                firstPoint_f = new Point(_vertex0.frontsideindex_of_frontMesh);
-                lastPoint_f = firstPoint_f;
-                firstPoint_b = new Point(vertex0.backsideindex_of_backMash);
-                lastPoint_b = new Point(vertex1.backsideindex_of_backMash);
-                firstPoint_b.next = lastPoint_b;
-                count_f = 1;
-                count_b = 2;
-            }
-
+            SetNew(_vertex0, _vertex1, _twoPointsInFrontSide, _KEY_CUTLINE, _submesh);
         }
 
         public Fragment SetNew(NewVertex _vertex0, NewVertex _vertex1, bool _twoPointsInFrontSide, int _KEY_CUTLINE, int _submesh)
@@ -869,9 +848,9 @@ public class MeshCut : MonoBehaviour
     //新しい頂点のNormalとUVは最後に生成するので, もともとある頂点をどの比で混ぜるかをdividingParameterが持っている
     public class NewVertex
     {
-        public int frontsideindex_of_frontMesh; //frontVertices,frontNormals,frontUVsでの頂点の番号
+        public int frontsideindex_of_frontMesh; //frontVertices,frontNormals,frontUVsでの頂点の番号(frontsideindex_of_frontMeshとbacksideindex_of_backMashでできる辺の間に新しい頂点ができる)
         public int backsideindex_of_backMash;
-        public float dividingParameter;
+        public float dividingParameter;//新しい頂点の(frontsideindex_of_frontMeshとbacksideindex_of_backMashでできる辺に対する)内分点
         public int KEY_VERTEX;
         public Vector3 position;
 
@@ -969,11 +948,11 @@ public class MeshCut : MonoBehaviour
                 fragmentLists[i] = new List<Fragment>(10);
             }
         }
-        public void Add(Fragment fragment, int KEY, int submesh)
+        public void Add(Fragment fragment, int KEY_CUTLINE, int submesh)
         {
 
             //基本的な仕組みはDictionaryと同じ
-            int listIndex = KEY % listSize;
+            int listIndex = KEY_CUTLINE % listSize;
             List<Fragment> flist = fragmentLists[listIndex];//同じ切断辺を持つFragmentは同じ場所に格納される(別のFragmentが入っていないわけではない)
             bool connect = false;
             //格納されているFragmentからくっつけられるやつを探す
@@ -998,7 +977,10 @@ public class MeshCut : MonoBehaviour
                         continue;//どっちでもないときは次のループへ
                     }
 
-
+                    //Pointクラスのつなぎ合わせ. 
+                    //firstPoint.nextがnullということは頂点を1つしか持っていない. 
+                    //またその頂点はleftのlastPointとかぶっているので頂点が増えることはない
+                    //(left.lastPoint_fとright.lastPoint_fは同じ点を示すが別のインスタンスなのでnextがnullのときに入れ替えるとループが途切れてしまう)
                     if ((left.lastPoint_f.next = right.firstPoint_f.next) != null)
                     {
                         left.lastPoint_f = right.lastPoint_f;
