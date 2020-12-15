@@ -18,7 +18,7 @@ public class Cuttable : StickColliderDynamic
         {
             copy.GetComponent<StickColliderDynamic>().startPos = hitpoint;
             endPos = hitpoint;
-            
+
         }
         else
         {

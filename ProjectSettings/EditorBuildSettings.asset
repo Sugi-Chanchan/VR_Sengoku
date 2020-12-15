@@ -8,4 +8,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Sugi.unity
     guid: 5928c06c73d09ae49a6f68bf05cfbb75
+  - enabled: 0
+    path: Assets/Scenes/Copy_SampleScene.unity
+    guid: 7dc4bf8b12281a94bbbc05fcd6efa591
   m_configObjects: {}

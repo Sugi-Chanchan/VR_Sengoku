@@ -70,6 +70,7 @@ public class CollisionManager : MonoBehaviour
 
         colliderInfoList.Clear();
 
+
     }
 
 
@@ -409,6 +410,8 @@ public class CollisionManager : MonoBehaviour
         Ainfo.hitPoints = Binfo.hitPoints = hitPoints;
         Ainfo.hitPolygon = polygonA.Copy;
         Binfo.hitPolygon = polygonB.Copy;
+        Ainfo.collisionObject = A.collisionObject;
+        Binfo.collisionObject = B.collisionObject;
         A.OnCollision(Binfo);
         B.OnCollision(Ainfo);
     }
@@ -459,18 +462,20 @@ public class ColliderInfo
     public Vector3 boundy_max, boundy_min;
     public int COLLIDER_TYPE;
 
-    public ColliderInfo(Polygon[] polygons, PolygonCollider polygonCollider, GameObject obj)
+    public ColliderInfo(Polygon[] polygons, PolygonCollider polygonCollider,int _COLLIDER_TYPE, GameObject obj)
     {
         this.polygons = polygons;
         this.polygonCollider = polygonCollider;
+        COLLIDER_TYPE = _COLLIDER_TYPE;
         collisionObject = obj;
     }
     public ColliderInfo() { }
 
-    public ColliderInfo Set(Polygon[] polygons, PolygonCollider collisionObjectInstance, GameObject obj)
+    public ColliderInfo Set(Polygon[] polygons, PolygonCollider collisionObjectInstance,int _COLLIDER_TYPE, GameObject obj)
     {
         this.polygons = polygons;
         polygonCollider = collisionObjectInstance;
+        COLLIDER_TYPE = _COLLIDER_TYPE;
         collisionObject = obj;
         return this;
     }
@@ -590,7 +595,8 @@ public abstract class PolygonCollider : MonoBehaviour //CollisionManagerで衝�
 {
     // 自分のコライダーの種類を定義する
     [SerializeField] protected CollisionManager.ColliderType colliderType = CollisionManager.ColliderType.CuttedAndCutter;
-
+    int COLLIDER_TYPE;
+    
     /// <summary>
     /// 衝突が検知されたらこれが呼ばれる
     /// </summary>
@@ -632,6 +638,7 @@ public abstract class PolygonCollider : MonoBehaviour //CollisionManagerで衝�
     {
         if (_enableCollision && enabled && gameObject.activeInHierarchy)
         {
+            COLLIDER_TYPE = (int)colliderType;
             CollisionManager.SetCollision += SendCollisionData;
             OnEnableCollision();
         }
@@ -648,7 +655,7 @@ public abstract class PolygonCollider : MonoBehaviour //CollisionManagerで衝�
     protected virtual void SendCollisionData()
     {
         polygons = SetPolygons();
-        inputData.Set(polygons, this, this.gameObject);
+        inputData.Set(polygons, this, COLLIDER_TYPE,this.gameObject);
         inputData.SetBoundy(CalculateBoundy());
         CollisionManager.AddColliderDataList(inputData);
     }
