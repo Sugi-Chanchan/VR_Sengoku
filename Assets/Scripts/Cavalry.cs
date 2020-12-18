@@ -5,7 +5,7 @@ using System;
 
 public class Cavalry : Enemy
 {
-    Transform player;
+    public Transform player;
     [SerializeField] Animator anim;
     [SerializeField]bool attack = false;
     [SerializeField] EnemyWeapon halberd;
@@ -15,7 +15,7 @@ public class Cavalry : Enemy
     void Start()
     {
         //anim.SetFloat("AttackSpeed", 1.0f);
-        //Invoke("SetUp", 1);
+        Invoke("SetUp", 1);
         //halberd.Prevented += this.Prevented;
         
     }
@@ -27,8 +27,8 @@ public class Cavalry : Enemy
 
         var dir = player.position - transform.position;
         dir.y = 0;
-        if (Vector3.Dot(-dir.normalized,player.forward)>0.7f||dir.sqrMagnitude<900)
-        {
+        //if (Vector3.Dot(-dir.normalized,player.forward)>0.7f||dir.sqrMagnitude<900)
+        //{
 
             transform.rotation = Quaternion.LookRotation(dir);
             
@@ -39,7 +39,7 @@ public class Cavalry : Enemy
                 attack = true;          
                 StartCoroutine("Attack");
             }
-        }
+        //}
 
 
         

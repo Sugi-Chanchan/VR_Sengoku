@@ -13,6 +13,7 @@ public class SugaDemo : StickColliderDynamic
         if (normal.y < 0) { normal *= -1; }
         Vector3 hitpoint = collisionInfo.hitPoints[0];
         (var copy, var original) = MeshCut.CutMesh(this.gameObject, hitpoint, normal, true, cutSurfaceMaterial);
+        if (copy == null) { return; }
         var cr=copy.GetComponent<Rigidbody>();
         cr.useGravity = true;
         cr.isKinematic = false;
