@@ -18,7 +18,8 @@ public class Move : MonoBehaviour
         root = transform.root;
         parent = transform.parent;
         Vrtk = root.GetChild(0);
-        Invoke("Setup", 0.1f);
+        //Invoke("Setup", 0.1f);
+        StartCoroutine("Setup");
     }
 
     // Update is called once per frame
@@ -47,21 +48,41 @@ public class Move : MonoBehaviour
         //uma.transform.position += new Vector3(0.0f, 0.0f, 1.0f);
     }
 
-    void Setup(){
-        rightHand = GameObject.FindGameObjectWithTag("RightHand");
-        if(AddNewFunc) //ブール型の変数で既にVRTK_ControllerEventsに関数を追加したかどうかの判別
+    //void Setup(){
+    //    rightHand = GameObject.FindGameObjectWithTag("RightHand");
+    //    if(AddNewFunc) //ブール型の変数で既にVRTK_ControllerEventsに関数を追加したかどうかの判別
+    //    {
+    //        /*
+    //        rightHand.GetComponent<VRTK_ControllerEvents>().TriggerPressed += new ControllerInteractionEventHandler(DoTriggerPressed);
+    //        rightHand.GetComponent<VRTK_ControllerEvents>().TriggerReleased += new ControllerInteractionEventHandler(DoTriggerReleased);
+    //        */
+    //        rightHand.GetComponent<VRTK_ControllerEvents>().ButtonTwoPressed += new ControllerInteractionEventHandler(DoButtonTwoPressed);
+    //        AddNewFunc = false;
+    //    }
+    //    Vector3 Vrtkposition = Vrtk.position;
+    //    root.position = new Vector3(transform.position.x, root.position.y, transform.position.z);
+    //    Vrtk.position = Vrtkposition;
+    //    ResetPosition();
+    //}
+
+    IEnumerator Setup()
+    {
+        while (ButtonManager.Device == Device.Unknown)
         {
-            /*
-            rightHand.GetComponent<VRTK_ControllerEvents>().TriggerPressed += new ControllerInteractionEventHandler(DoTriggerPressed);
-            rightHand.GetComponent<VRTK_ControllerEvents>().TriggerReleased += new ControllerInteractionEventHandler(DoTriggerReleased);
-            */
-            rightHand.GetComponent<VRTK_ControllerEvents>().ButtonTwoPressed += new ControllerInteractionEventHandler(DoButtonTwoPressed);
+            yield return null;
+        }
+        
+        if (AddNewFunc) //ブール型の変数で既にVRTK_ControllerEventsに関数を追加したかどうかの判別
+        {
+            ButtonManager.Set_ResetButtonDownEvent(ResetButtonPressed);
             AddNewFunc = false;
         }
         Vector3 Vrtkposition = Vrtk.position;
         root.position = new Vector3(transform.position.x, root.position.y, transform.position.z);
         Vrtk.position = Vrtkposition;
         ResetPosition();
+
+        yield break;
     }
 
     /*
@@ -84,8 +105,8 @@ public class Move : MonoBehaviour
     }
     */
 
-    private void DoButtonTwoPressed(object sender, ControllerInteractionEventArgs e)
+    private void ResetButtonPressed(object sender, ControllerInteractionEventArgs e)
     {
-        Setup();
+        StartCoroutine("Setup");
     }
 }

@@ -44,7 +44,7 @@ public class Horse : MonoBehaviour
             var averageDisPlacement = ((reins[0].transform.localPosition - startpostions[0]) + (reins[1].transform.localPosition - startpostions[1])) / 2;//右手と左手の平均をとる
             Rotate(averageDisPlacement.x);
             Acceleration();
-            if (bothHands) Deceleration(averageDisPlacement.z - averageDisPlacement.y);//両手で手綱を掴んでたら減速
+            /*if (bothHands)*/ Deceleration(averageDisPlacement.z - averageDisPlacement.y);//両手で手綱を掴んでたら減速
         }
 
         var speed = SpeedFunction(speedLevel);
