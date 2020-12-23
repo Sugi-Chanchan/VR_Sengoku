@@ -210,8 +210,8 @@ MonoBehaviour:
   throwMultiplier: 1
   createRigidBodyWhenNotTouching: 0
   controllerAttachPoint: {fileID: 0}
-  controllerEvents: {fileID: 0}
-  interactTouch: {fileID: 0}
+  controllerEvents: {fileID: 2255286998832680918}
+  interactTouch: {fileID: 2255286998832680919}
 --- !u!114 &2255286998832680917
 MonoBehaviour:
   m_ObjectHideFlags: 0

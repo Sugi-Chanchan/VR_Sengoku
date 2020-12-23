@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using VRTK;
 
-public class Reins : MonoBehaviour
+public class Reins2 : MonoBehaviour
 {
     
     VRTK_InteractableObject interactableObject;
