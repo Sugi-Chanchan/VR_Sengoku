@@ -18,6 +18,7 @@ public class ButtonManager : MonoBehaviour
 
     public static Device Device { get; private set; }
     static VRTK_ControllerEvents leftHand, rightHand;
+    [SerializeField] VRTK_ControllerEvents leftController, rightController;
 
     private void Awake()
     {
@@ -25,6 +26,8 @@ public class ButtonManager : MonoBehaviour
     }
     void Start()
     {
+        leftHand = leftController;
+        rightHand = rightController;
         StartCoroutine("CheckDvice");
     }
 
@@ -60,14 +63,15 @@ public class ButtonManager : MonoBehaviour
 
     void SetOculus()
     {
+        /*
         var right = GameObject.FindGameObjectWithTag("RightHand");
         var left = GameObject.FindGameObjectWithTag("LeftHand");
         rightHand = right.GetComponent<VRTK_ControllerEvents>();
         leftHand = left.GetComponent<VRTK_ControllerEvents>();
+        */
 
-
-        var rCon = right.GetComponent<VRTK_InteractGrab>();
-        var lCon = left.GetComponent<VRTK_InteractGrab>();
+        var rCon = rightController.GetComponent<VRTK_InteractGrab>();
+        var lCon = leftController.GetComponent<VRTK_InteractGrab>();
         rCon.grabButton = VRTK_ControllerEvents.ButtonAlias.GripPress;
         lCon.grabButton = VRTK_ControllerEvents.ButtonAlias.GripPress;
 
@@ -76,13 +80,15 @@ public class ButtonManager : MonoBehaviour
 
     void SetSteamVR()
     {
+        /*
         var right = GameObject.FindGameObjectWithTag("RightHand");
         var left = GameObject.FindGameObjectWithTag("LeftHand");
         rightHand = right.GetComponent<VRTK_ControllerEvents>();
         leftHand = left.GetComponent<VRTK_ControllerEvents>();
+        */
 
-        var rCon = right.GetComponent<VRTK_InteractGrab>();
-        var lCon = left.GetComponent<VRTK_InteractGrab>();
+        var rCon = rightController.GetComponent<VRTK_InteractGrab>();
+        var lCon = leftController.GetComponent<VRTK_InteractGrab>();
         rCon.grabButton = VRTK_ControllerEvents.ButtonAlias.TriggerPress;
         lCon.grabButton = VRTK_ControllerEvents.ButtonAlias.TriggerPress;
 
