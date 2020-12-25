@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using VRTK;
+using System;
 
 public class Horse : MonoBehaviour
 {
@@ -99,8 +100,8 @@ public class Horse : MonoBehaviour
     bool accCoolTime=false;
     void Acceleration ()
     {
-        float yacc = Mathf.Min(VRTKVelEstim[0].GetAccelerationEstimate().y, VRTKVelEstim[1].GetAccelerationEstimate().y); //両手の加速度の小さい方を取得
-        if (yacc < -200&&!accCoolTime)
+        
+        if (!accCoolTime&&AccelerationCheck())
         {
             speedLevel += 1;
             speedLevel = Mathf.Min(speedLevel, maxSpeedLevel);
@@ -109,6 +110,16 @@ public class Horse : MonoBehaviour
             Invoke("RemoveAccCoolTime", 0.5f);
             
         }
+    }
+
+    bool AccelerationCheck()
+    {
+        Vector3 leftAcc =VRTKVelEstim[0].GetAccelerationEstimate();
+        Vector3 rightAcc =VRTKVelEstim[1].GetAccelerationEstimate();
+        float leftValue = Math.Abs(leftAcc.y) + Math.Abs(leftAcc.z) - Math.Abs(leftAcc.x);
+        float rightValue = Math.Abs(rightAcc.y) + Math.Abs(rightAcc.z) - Math.Abs(rightAcc.x);
+
+        return (Math.Max(leftValue,rightValue)) > 200;
     }
 
     void RemoveAccCoolTime()

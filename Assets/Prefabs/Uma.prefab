@@ -304,7 +304,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   autoStartSampling: 1
-  velocityAverageFrames: 5
+  velocityAverageFrames: 3
   angularVelocityAverageFrames: 10
 --- !u!1 &5440037196610489569
 GameObject:
