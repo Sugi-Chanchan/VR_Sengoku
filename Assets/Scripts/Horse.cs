@@ -6,11 +6,9 @@ using System;
 
 public class Horse : MonoBehaviour
 {
+    public Reins leftReins,rightReins;
     Transform root;
-    [SerializeField] Reins reins ;
-    VRTK_InteractableObject[] interactableObjects = new VRTK_InteractableObject[2];
-    (Vector3 right ,Vector3 left) startpostions;
-    (Vector3 right,Vector3 left) displacement ;
+    [SerializeField] _Reins _reins ;
     (VRTK_VelocityEstimator right, VRTK_VelocityEstimator left) VRTKVelEstim;
     [SerializeField] float rotateSpeed;
     const float maxSpeedLevel=3;
@@ -25,13 +23,11 @@ public class Horse : MonoBehaviour
 
     void SetUp()
     {
-        VRTKVelEstim.left= reins.left.GetComponent<VRTK_VelocityEstimator>();
-        VRTKVelEstim.right= reins.right.GetComponent<VRTK_VelocityEstimator>();
 
-        startpostions.left = reins.left.transform.localPosition;
-        interactableObjects[0] = reins.left.GetComponent<VRTK_InteractableObject>();
-        startpostions.right = reins.right.transform.localPosition;
-        interactableObjects[1] = reins.right.GetComponent<VRTK_InteractableObject>();
+
+        VRTKVelEstim.left= _reins.left.GetComponent<VRTK_VelocityEstimator>();
+        VRTKVelEstim.right= _reins.right.GetComponent<VRTK_VelocityEstimator>();
+
         setupped = true;
     }
 
@@ -44,7 +40,7 @@ public class Horse : MonoBehaviour
 
         if (GrabbedCheck()) //右手左手のどちらか1つでも手綱を掴んでいれば実行
         {
-            var averageDisPlacement = ((reins.left.transform.localPosition - startpostions.left) + (reins.right.transform.localPosition - startpostions.right)) / 2;//右手と左手の平均をとる
+            var averageDisPlacement = (leftReins.Displacement+rightReins.Displacement) / 2;//右手と左手のstartPositionからのズレの平均をとる
             Rotate(averageDisPlacement.x);
             Acceleration();
             /*if (bothHands)*/ Deceleration(averageDisPlacement.z - averageDisPlacement.y);//両手で手綱を掴んでたら減速
@@ -60,13 +56,12 @@ public class Horse : MonoBehaviour
     {
         bothHands = false;
 
-        if (interactableObjects[0].IsGrabbed())
+        if (leftReins.IsGrabbed)
         {
-            if (!interactableObjects[1].IsGrabbed())
+            if (!rightReins.IsGrabbed)
             {
                 //片手しか掴んでないときは掴んでない方の変位をもう片方に合わせる
-                displacement.left = displacement.right = reins.left.transform.localPosition - startpostions.left;
-                reins.right.transform.localPosition = startpostions.right+ Vector3.MoveTowards(reins.right.transform.localPosition-startpostions.right,displacement.right,returnspeed);
+                rightReins.FollowOtherReins(leftReins);
             }
             else
             {
@@ -75,17 +70,15 @@ public class Horse : MonoBehaviour
 
             return true;
         }
-        else if (interactableObjects[1].IsGrabbed())
+        else if (rightReins.IsGrabbed)
         {
-            displacement.left = displacement.right = reins.right.transform.localPosition - startpostions.right;
-            reins.left.transform.localPosition =startpostions.left+ Vector3.MoveTowards(reins.left.transform.localPosition-startpostions.left, displacement.left, returnspeed);
+            leftReins.FollowOtherReins(rightReins);
             return true;
         }
         else
         {
-            displacement.left = displacement.right= Vector3.zero;
-            reins.right.transform.localPosition = Vector3.MoveTowards(reins.right.transform.localPosition, startpostions.right, returnspeed);
-            reins.left.transform.localPosition = Vector3.MoveTowards(reins.left.transform.localPosition, startpostions.left, returnspeed);
+            leftReins.ReturnDefaultPos();
+            rightReins.ReturnDefaultPos();
         }
 
         return false;
@@ -100,9 +93,7 @@ public class Horse : MonoBehaviour
     bool accCoolTime=false;
     void Acceleration ()
     {
-
-
-        if (!accCoolTime&& AccelerationCheck())
+        if (!accCoolTime&& (leftReins.IsWhipping||rightReins.IsWhipping))
         {
             speedLevel += 1;
             speedLevel = Mathf.Min(speedLevel, maxSpeedLevel);
@@ -177,7 +168,7 @@ public class Horse : MonoBehaviour
     }
 
   [System.Serializable]
-    struct Reins
+    struct _Reins
     {
         public GameObject right, left;
     }
