@@ -2,15 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 using VRTK;
+using System;
 
 public class Horse : MonoBehaviour
 {
+    public Reins leftReins,rightReins;
     Transform root;
-    public GameObject[] reins = new GameObject[2];
-    VRTK_InteractableObject[] interactableObjects = new VRTK_InteractableObject[2];
-    Vector3[] startpostions = new Vector3[2];
-    Vector3[] displacement = new Vector3[2];
-    VRTK_VelocityEstimator[] VRTKVelEstim = new VRTK_VelocityEstimator[2];
+    [SerializeField] _Reins _reins ;
+    (VRTK_VelocityEstimator right, VRTK_VelocityEstimator left) VRTKVelEstim;
     [SerializeField] float rotateSpeed;
     const float maxSpeedLevel=3;
     [SerializeField]float speedLevel;
@@ -24,24 +23,24 @@ public class Horse : MonoBehaviour
 
     void SetUp()
     {
-        for (int i = 0; i < 2; i++)
-        {
-            VRTKVelEstim[i] = reins[i].GetComponent<VRTK_VelocityEstimator>();
-            startpostions[i] = reins[i].transform.localPosition;
-            interactableObjects[i] = reins[i].GetComponent<VRTK_InteractableObject>();
-        }
+
+
+        VRTKVelEstim.left= _reins.left.GetComponent<VRTK_VelocityEstimator>();
+        VRTKVelEstim.right= _reins.right.GetComponent<VRTK_VelocityEstimator>();
+
         setupped = true;
     }
 
-    private void FixedUpdate()
+    private void Update()
     {
+
         if (!setupped) return;
 
         SpeedCheck();
 
         if (GrabbedCheck()) //右手左手のどちらか1つでも手綱を掴んでいれば実行
         {
-            var averageDisPlacement = ((reins[0].transform.localPosition - startpostions[0]) + (reins[1].transform.localPosition - startpostions[1])) / 2;//右手と左手の平均をとる
+            var averageDisPlacement = (leftReins.Displacement+rightReins.Displacement) / 2;//右手と左手のstartPositionからのズレの平均をとる
             Rotate(averageDisPlacement.x);
             Acceleration();
             /*if (bothHands)*/ Deceleration(averageDisPlacement.z - averageDisPlacement.y);//両手で手綱を掴んでたら減速
@@ -57,13 +56,12 @@ public class Horse : MonoBehaviour
     {
         bothHands = false;
 
-        if (interactableObjects[0].IsGrabbed())
+        if (leftReins.IsGrabbed)
         {
-            if (!interactableObjects[1].IsGrabbed())
+            if (!rightReins.IsGrabbed)
             {
                 //片手しか掴んでないときは掴んでない方の変位をもう片方に合わせる
-                displacement[0] = displacement[1] = reins[0].transform.localPosition - startpostions[0];
-                reins[1].transform.localPosition = startpostions[1]+ Vector3.MoveTowards(reins[1].transform.localPosition-startpostions[1],displacement[1],returnspeed);
+                rightReins.FollowOtherReins(leftReins);
             }
             else
             {
@@ -72,19 +70,15 @@ public class Horse : MonoBehaviour
 
             return true;
         }
-        else if (interactableObjects[1].IsGrabbed())
+        else if (rightReins.IsGrabbed)
         {
-            displacement[0] = displacement[1] = reins[1].transform.localPosition - startpostions[1];
-            reins[0].transform.localPosition =startpostions[0]+ Vector3.MoveTowards(reins[0].transform.localPosition-startpostions[0], displacement[0], returnspeed);
+            leftReins.FollowOtherReins(rightReins);
             return true;
         }
         else
         {
-            for(int i = 0; i < 2; i++)
-            {
-                displacement[i] = Vector3.zero;
-                reins[i].transform.localPosition = Vector3.MoveTowards(reins[i].transform.localPosition, startpostions[i], returnspeed);
-            }
+            leftReins.ReturnDefaultPos();
+            rightReins.ReturnDefaultPos();
         }
 
         return false;
@@ -92,15 +86,14 @@ public class Horse : MonoBehaviour
 
     void Rotate(float holizontal)
     {
-        var rot = Quaternion.Euler(new Vector3(0, holizontal * rotateSpeed, 0));
+        var rot = Quaternion.Euler(new Vector3(0, holizontal * rotateSpeed*Time.deltaTime, 0));
         root.rotation = rot * root.rotation;
     }
 
     bool accCoolTime=false;
     void Acceleration ()
     {
-        float yacc = Mathf.Min(VRTKVelEstim[0].GetAccelerationEstimate().y, VRTKVelEstim[1].GetAccelerationEstimate().y); //両手の加速度の小さい方を取得
-        if (yacc < -200&&!accCoolTime)
+        if (!accCoolTime&& (leftReins.IsWhipping||rightReins.IsWhipping))
         {
             speedLevel += 1;
             speedLevel = Mathf.Min(speedLevel, maxSpeedLevel);
@@ -109,6 +102,26 @@ public class Horse : MonoBehaviour
             Invoke("RemoveAccCoolTime", 0.5f);
             
         }
+    }
+
+    const int preVelocitySize = 3;
+    Vector3[] preVelocity = new Vector3[preVelocitySize];
+    int count=0;
+    bool AccelerationCheck()
+    {
+
+        //Vector3 velocity=
+
+        Vector3 leftAcc =VRTKVelEstim.left.GetAccelerationEstimate();
+        Vector3 rightAcc =VRTKVelEstim.right.GetAccelerationEstimate();
+        float leftValue = Math.Abs(leftAcc.y) + Math.Abs(leftAcc.z) - Math.Abs(leftAcc.x);
+        float rightValue = Math.Abs(rightAcc.y) + Math.Abs(rightAcc.z) - Math.Abs(rightAcc.x);
+
+
+
+        //preVelocity[count++%preVelocitySize]=
+
+        return (Math.Max(leftValue,rightValue)) > 200;
     }
 
     void RemoveAccCoolTime()
@@ -152,5 +165,11 @@ public class Horse : MonoBehaviour
             dir.y = 0.2f;
             collision.gameObject.GetComponent<Rigidbody>().AddForce(dir*20, ForceMode.Impulse);
         }
+    }
+
+  [System.Serializable]
+    struct _Reins
+    {
+        public GameObject right, left;
     }
 }
