@@ -64,8 +64,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   reins:
-  - {fileID: 5440037196610489569}
-  - {fileID: 5440037195699771646}
+    right: {fileID: 5440037196610489569}
+    left: {fileID: 5440037195699771646}
   rotateSpeed: 2
   speedLevel: 0
   speedFactor: 2

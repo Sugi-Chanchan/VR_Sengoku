@@ -7,11 +7,11 @@ using System;
 public class Horse : MonoBehaviour
 {
     Transform root;
-    public GameObject[] reins = new GameObject[2];
+    [SerializeField] Reins reins ;
     VRTK_InteractableObject[] interactableObjects = new VRTK_InteractableObject[2];
-    Vector3[] startpostions = new Vector3[2];
-    Vector3[] displacement = new Vector3[2];
-    VRTK_VelocityEstimator[] VRTKVelEstim = new VRTK_VelocityEstimator[2];
+    (Vector3 right ,Vector3 left) startpostions;
+    (Vector3 right,Vector3 left) displacement ;
+    (VRTK_VelocityEstimator right, VRTK_VelocityEstimator left) VRTKVelEstim;
     [SerializeField] float rotateSpeed;
     const float maxSpeedLevel=3;
     [SerializeField]float speedLevel;
@@ -25,24 +25,26 @@ public class Horse : MonoBehaviour
 
     void SetUp()
     {
-        for (int i = 0; i < 2; i++)
-        {
-            VRTKVelEstim[i] = reins[i].GetComponent<VRTK_VelocityEstimator>();
-            startpostions[i] = reins[i].transform.localPosition;
-            interactableObjects[i] = reins[i].GetComponent<VRTK_InteractableObject>();
-        }
+        VRTKVelEstim.left= reins.left.GetComponent<VRTK_VelocityEstimator>();
+        VRTKVelEstim.right= reins.right.GetComponent<VRTK_VelocityEstimator>();
+
+        startpostions.left = reins.left.transform.localPosition;
+        interactableObjects[0] = reins.left.GetComponent<VRTK_InteractableObject>();
+        startpostions.right = reins.right.transform.localPosition;
+        interactableObjects[1] = reins.right.GetComponent<VRTK_InteractableObject>();
         setupped = true;
     }
 
-    private void FixedUpdate()
+    private void Update()
     {
+
         if (!setupped) return;
 
         SpeedCheck();
 
         if (GrabbedCheck()) //右手左手のどちらか1つでも手綱を掴んでいれば実行
         {
-            var averageDisPlacement = ((reins[0].transform.localPosition - startpostions[0]) + (reins[1].transform.localPosition - startpostions[1])) / 2;//右手と左手の平均をとる
+            var averageDisPlacement = ((reins.left.transform.localPosition - startpostions.left) + (reins.right.transform.localPosition - startpostions.right)) / 2;//右手と左手の平均をとる
             Rotate(averageDisPlacement.x);
             Acceleration();
             /*if (bothHands)*/ Deceleration(averageDisPlacement.z - averageDisPlacement.y);//両手で手綱を掴んでたら減速
@@ -63,8 +65,8 @@ public class Horse : MonoBehaviour
             if (!interactableObjects[1].IsGrabbed())
             {
                 //片手しか掴んでないときは掴んでない方の変位をもう片方に合わせる
-                displacement[0] = displacement[1] = reins[0].transform.localPosition - startpostions[0];
-                reins[1].transform.localPosition = startpostions[1]+ Vector3.MoveTowards(reins[1].transform.localPosition-startpostions[1],displacement[1],returnspeed);
+                displacement.left = displacement.right = reins.left.transform.localPosition - startpostions.left;
+                reins.right.transform.localPosition = startpostions.right+ Vector3.MoveTowards(reins.right.transform.localPosition-startpostions.right,displacement.right,returnspeed);
             }
             else
             {
@@ -75,17 +77,15 @@ public class Horse : MonoBehaviour
         }
         else if (interactableObjects[1].IsGrabbed())
         {
-            displacement[0] = displacement[1] = reins[1].transform.localPosition - startpostions[1];
-            reins[0].transform.localPosition =startpostions[0]+ Vector3.MoveTowards(reins[0].transform.localPosition-startpostions[0], displacement[0], returnspeed);
+            displacement.left = displacement.right = reins.right.transform.localPosition - startpostions.right;
+            reins.left.transform.localPosition =startpostions.left+ Vector3.MoveTowards(reins.left.transform.localPosition-startpostions.left, displacement.left, returnspeed);
             return true;
         }
         else
         {
-            for(int i = 0; i < 2; i++)
-            {
-                displacement[i] = Vector3.zero;
-                reins[i].transform.localPosition = Vector3.MoveTowards(reins[i].transform.localPosition, startpostions[i], returnspeed);
-            }
+            displacement.left = displacement.right= Vector3.zero;
+            reins.right.transform.localPosition = Vector3.MoveTowards(reins.right.transform.localPosition, startpostions.right, returnspeed);
+            reins.left.transform.localPosition = Vector3.MoveTowards(reins.left.transform.localPosition, startpostions.left, returnspeed);
         }
 
         return false;
@@ -93,15 +93,16 @@ public class Horse : MonoBehaviour
 
     void Rotate(float holizontal)
     {
-        var rot = Quaternion.Euler(new Vector3(0, holizontal * rotateSpeed, 0));
+        var rot = Quaternion.Euler(new Vector3(0, holizontal * rotateSpeed*Time.deltaTime, 0));
         root.rotation = rot * root.rotation;
     }
 
     bool accCoolTime=false;
     void Acceleration ()
     {
-        
-        if (!accCoolTime&&AccelerationCheck())
+
+
+        if (!accCoolTime&& AccelerationCheck())
         {
             speedLevel += 1;
             speedLevel = Mathf.Min(speedLevel, maxSpeedLevel);
@@ -112,12 +113,22 @@ public class Horse : MonoBehaviour
         }
     }
 
+    const int preVelocitySize = 3;
+    Vector3[] preVelocity = new Vector3[preVelocitySize];
+    int count=0;
     bool AccelerationCheck()
     {
-        Vector3 leftAcc =VRTKVelEstim[0].GetAccelerationEstimate();
-        Vector3 rightAcc =VRTKVelEstim[1].GetAccelerationEstimate();
+
+        //Vector3 velocity=
+
+        Vector3 leftAcc =VRTKVelEstim.left.GetAccelerationEstimate();
+        Vector3 rightAcc =VRTKVelEstim.right.GetAccelerationEstimate();
         float leftValue = Math.Abs(leftAcc.y) + Math.Abs(leftAcc.z) - Math.Abs(leftAcc.x);
         float rightValue = Math.Abs(rightAcc.y) + Math.Abs(rightAcc.z) - Math.Abs(rightAcc.x);
+
+
+
+        //preVelocity[count++%preVelocitySize]=
 
         return (Math.Max(leftValue,rightValue)) > 200;
     }
@@ -163,5 +174,11 @@ public class Horse : MonoBehaviour
             dir.y = 0.2f;
             collision.gameObject.GetComponent<Rigidbody>().AddForce(dir*20, ForceMode.Impulse);
         }
+    }
+
+  [System.Serializable]
+    struct Reins
+    {
+        public GameObject right, left;
     }
 }

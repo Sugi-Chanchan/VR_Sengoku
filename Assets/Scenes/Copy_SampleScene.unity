@@ -1962,6 +1962,16 @@ PrefabInstance:
       propertyPath: rightController
       value: 
       objectReference: {fileID: 122598786}
+    - target: {fileID: 864644461773088144, guid: 24491082d42e4b54d9c4ee4626b73e6f,
+        type: 3}
+      propertyPath: m_Name
+      value: RightReins
+      objectReference: {fileID: 0}
+    - target: {fileID: 864644462201532815, guid: 24491082d42e4b54d9c4ee4626b73e6f,
+        type: 3}
+      propertyPath: m_Name
+      value: LeftReins
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 24491082d42e4b54d9c4ee4626b73e6f, type: 3}
 --- !u!1 &1272869285
@@ -2483,8 +2493,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: feef0ca7c18db514daa9a8d7c07bfb77, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  debugCube: {fileID: 39303376}
-  debugText: {fileID: 1864061773}
 --- !u!1 &1849652852
 GameObject:
   m_ObjectHideFlags: 0
