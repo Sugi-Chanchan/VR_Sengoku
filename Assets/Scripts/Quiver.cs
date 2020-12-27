@@ -21,6 +21,8 @@ public class Quiver : MonoBehaviour
     {
         spawnDelayTimer = 0.0f;
         triggerBool = false;
+
+        transform.parent.parent = GameObject.FindGameObjectWithTag("Uma").transform;
     }
 
     // Update is called once per frame

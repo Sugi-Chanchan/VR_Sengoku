@@ -66,8 +66,8 @@ MonoBehaviour:
   leftReins: {fileID: 5566064422448086417}
   rightReins: {fileID: 8313570267428215181}
   _reins:
-    right: {fileID: 0}
-    left: {fileID: 0}
+    right: {fileID: 5440037195699771646}
+    left: {fileID: 5440037196610489569}
   rotateSpeed: 2
   speedLevel: 0
   speedFactor: 2
@@ -321,6 +321,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc8dbb3d19bf10340a6b391d9392abc0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  debug: 0
 --- !u!1 &5440037196610489569
 GameObject:
   m_ObjectHideFlags: 0
@@ -493,3 +494,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc8dbb3d19bf10340a6b391d9392abc0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  debug: 0
