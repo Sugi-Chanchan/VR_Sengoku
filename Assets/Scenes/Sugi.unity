@@ -270,6 +270,120 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 17035676}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &19419246
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1154062751614320322, guid: 6fa7c9ebdbb0f0e4ca62f38cc4e3582d,
+        type: 3}
+      propertyPath: m_Name
+      value: Cavalry (Tuki) (4)
+      objectReference: {fileID: 0}
+    - target: {fileID: 5411151681749636834, guid: 6fa7c9ebdbb0f0e4ca62f38cc4e3582d,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 31.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 5411151681749636834, guid: 6fa7c9ebdbb0f0e4ca62f38cc4e3582d,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.9985508
+      objectReference: {fileID: 0}
+    - target: {fileID: 5411151681749636834, guid: 6fa7c9ebdbb0f0e4ca62f38cc4e3582d,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 15.81
+      objectReference: {fileID: 0}
+    - target: {fileID: 5411151681749636834, guid: 6fa7c9ebdbb0f0e4ca62f38cc4e3582d,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5411151681749636834, guid: 6fa7c9ebdbb0f0e4ca62f38cc4e3582d,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5411151681749636834, guid: 6fa7c9ebdbb0f0e4ca62f38cc4e3582d,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5411151681749636834, guid: 6fa7c9ebdbb0f0e4ca62f38cc4e3582d,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5411151681749636834, guid: 6fa7c9ebdbb0f0e4ca62f38cc4e3582d,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 22
+      objectReference: {fileID: 0}
+    - target: {fileID: 5411151681749636834, guid: 6fa7c9ebdbb0f0e4ca62f38cc4e3582d,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5411151681749636834, guid: 6fa7c9ebdbb0f0e4ca62f38cc4e3582d,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5411151681749636834, guid: 6fa7c9ebdbb0f0e4ca62f38cc4e3582d,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7402589124713381699, guid: 6fa7c9ebdbb0f0e4ca62f38cc4e3582d,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2345024009925679012, guid: 6fa7c9ebdbb0f0e4ca62f38cc4e3582d,
+        type: 3}
+      propertyPath: colliderLines.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2345024009925679012, guid: 6fa7c9ebdbb0f0e4ca62f38cc4e3582d,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2345024009925679012, guid: 6fa7c9ebdbb0f0e4ca62f38cc4e3582d,
+        type: 3}
+      propertyPath: colliderLines.Array.data[0].start
+      value: 
+      objectReference: {fileID: 1852788551}
+    - target: {fileID: 2345024009925679012, guid: 6fa7c9ebdbb0f0e4ca62f38cc4e3582d,
+        type: 3}
+      propertyPath: colliderLines.Array.data[0].end
+      value: 
+      objectReference: {fileID: 850169088}
+    - target: {fileID: 2345024009925679012, guid: 6fa7c9ebdbb0f0e4ca62f38cc4e3582d,
+        type: 3}
+      propertyPath: colliderLines.Array.data[1].start
+      value: 
+      objectReference: {fileID: 1295751972}
+    - target: {fileID: 2345024009925679012, guid: 6fa7c9ebdbb0f0e4ca62f38cc4e3582d,
+        type: 3}
+      propertyPath: colliderLines.Array.data[1].end
+      value: 
+      objectReference: {fileID: 552415079}
+    - target: {fileID: 4837140230000057610, guid: 6fa7c9ebdbb0f0e4ca62f38cc4e3582d,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 4837140230000057610, guid: 6fa7c9ebdbb0f0e4ca62f38cc4e3582d,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: -0.7071068
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 6fa7c9ebdbb0f0e4ca62f38cc4e3582d, type: 3}
 --- !u!1001 &27453584
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1117,6 +1231,12 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2345024011554393617, guid: 6fa7c9ebdbb0f0e4ca62f38cc4e3582d,
     type: 3}
   m_PrefabInstance: {fileID: 2345024011429985118}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &165150826 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 402629376368766395, guid: 6fa7c9ebdbb0f0e4ca62f38cc4e3582d,
+    type: 3}
+  m_PrefabInstance: {fileID: 1908326537}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &182223106
 GameObject:
@@ -2293,6 +2413,166 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 463890887}
   m_CullTransparentMesh: 0
+--- !u!1 &496183792 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1154062751614320322, guid: 6fa7c9ebdbb0f0e4ca62f38cc4e3582d,
+    type: 3}
+  m_PrefabInstance: {fileID: 1908326537}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &496183793
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 496183792}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 246455474a0d74a4291b3cedc896ebdf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bonePaths:
+  - 
+  - Uma
+  - Uma/Hohei (1)
+  - Uma/Hohei (1)/Armature.001
+  - Uma/Hohei (1)/Armature.001/Hip
+  - Uma/Hohei (1)/Armature.001/Hip/Spine
+  - Uma/Hohei (1)/Armature.001/Hip/Spine/Chest
+  - Uma/Hohei (1)/Armature.001/Hip/Spine/Chest/Upper Chest
+  - Uma/Hohei (1)/Armature.001/Hip/Spine/Chest/Upper Chest/Neck
+  - Uma/Hohei (1)/Armature.001/Hip/Spine/Chest/Upper Chest/Neck/Head
+  - Uma/Hohei (1)/Armature.001/Hip/Spine/Chest/Upper Chest/Neck/Head/Head_end
+  - Uma/Hohei (1)/Armature.001/Hip/Spine/Chest/Upper Chest/Shoulder.L
+  - Uma/Hohei (1)/Armature.001/Hip/Spine/Chest/Upper Chest/Shoulder.L/Upper Arm.L
+  - Uma/Hohei (1)/Armature.001/Hip/Spine/Chest/Upper Chest/Shoulder.L/Upper Arm.L/Lower
+    Arm.L
+  - Uma/Hohei (1)/Armature.001/Hip/Spine/Chest/Upper Chest/Shoulder.L/Upper Arm.L/Lower
+    Arm.L/Hand.L
+  - Uma/Hohei (1)/Armature.001/Hip/Spine/Chest/Upper Chest/Shoulder.L/Upper Arm.L/Lower
+    Arm.L/Hand.L/Proximal Index.L
+  - Uma/Hohei (1)/Armature.001/Hip/Spine/Chest/Upper Chest/Shoulder.L/Upper Arm.L/Lower
+    Arm.L/Hand.L/Proximal Index.L/Intermediate Index.L
+  - Uma/Hohei (1)/Armature.001/Hip/Spine/Chest/Upper Chest/Shoulder.L/Upper Arm.L/Lower
+    Arm.L/Hand.L/Proximal Index.L/Intermediate Index.L/Distal Index.L
+  - Uma/Hohei (1)/Armature.001/Hip/Spine/Chest/Upper Chest/Shoulder.L/Upper Arm.L/Lower
+    Arm.L/Hand.L/Proximal Index.L/Intermediate Index.L/Distal Index.L/Distal Index.L_end
+  - Uma/Hohei (1)/Armature.001/Hip/Spine/Chest/Upper Chest/Shoulder.L/Upper Arm.L/Lower
+    Arm.L/Hand.L/Proximal Little.L
+  - Uma/Hohei (1)/Armature.001/Hip/Spine/Chest/Upper Chest/Shoulder.L/Upper Arm.L/Lower
+    Arm.L/Hand.L/Proximal Little.L/Intermediate Little.L
+  - Uma/Hohei (1)/Armature.001/Hip/Spine/Chest/Upper Chest/Shoulder.L/Upper Arm.L/Lower
+    Arm.L/Hand.L/Proximal Little.L/Intermediate Little.L/Distal Little.L
+  - Uma/Hohei (1)/Armature.001/Hip/Spine/Chest/Upper Chest/Shoulder.L/Upper Arm.L/Lower
+    Arm.L/Hand.L/Proximal Little.L/Intermediate Little.L/Distal Little.L/Distal Little.L_end
+  - Uma/Hohei (1)/Armature.001/Hip/Spine/Chest/Upper Chest/Shoulder.L/Upper Arm.L/Lower
+    Arm.L/Hand.L/Proximal Middle.L
+  - Uma/Hohei (1)/Armature.001/Hip/Spine/Chest/Upper Chest/Shoulder.L/Upper Arm.L/Lower
+    Arm.L/Hand.L/Proximal Middle.L/Intermediate Middle.L
+  - Uma/Hohei (1)/Armature.001/Hip/Spine/Chest/Upper Chest/Shoulder.L/Upper Arm.L/Lower
+    Arm.L/Hand.L/Proximal Middle.L/Intermediate Middle.L/Distal Middle.L
+  - Uma/Hohei (1)/Armature.001/Hip/Spine/Chest/Upper Chest/Shoulder.L/Upper Arm.L/Lower
+    Arm.L/Hand.L/Proximal Middle.L/Intermediate Middle.L/Distal Middle.L/Distal Middle.L_end
+  - Uma/Hohei (1)/Armature.001/Hip/Spine/Chest/Upper Chest/Shoulder.L/Upper Arm.L/Lower
+    Arm.L/Hand.L/Proximal Ring.L
+  - Uma/Hohei (1)/Armature.001/Hip/Spine/Chest/Upper Chest/Shoulder.L/Upper Arm.L/Lower
+    Arm.L/Hand.L/Proximal Ring.L/Intermediate Ring.L
+  - Uma/Hohei (1)/Armature.001/Hip/Spine/Chest/Upper Chest/Shoulder.L/Upper Arm.L/Lower
+    Arm.L/Hand.L/Proximal Ring.L/Intermediate Ring.L/Distal Ring.L
+  - Uma/Hohei (1)/Armature.001/Hip/Spine/Chest/Upper Chest/Shoulder.L/Upper Arm.L/Lower
+    Arm.L/Hand.L/Proximal Ring.L/Intermediate Ring.L/Distal Ring.L/Distal Ring.L_end
+  - Uma/Hohei (1)/Armature.001/Hip/Spine/Chest/Upper Chest/Shoulder.L/Upper Arm.L/Lower
+    Arm.L/Hand.L/Proximal Thumb.L
+  - Uma/Hohei (1)/Armature.001/Hip/Spine/Chest/Upper Chest/Shoulder.L/Upper Arm.L/Lower
+    Arm.L/Hand.L/Proximal Thumb.L/Intermediate Thumb.L
+  - Uma/Hohei (1)/Armature.001/Hip/Spine/Chest/Upper Chest/Shoulder.L/Upper Arm.L/Lower
+    Arm.L/Hand.L/Proximal Thumb.L/Intermediate Thumb.L/Distal Thumb.L
+  - Uma/Hohei (1)/Armature.001/Hip/Spine/Chest/Upper Chest/Shoulder.L/Upper Arm.L/Lower
+    Arm.L/Hand.L/Proximal Thumb.L/Intermediate Thumb.L/Distal Thumb.L/Distal Thumb.L_end
+  - Uma/Hohei (1)/Armature.001/Hip/Spine/Chest/Upper Chest/Shoulder.R
+  - Uma/Hohei (1)/Armature.001/Hip/Spine/Chest/Upper Chest/Shoulder.R/Upper Arm.R
+  - Uma/Hohei (1)/Armature.001/Hip/Spine/Chest/Upper Chest/Shoulder.R/Upper Arm.R/Lower
+    Arm.R
+  - Uma/Hohei (1)/Armature.001/Hip/Spine/Chest/Upper Chest/Shoulder.R/Upper Arm.R/Lower
+    Arm.R/Hand.R
+  - Uma/Hohei (1)/Armature.001/Hip/Spine/Chest/Upper Chest/Shoulder.R/Upper Arm.R/Lower
+    Arm.R/Hand.R/Proximal Index.R
+  - Uma/Hohei (1)/Armature.001/Hip/Spine/Chest/Upper Chest/Shoulder.R/Upper Arm.R/Lower
+    Arm.R/Hand.R/Proximal Index.R/Intermediate Index.R
+  - Uma/Hohei (1)/Armature.001/Hip/Spine/Chest/Upper Chest/Shoulder.R/Upper Arm.R/Lower
+    Arm.R/Hand.R/Proximal Index.R/Intermediate Index.R/Distal Index.R
+  - Uma/Hohei (1)/Armature.001/Hip/Spine/Chest/Upper Chest/Shoulder.R/Upper Arm.R/Lower
+    Arm.R/Hand.R/Proximal Index.R/Intermediate Index.R/Distal Index.R/Distal Index.R_end
+  - Uma/Hohei (1)/Armature.001/Hip/Spine/Chest/Upper Chest/Shoulder.R/Upper Arm.R/Lower
+    Arm.R/Hand.R/Proximal Little.R
+  - Uma/Hohei (1)/Armature.001/Hip/Spine/Chest/Upper Chest/Shoulder.R/Upper Arm.R/Lower
+    Arm.R/Hand.R/Proximal Little.R/Intermediate Little.R
+  - Uma/Hohei (1)/Armature.001/Hip/Spine/Chest/Upper Chest/Shoulder.R/Upper Arm.R/Lower
+    Arm.R/Hand.R/Proximal Little.R/Intermediate Little.R/Distal Little.R
+  - Uma/Hohei (1)/Armature.001/Hip/Spine/Chest/Upper Chest/Shoulder.R/Upper Arm.R/Lower
+    Arm.R/Hand.R/Proximal Little.R/Intermediate Little.R/Distal Little.R/Distal Little.R_end
+  - Uma/Hohei (1)/Armature.001/Hip/Spine/Chest/Upper Chest/Shoulder.R/Upper Arm.R/Lower
+    Arm.R/Hand.R/Proximal Middle.R
+  - Uma/Hohei (1)/Armature.001/Hip/Spine/Chest/Upper Chest/Shoulder.R/Upper Arm.R/Lower
+    Arm.R/Hand.R/Proximal Middle.R/Intermediate Middle.R
+  - Uma/Hohei (1)/Armature.001/Hip/Spine/Chest/Upper Chest/Shoulder.R/Upper Arm.R/Lower
+    Arm.R/Hand.R/Proximal Middle.R/Intermediate Middle.R/Distal Middle.R
+  - Uma/Hohei (1)/Armature.001/Hip/Spine/Chest/Upper Chest/Shoulder.R/Upper Arm.R/Lower
+    Arm.R/Hand.R/Proximal Middle.R/Intermediate Middle.R/Distal Middle.R/Distal Middle.R_end
+  - Uma/Hohei (1)/Armature.001/Hip/Spine/Chest/Upper Chest/Shoulder.R/Upper Arm.R/Lower
+    Arm.R/Hand.R/Proximal Ring.R
+  - Uma/Hohei (1)/Armature.001/Hip/Spine/Chest/Upper Chest/Shoulder.R/Upper Arm.R/Lower
+    Arm.R/Hand.R/Proximal Ring.R/Intermediate Ring.R
+  - Uma/Hohei (1)/Armature.001/Hip/Spine/Chest/Upper Chest/Shoulder.R/Upper Arm.R/Lower
+    Arm.R/Hand.R/Proximal Ring.R/Intermediate Ring.R/Distal Ring.R
+  - Uma/Hohei (1)/Armature.001/Hip/Spine/Chest/Upper Chest/Shoulder.R/Upper Arm.R/Lower
+    Arm.R/Hand.R/Proximal Ring.R/Intermediate Ring.R/Distal Ring.R/Distal Ring.R_end
+  - Uma/Hohei (1)/Armature.001/Hip/Spine/Chest/Upper Chest/Shoulder.R/Upper Arm.R/Lower
+    Arm.R/Hand.R/Proximal Thumb.R
+  - Uma/Hohei (1)/Armature.001/Hip/Spine/Chest/Upper Chest/Shoulder.R/Upper Arm.R/Lower
+    Arm.R/Hand.R/Proximal Thumb.R/Intermediate Thumb.R
+  - Uma/Hohei (1)/Armature.001/Hip/Spine/Chest/Upper Chest/Shoulder.R/Upper Arm.R/Lower
+    Arm.R/Hand.R/Proximal Thumb.R/Intermediate Thumb.R/Distal Thumb.R
+  - Uma/Hohei (1)/Armature.001/Hip/Spine/Chest/Upper Chest/Shoulder.R/Upper Arm.R/Lower
+    Arm.R/Hand.R/Proximal Thumb.R/Intermediate Thumb.R/Distal Thumb.R/Distal Thumb.R_end
+  - Uma/Hohei (1)/Armature.001/Hip/Spine/Chest/Upper Chest/Shoulder.R/Upper Arm.R/Lower
+    Arm.R/Hand.R/Halberd
+  - Uma/Hohei (1)/Armature.001/Hip/Spine/Chest/Upper Chest/Shoulder.R/Upper Arm.R/Lower
+    Arm.R/Hand.R/Halberd/Start(Cutter)
+  - Uma/Hohei (1)/Armature.001/Hip/Spine/Chest/Upper Chest/Shoulder.R/Upper Arm.R/Lower
+    Arm.R/Hand.R/Halberd/End(Cutter)
+  - Uma/Hohei (1)/Armature.001/Hip/Spine/Chest/Upper Chest/Shoulder.R/Upper Arm.R/Lower
+    Arm.R/Hand.R/Halberd/Start(Cutted)
+  - Uma/Hohei (1)/Armature.001/Hip/Spine/Chest/Upper Chest/Shoulder.R/Upper Arm.R/Lower
+    Arm.R/Hand.R/Halberd/End(Cutted)
+  - Uma/Hohei (1)/Armature.001/Hip/Spine/Chest/Upper Chest/Shoulder.R/Upper Arm.R/Lower
+    Arm.R/Hand.R/WeaponPosition
+  - Uma/Hohei (1)/Armature.001/Hip/Upper Leg.L
+  - Uma/Hohei (1)/Armature.001/Hip/Upper Leg.L/Lower Leg.L
+  - Uma/Hohei (1)/Armature.001/Hip/Upper Leg.L/Lower Leg.L/Foot.L
+  - Uma/Hohei (1)/Armature.001/Hip/Upper Leg.L/Lower Leg.L/Foot.L/Toes.L
+  - Uma/Hohei (1)/Armature.001/Hip/Upper Leg.L/Lower Leg.L/Foot.L/Toes.L/Toes.L_end
+  - Uma/Hohei (1)/Armature.001/Hip/Upper Leg.R
+  - Uma/Hohei (1)/Armature.001/Hip/Upper Leg.R/Lower Leg.R
+  - Uma/Hohei (1)/Armature.001/Hip/Upper Leg.R/Lower Leg.R/Foot.R
+  - Uma/Hohei (1)/Armature.001/Hip/Upper Leg.R/Lower Leg.R/Foot.R/Toes.R
+  - Uma/Hohei (1)/Armature.001/Hip/Upper Leg.R/Lower Leg.R/Foot.R/Toes.R/Toes.R_end
+  - Uma/Hohei (1)/Cube
+  - Sphere
+  - Body
+  - Body/Head
+  - Body/Leg
+  showBones: 00000000
+  foldoutBones: 000000003b000000260000002f000000270000002500000037000000380000002400000039000000350000002300000007000000330000003400000030000000310000002b0000002c0000002d0000002800000029000000060000000b0000000c000000080000000500000009000000040000000d00000003000000460000000e0000004700000041000000020000001f0000001b000000170000001300000042000000010000001400000043000000200000001800000048000000100000001100000049000000210000001d0000001900000015000000440000001c0000000f0000004d000000
+  mirrorBones: ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff230000002400000025000000260000002700000028000000290000002a0000002b0000002c0000002d0000002e0000002f000000300000003100000032000000330000003400000035000000360000003700000038000000390000003a0000000b0000000c0000000d0000000e0000000f000000100000001100000012000000130000001400000015000000160000001700000018000000190000001a0000001b0000001c0000001d0000001e0000001f000000200000002100000022000000ffffffffffffffffffffffffffffffffffffffffffffffff460000004700000048000000490000004a0000004100000042000000430000004400000045000000ffffffffffffffffffffffffffffffffffffffff
+  mirrorBlendShape: []
+  animatorIkData: []
+  originalIkData: []
+  selectionData: []
+  lastSelectAnimationClip: {fileID: 7400000, guid: cbe886ffb0815a54a90dbb5f2b1dcc5c,
+    type: 2}
+  handPoseList: []
+  blendShapeList: []
 --- !u!1001 &498358920
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2742,6 +3022,12 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 548986793542583058, guid: 76e502ab77dc57545a6bf1e633ff7dc2,
     type: 3}
   m_PrefabInstance: {fileID: 549391284}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &552415079 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2345024009536393035, guid: 6fa7c9ebdbb0f0e4ca62f38cc4e3582d,
+    type: 3}
+  m_PrefabInstance: {fileID: 19419246}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &573335848
 PrefabInstance:
@@ -3703,6 +3989,12 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 775362066}
   m_PrefabAsset: {fileID: 0}
+--- !u!4 &791666150 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1367218774335277417, guid: 6fa7c9ebdbb0f0e4ca62f38cc4e3582d,
+    type: 3}
+  m_PrefabInstance: {fileID: 1908326537}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &792719958
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3778,6 +4070,166 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 792719958}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &794376405 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1154062751614320322, guid: 6fa7c9ebdbb0f0e4ca62f38cc4e3582d,
+    type: 3}
+  m_PrefabInstance: {fileID: 19419246}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &794376406
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 794376405}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 246455474a0d74a4291b3cedc896ebdf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bonePaths:
+  - 
+  - Uma
+  - Uma/Hohei (1)
+  - Uma/Hohei (1)/Armature.001
+  - Uma/Hohei (1)/Armature.001/Hip
+  - Uma/Hohei (1)/Armature.001/Hip/Spine
+  - Uma/Hohei (1)/Armature.001/Hip/Spine/Chest
+  - Uma/Hohei (1)/Armature.001/Hip/Spine/Chest/Upper Chest
+  - Uma/Hohei (1)/Armature.001/Hip/Spine/Chest/Upper Chest/Neck
+  - Uma/Hohei (1)/Armature.001/Hip/Spine/Chest/Upper Chest/Neck/Head
+  - Uma/Hohei (1)/Armature.001/Hip/Spine/Chest/Upper Chest/Neck/Head/Head_end
+  - Uma/Hohei (1)/Armature.001/Hip/Spine/Chest/Upper Chest/Shoulder.L
+  - Uma/Hohei (1)/Armature.001/Hip/Spine/Chest/Upper Chest/Shoulder.L/Upper Arm.L
+  - Uma/Hohei (1)/Armature.001/Hip/Spine/Chest/Upper Chest/Shoulder.L/Upper Arm.L/Lower
+    Arm.L
+  - Uma/Hohei (1)/Armature.001/Hip/Spine/Chest/Upper Chest/Shoulder.L/Upper Arm.L/Lower
+    Arm.L/Hand.L
+  - Uma/Hohei (1)/Armature.001/Hip/Spine/Chest/Upper Chest/Shoulder.L/Upper Arm.L/Lower
+    Arm.L/Hand.L/Proximal Index.L
+  - Uma/Hohei (1)/Armature.001/Hip/Spine/Chest/Upper Chest/Shoulder.L/Upper Arm.L/Lower
+    Arm.L/Hand.L/Proximal Index.L/Intermediate Index.L
+  - Uma/Hohei (1)/Armature.001/Hip/Spine/Chest/Upper Chest/Shoulder.L/Upper Arm.L/Lower
+    Arm.L/Hand.L/Proximal Index.L/Intermediate Index.L/Distal Index.L
+  - Uma/Hohei (1)/Armature.001/Hip/Spine/Chest/Upper Chest/Shoulder.L/Upper Arm.L/Lower
+    Arm.L/Hand.L/Proximal Index.L/Intermediate Index.L/Distal Index.L/Distal Index.L_end
+  - Uma/Hohei (1)/Armature.001/Hip/Spine/Chest/Upper Chest/Shoulder.L/Upper Arm.L/Lower
+    Arm.L/Hand.L/Proximal Little.L
+  - Uma/Hohei (1)/Armature.001/Hip/Spine/Chest/Upper Chest/Shoulder.L/Upper Arm.L/Lower
+    Arm.L/Hand.L/Proximal Little.L/Intermediate Little.L
+  - Uma/Hohei (1)/Armature.001/Hip/Spine/Chest/Upper Chest/Shoulder.L/Upper Arm.L/Lower
+    Arm.L/Hand.L/Proximal Little.L/Intermediate Little.L/Distal Little.L
+  - Uma/Hohei (1)/Armature.001/Hip/Spine/Chest/Upper Chest/Shoulder.L/Upper Arm.L/Lower
+    Arm.L/Hand.L/Proximal Little.L/Intermediate Little.L/Distal Little.L/Distal Little.L_end
+  - Uma/Hohei (1)/Armature.001/Hip/Spine/Chest/Upper Chest/Shoulder.L/Upper Arm.L/Lower
+    Arm.L/Hand.L/Proximal Middle.L
+  - Uma/Hohei (1)/Armature.001/Hip/Spine/Chest/Upper Chest/Shoulder.L/Upper Arm.L/Lower
+    Arm.L/Hand.L/Proximal Middle.L/Intermediate Middle.L
+  - Uma/Hohei (1)/Armature.001/Hip/Spine/Chest/Upper Chest/Shoulder.L/Upper Arm.L/Lower
+    Arm.L/Hand.L/Proximal Middle.L/Intermediate Middle.L/Distal Middle.L
+  - Uma/Hohei (1)/Armature.001/Hip/Spine/Chest/Upper Chest/Shoulder.L/Upper Arm.L/Lower
+    Arm.L/Hand.L/Proximal Middle.L/Intermediate Middle.L/Distal Middle.L/Distal Middle.L_end
+  - Uma/Hohei (1)/Armature.001/Hip/Spine/Chest/Upper Chest/Shoulder.L/Upper Arm.L/Lower
+    Arm.L/Hand.L/Proximal Ring.L
+  - Uma/Hohei (1)/Armature.001/Hip/Spine/Chest/Upper Chest/Shoulder.L/Upper Arm.L/Lower
+    Arm.L/Hand.L/Proximal Ring.L/Intermediate Ring.L
+  - Uma/Hohei (1)/Armature.001/Hip/Spine/Chest/Upper Chest/Shoulder.L/Upper Arm.L/Lower
+    Arm.L/Hand.L/Proximal Ring.L/Intermediate Ring.L/Distal Ring.L
+  - Uma/Hohei (1)/Armature.001/Hip/Spine/Chest/Upper Chest/Shoulder.L/Upper Arm.L/Lower
+    Arm.L/Hand.L/Proximal Ring.L/Intermediate Ring.L/Distal Ring.L/Distal Ring.L_end
+  - Uma/Hohei (1)/Armature.001/Hip/Spine/Chest/Upper Chest/Shoulder.L/Upper Arm.L/Lower
+    Arm.L/Hand.L/Proximal Thumb.L
+  - Uma/Hohei (1)/Armature.001/Hip/Spine/Chest/Upper Chest/Shoulder.L/Upper Arm.L/Lower
+    Arm.L/Hand.L/Proximal Thumb.L/Intermediate Thumb.L
+  - Uma/Hohei (1)/Armature.001/Hip/Spine/Chest/Upper Chest/Shoulder.L/Upper Arm.L/Lower
+    Arm.L/Hand.L/Proximal Thumb.L/Intermediate Thumb.L/Distal Thumb.L
+  - Uma/Hohei (1)/Armature.001/Hip/Spine/Chest/Upper Chest/Shoulder.L/Upper Arm.L/Lower
+    Arm.L/Hand.L/Proximal Thumb.L/Intermediate Thumb.L/Distal Thumb.L/Distal Thumb.L_end
+  - Uma/Hohei (1)/Armature.001/Hip/Spine/Chest/Upper Chest/Shoulder.R
+  - Uma/Hohei (1)/Armature.001/Hip/Spine/Chest/Upper Chest/Shoulder.R/Upper Arm.R
+  - Uma/Hohei (1)/Armature.001/Hip/Spine/Chest/Upper Chest/Shoulder.R/Upper Arm.R/Lower
+    Arm.R
+  - Uma/Hohei (1)/Armature.001/Hip/Spine/Chest/Upper Chest/Shoulder.R/Upper Arm.R/Lower
+    Arm.R/Hand.R
+  - Uma/Hohei (1)/Armature.001/Hip/Spine/Chest/Upper Chest/Shoulder.R/Upper Arm.R/Lower
+    Arm.R/Hand.R/Proximal Index.R
+  - Uma/Hohei (1)/Armature.001/Hip/Spine/Chest/Upper Chest/Shoulder.R/Upper Arm.R/Lower
+    Arm.R/Hand.R/Proximal Index.R/Intermediate Index.R
+  - Uma/Hohei (1)/Armature.001/Hip/Spine/Chest/Upper Chest/Shoulder.R/Upper Arm.R/Lower
+    Arm.R/Hand.R/Proximal Index.R/Intermediate Index.R/Distal Index.R
+  - Uma/Hohei (1)/Armature.001/Hip/Spine/Chest/Upper Chest/Shoulder.R/Upper Arm.R/Lower
+    Arm.R/Hand.R/Proximal Index.R/Intermediate Index.R/Distal Index.R/Distal Index.R_end
+  - Uma/Hohei (1)/Armature.001/Hip/Spine/Chest/Upper Chest/Shoulder.R/Upper Arm.R/Lower
+    Arm.R/Hand.R/Proximal Little.R
+  - Uma/Hohei (1)/Armature.001/Hip/Spine/Chest/Upper Chest/Shoulder.R/Upper Arm.R/Lower
+    Arm.R/Hand.R/Proximal Little.R/Intermediate Little.R
+  - Uma/Hohei (1)/Armature.001/Hip/Spine/Chest/Upper Chest/Shoulder.R/Upper Arm.R/Lower
+    Arm.R/Hand.R/Proximal Little.R/Intermediate Little.R/Distal Little.R
+  - Uma/Hohei (1)/Armature.001/Hip/Spine/Chest/Upper Chest/Shoulder.R/Upper Arm.R/Lower
+    Arm.R/Hand.R/Proximal Little.R/Intermediate Little.R/Distal Little.R/Distal Little.R_end
+  - Uma/Hohei (1)/Armature.001/Hip/Spine/Chest/Upper Chest/Shoulder.R/Upper Arm.R/Lower
+    Arm.R/Hand.R/Proximal Middle.R
+  - Uma/Hohei (1)/Armature.001/Hip/Spine/Chest/Upper Chest/Shoulder.R/Upper Arm.R/Lower
+    Arm.R/Hand.R/Proximal Middle.R/Intermediate Middle.R
+  - Uma/Hohei (1)/Armature.001/Hip/Spine/Chest/Upper Chest/Shoulder.R/Upper Arm.R/Lower
+    Arm.R/Hand.R/Proximal Middle.R/Intermediate Middle.R/Distal Middle.R
+  - Uma/Hohei (1)/Armature.001/Hip/Spine/Chest/Upper Chest/Shoulder.R/Upper Arm.R/Lower
+    Arm.R/Hand.R/Proximal Middle.R/Intermediate Middle.R/Distal Middle.R/Distal Middle.R_end
+  - Uma/Hohei (1)/Armature.001/Hip/Spine/Chest/Upper Chest/Shoulder.R/Upper Arm.R/Lower
+    Arm.R/Hand.R/Proximal Ring.R
+  - Uma/Hohei (1)/Armature.001/Hip/Spine/Chest/Upper Chest/Shoulder.R/Upper Arm.R/Lower
+    Arm.R/Hand.R/Proximal Ring.R/Intermediate Ring.R
+  - Uma/Hohei (1)/Armature.001/Hip/Spine/Chest/Upper Chest/Shoulder.R/Upper Arm.R/Lower
+    Arm.R/Hand.R/Proximal Ring.R/Intermediate Ring.R/Distal Ring.R
+  - Uma/Hohei (1)/Armature.001/Hip/Spine/Chest/Upper Chest/Shoulder.R/Upper Arm.R/Lower
+    Arm.R/Hand.R/Proximal Ring.R/Intermediate Ring.R/Distal Ring.R/Distal Ring.R_end
+  - Uma/Hohei (1)/Armature.001/Hip/Spine/Chest/Upper Chest/Shoulder.R/Upper Arm.R/Lower
+    Arm.R/Hand.R/Proximal Thumb.R
+  - Uma/Hohei (1)/Armature.001/Hip/Spine/Chest/Upper Chest/Shoulder.R/Upper Arm.R/Lower
+    Arm.R/Hand.R/Proximal Thumb.R/Intermediate Thumb.R
+  - Uma/Hohei (1)/Armature.001/Hip/Spine/Chest/Upper Chest/Shoulder.R/Upper Arm.R/Lower
+    Arm.R/Hand.R/Proximal Thumb.R/Intermediate Thumb.R/Distal Thumb.R
+  - Uma/Hohei (1)/Armature.001/Hip/Spine/Chest/Upper Chest/Shoulder.R/Upper Arm.R/Lower
+    Arm.R/Hand.R/Proximal Thumb.R/Intermediate Thumb.R/Distal Thumb.R/Distal Thumb.R_end
+  - Uma/Hohei (1)/Armature.001/Hip/Spine/Chest/Upper Chest/Shoulder.R/Upper Arm.R/Lower
+    Arm.R/Hand.R/Halberd
+  - Uma/Hohei (1)/Armature.001/Hip/Spine/Chest/Upper Chest/Shoulder.R/Upper Arm.R/Lower
+    Arm.R/Hand.R/Halberd/Start(Cutter)
+  - Uma/Hohei (1)/Armature.001/Hip/Spine/Chest/Upper Chest/Shoulder.R/Upper Arm.R/Lower
+    Arm.R/Hand.R/Halberd/End(Cutter)
+  - Uma/Hohei (1)/Armature.001/Hip/Spine/Chest/Upper Chest/Shoulder.R/Upper Arm.R/Lower
+    Arm.R/Hand.R/Halberd/Start(Cutted)
+  - Uma/Hohei (1)/Armature.001/Hip/Spine/Chest/Upper Chest/Shoulder.R/Upper Arm.R/Lower
+    Arm.R/Hand.R/Halberd/End(Cutted)
+  - Uma/Hohei (1)/Armature.001/Hip/Spine/Chest/Upper Chest/Shoulder.R/Upper Arm.R/Lower
+    Arm.R/Hand.R/WeaponPosition
+  - Uma/Hohei (1)/Armature.001/Hip/Upper Leg.L
+  - Uma/Hohei (1)/Armature.001/Hip/Upper Leg.L/Lower Leg.L
+  - Uma/Hohei (1)/Armature.001/Hip/Upper Leg.L/Lower Leg.L/Foot.L
+  - Uma/Hohei (1)/Armature.001/Hip/Upper Leg.L/Lower Leg.L/Foot.L/Toes.L
+  - Uma/Hohei (1)/Armature.001/Hip/Upper Leg.L/Lower Leg.L/Foot.L/Toes.L/Toes.L_end
+  - Uma/Hohei (1)/Armature.001/Hip/Upper Leg.R
+  - Uma/Hohei (1)/Armature.001/Hip/Upper Leg.R/Lower Leg.R
+  - Uma/Hohei (1)/Armature.001/Hip/Upper Leg.R/Lower Leg.R/Foot.R
+  - Uma/Hohei (1)/Armature.001/Hip/Upper Leg.R/Lower Leg.R/Foot.R/Toes.R
+  - Uma/Hohei (1)/Armature.001/Hip/Upper Leg.R/Lower Leg.R/Foot.R/Toes.R/Toes.R_end
+  - Uma/Hohei (1)/Cube
+  - Sphere
+  - Body
+  - Body/Head
+  - Body/Leg
+  showBones: 00000000
+  foldoutBones: 000000003b000000260000002f000000270000002500000037000000380000002400000039000000350000002300000007000000330000003400000030000000310000002b0000002c0000002d0000002800000029000000060000000b0000000c000000080000000500000009000000040000000d00000003000000460000000e0000004700000041000000020000001f0000001b000000170000001300000042000000010000001400000043000000200000001800000048000000100000001100000049000000210000001d0000001900000015000000440000001c0000000f0000004d000000
+  mirrorBones: ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff230000002400000025000000260000002700000028000000290000002a0000002b0000002c0000002d0000002e0000002f000000300000003100000032000000330000003400000035000000360000003700000038000000390000003a0000000b0000000c0000000d0000000e0000000f000000100000001100000012000000130000001400000015000000160000001700000018000000190000001a0000001b0000001c0000001d0000001e0000001f000000200000002100000022000000ffffffffffffffffffffffffffffffffffffffffffffffff460000004700000048000000490000004a0000004100000042000000430000004400000045000000ffffffffffffffffffffffffffffffffffffffff
+  mirrorBlendShape: []
+  animatorIkData: []
+  originalIkData: []
+  selectionData: []
+  lastSelectAnimationClip: {fileID: 7400000, guid: cbe886ffb0815a54a90dbb5f2b1dcc5c,
+    type: 2}
+  handPoseList: []
+  blendShapeList: []
 --- !u!1001 &812711001
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4018,6 +4470,12 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 548986793542583058, guid: 76e502ab77dc57545a6bf1e633ff7dc2,
     type: 3}
   m_PrefabInstance: {fileID: 828775442}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &850169088 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 402629376368766395, guid: 6fa7c9ebdbb0f0e4ca62f38cc4e3582d,
+    type: 3}
+  m_PrefabInstance: {fileID: 19419246}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &851025283
 PrefabInstance:
@@ -4422,6 +4880,12 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 548986793542583058, guid: 76e502ab77dc57545a6bf1e633ff7dc2,
     type: 3}
   m_PrefabInstance: {fileID: 920683694}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &971547919 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2345024011554393617, guid: 6fa7c9ebdbb0f0e4ca62f38cc4e3582d,
+    type: 3}
+  m_PrefabInstance: {fileID: 1908326537}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &984892596
 PrefabInstance:
@@ -4872,6 +5336,18 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 548986793542583058, guid: 76e502ab77dc57545a6bf1e633ff7dc2,
     type: 3}
   m_PrefabInstance: {fileID: 1191919289}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &1295751972 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2345024011554393617, guid: 6fa7c9ebdbb0f0e4ca62f38cc4e3582d,
+    type: 3}
+  m_PrefabInstance: {fileID: 19419246}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &1304941653 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2345024009536393035, guid: 6fa7c9ebdbb0f0e4ca62f38cc4e3582d,
+    type: 3}
+  m_PrefabInstance: {fileID: 1908326537}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1338991028
 PrefabInstance:
@@ -7240,6 +7716,7 @@ MonoBehaviour:
     end: {fileID: 891387060}
     preStart: {x: 0, y: 0, z: 0}
     preEnd: {x: 0, y: 0, z: 0}
+  cavalryScript: {fileID: 0}
   cutSurfaceMaterial: {fileID: 0}
 --- !u!54 &1829066612
 Rigidbody:
@@ -7332,6 +7809,12 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 18
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &1852788551 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1367218774335277417, guid: 6fa7c9ebdbb0f0e4ca62f38cc4e3582d,
+    type: 3}
+  m_PrefabInstance: {fileID: 19419246}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1865745220
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7883,6 +8366,120 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 46476571}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &1908326537
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1154062751614320322, guid: 6fa7c9ebdbb0f0e4ca62f38cc4e3582d,
+        type: 3}
+      propertyPath: m_Name
+      value: Cavalry (Tuki) (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: 5411151681749636834, guid: 6fa7c9ebdbb0f0e4ca62f38cc4e3582d,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 13.11
+      objectReference: {fileID: 0}
+    - target: {fileID: 5411151681749636834, guid: 6fa7c9ebdbb0f0e4ca62f38cc4e3582d,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.9985508
+      objectReference: {fileID: 0}
+    - target: {fileID: 5411151681749636834, guid: 6fa7c9ebdbb0f0e4ca62f38cc4e3582d,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 16.93
+      objectReference: {fileID: 0}
+    - target: {fileID: 5411151681749636834, guid: 6fa7c9ebdbb0f0e4ca62f38cc4e3582d,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5411151681749636834, guid: 6fa7c9ebdbb0f0e4ca62f38cc4e3582d,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5411151681749636834, guid: 6fa7c9ebdbb0f0e4ca62f38cc4e3582d,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5411151681749636834, guid: 6fa7c9ebdbb0f0e4ca62f38cc4e3582d,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5411151681749636834, guid: 6fa7c9ebdbb0f0e4ca62f38cc4e3582d,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 21
+      objectReference: {fileID: 0}
+    - target: {fileID: 5411151681749636834, guid: 6fa7c9ebdbb0f0e4ca62f38cc4e3582d,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5411151681749636834, guid: 6fa7c9ebdbb0f0e4ca62f38cc4e3582d,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5411151681749636834, guid: 6fa7c9ebdbb0f0e4ca62f38cc4e3582d,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7402589124713381699, guid: 6fa7c9ebdbb0f0e4ca62f38cc4e3582d,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2345024009925679012, guid: 6fa7c9ebdbb0f0e4ca62f38cc4e3582d,
+        type: 3}
+      propertyPath: colliderLines.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2345024009925679012, guid: 6fa7c9ebdbb0f0e4ca62f38cc4e3582d,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2345024009925679012, guid: 6fa7c9ebdbb0f0e4ca62f38cc4e3582d,
+        type: 3}
+      propertyPath: colliderLines.Array.data[0].start
+      value: 
+      objectReference: {fileID: 791666150}
+    - target: {fileID: 2345024009925679012, guid: 6fa7c9ebdbb0f0e4ca62f38cc4e3582d,
+        type: 3}
+      propertyPath: colliderLines.Array.data[0].end
+      value: 
+      objectReference: {fileID: 165150826}
+    - target: {fileID: 2345024009925679012, guid: 6fa7c9ebdbb0f0e4ca62f38cc4e3582d,
+        type: 3}
+      propertyPath: colliderLines.Array.data[1].start
+      value: 
+      objectReference: {fileID: 971547919}
+    - target: {fileID: 2345024009925679012, guid: 6fa7c9ebdbb0f0e4ca62f38cc4e3582d,
+        type: 3}
+      propertyPath: colliderLines.Array.data[1].end
+      value: 
+      objectReference: {fileID: 1304941653}
+    - target: {fileID: 4837140230000057610, guid: 6fa7c9ebdbb0f0e4ca62f38cc4e3582d,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 4837140230000057610, guid: 6fa7c9ebdbb0f0e4ca62f38cc4e3582d,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: -0.7071068
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 6fa7c9ebdbb0f0e4ca62f38cc4e3582d, type: 3}
 --- !u!1001 &1911401992
 PrefabInstance:
   m_ObjectHideFlags: 0
