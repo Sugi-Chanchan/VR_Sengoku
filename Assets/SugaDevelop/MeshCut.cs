@@ -304,7 +304,7 @@ public class MeshCut : MonoBehaviour
     /// <param name="makeCutSurface">切断面を作るかどうか</param>
     /// <param name="cutSurfaceMaterial">切断面に割り当てるマテリアル(nullの場合は適当なマテリアルを割り当てる)</param>
     /// <returns></returns>
-    public static (GameObject copy_normalside, GameObject original_anitiNormalside) CutMesh(GameObject targetGameObject, Vector3 planeAnchorPoint, Vector3 planeNormalDirection, bool makeCutSurface = true, Material cutSurfaceMaterial = null)
+    public static (GameObject copy_normalside, GameObject original_anitiNormalside) CutMesh(GameObject targetGameObject, Vector3 planeAnchorPoint, Vector3 planeNormalDirection, bool makeCutSurface = true, Material cutSurfaceMaterial = null,bool isInstanciate=true)
     {
         if (!targetGameObject.GetComponent<MeshFilter>())
         {
@@ -359,22 +359,42 @@ public class MeshCut : MonoBehaviour
             renderer.sharedMaterials = newMats;
         }
 
-
-        targetGameObject.GetComponent<MeshFilter>().mesh = originMesh;
-
-        //GameObject fragment = new GameObject("Fragment", typeof(MeshFilter), typeof(MeshRenderer));
-        Transform originTransform = targetGameObject.transform;
-        GameObject fragment = Instantiate(targetGameObject, originTransform.position, originTransform.rotation, originTransform.parent);
-        fragment.transform.parent = null;
-        fragment.GetComponent<MeshFilter>().mesh = fragMesh;
-        fragment.GetComponent<MeshRenderer>().sharedMaterials = targetGameObject.GetComponent<MeshRenderer>().sharedMaterials;
-
-        if (targetGameObject.GetComponent<MeshCollider>())
+        GameObject fragment;
+        if (isInstanciate)
         {
-            //頂点が1点に重なっている場合にはエラーが出るので, 直したい場合はmesh.RecalculateBoundsのあとでmesh.bounds.size.magnitude<0.00001などで条件分けして対処してください
-            targetGameObject.GetComponent<MeshCollider>().sharedMesh = originMesh;
-            fragment.GetComponent<MeshCollider>().sharedMesh = fragMesh;
+            targetGameObject.GetComponent<MeshFilter>().mesh = originMesh;
+
+            //GameObject fragment = new GameObject("Fragment", typeof(MeshFilter), typeof(MeshRenderer));
+            Transform originTransform = targetGameObject.transform;
+            fragment = Instantiate(targetGameObject, originTransform.position, originTransform.rotation, originTransform.parent);
+            fragment.transform.parent = null;
+            fragment.GetComponent<MeshFilter>().mesh = fragMesh;
+            fragment.GetComponent<MeshRenderer>().sharedMaterials = targetGameObject.GetComponent<MeshRenderer>().sharedMaterials;
+
+            if (targetGameObject.GetComponent<MeshCollider>())
+            {
+                //頂点が1点に重なっている場合にはエラーが出るので, 直したい場合はmesh.RecalculateBoundsのあとでmesh.bounds.size.magnitude<0.00001などで条件分けして対処してください
+                targetGameObject.GetComponent<MeshCollider>().sharedMesh = originMesh;
+                fragment.GetComponent<MeshCollider>().sharedMesh = fragMesh;
+            }
         }
+        else
+        {
+            targetGameObject.GetComponent<MeshFilter>().mesh = originMesh;
+
+
+            fragment = new GameObject("Fragment");
+            fragment.transform.parent = targetGameObject.transform.parent;
+            fragment.transform.localPosition = targetGameObject.transform.localPosition;
+            fragment.transform.rotation = targetGameObject.transform.rotation;
+            fragment.transform.localScale = targetGameObject.transform.localScale;
+            fragment.transform.parent = null;
+
+            fragment.AddComponent<MeshFilter>().mesh = fragMesh;
+            fragment.AddComponent<MeshRenderer>().sharedMaterials= targetGameObject.GetComponent<MeshRenderer>().sharedMaterials;
+        }
+
+        
 
 
 

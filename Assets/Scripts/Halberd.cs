@@ -9,6 +9,7 @@ public class Halberd : MonoBehaviour
     Rigidbody rig;
     Quaternion criteriaRotQuat;
     bool setup = false;
+    [SerializeField] Animator animator;
     // Start is called before the first frame update
     void Start()
     {

@@ -70,4 +70,10 @@ public class Cavalry : Enemy
         attack = false;
         anim.SetFloat("AttackSpeed", 1.0f);
     }
+
+    public void WeaponCutted()
+    {
+        anim.SetBool("WeaponCutted", true);
+        speed = 0;
+    }
 }

@@ -682,6 +682,11 @@ public abstract class StickColliderDynamic : PolygonCollider //棒の運動を�
     [SerializeField] Transform start, end;
     private Vector3 prePos_start, prePos_end;
 
+    public void SetCollider(Transform start,Transform end)
+    {
+        this.start = start;
+        this.end = end;
+    }
 
     public Vector3 startPos
     {
