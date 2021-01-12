@@ -16,6 +16,7 @@ TagManager:
   - Mato
   - Blade
   - Uma
+  - PlayerUI
   layers:
   - Default
   - TransparentFX
