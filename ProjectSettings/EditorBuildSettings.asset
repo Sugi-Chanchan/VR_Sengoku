@@ -6,6 +6,9 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: "Assets/Scenes/\u6D41\u93D1\u99AC 1.unity"
+    guid: 1b7525c2bf2a73a49a264ccf46976228
+  - enabled: 1
     path: Assets/Scenes/Sugi.unity
     guid: 5928c06c73d09ae49a6f68bf05cfbb75
   - enabled: 1
