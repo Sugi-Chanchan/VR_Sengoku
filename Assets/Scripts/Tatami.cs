@@ -60,7 +60,7 @@ public class Tatami : MonoBehaviour
             bladesDirection[k] = blades[k].transform.position - bladesPositionTemp[k];
             bladesPositionTemp[k] = blades[k].transform.position;
         }
-        print(bladesDirection[0]);
+        //print(bladesDirection[0]);
     }
 
     private void OnCollisionEnter(Collision other)
