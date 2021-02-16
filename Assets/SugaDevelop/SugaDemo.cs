@@ -18,17 +18,6 @@ public class SugaDemo : StickColliderDynamic
         cr.useGravity = true;
         cr.isKinematic = false;
 
-        //if (Vector3.Dot(endPos - startPos, normal) > 0)
-        //{
-        //    copy.GetComponent<StickColliderDynamic>().startPos = hitpoint;
-        //    endPos = hitpoint;
-
-        //}
-        //else
-        //{
-        //    startPos = hitpoint;
-        //    copy.GetComponent<StickColliderDynamic>().endPos = hitpoint;
-        //}
     }
 
 

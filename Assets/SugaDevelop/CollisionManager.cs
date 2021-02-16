@@ -662,6 +662,10 @@ public abstract class PolygonCollider : MonoBehaviour //CollisionManagerで衝�
 
     protected virtual (Vector3 boundy_min, Vector3 boundy_max) CalculateBoundy()//ポリゴンが完全にはいる箱の大きさを計算.(処理を軽くしたければoverride)
     {
+
+        { if (polygons.Length == 0) Debug.LogError(gameObject.name); }
+
+
         Vector3 min = polygons[0].vertex0;
         Vector3 max = polygons[0].vertex0;
         foreach (Polygon poly in polygons)

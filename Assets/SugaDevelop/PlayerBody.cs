@@ -4,13 +4,21 @@ using UnityEngine;
 using System.Threading.Tasks;
 using System;
 
-public class PlayerBody : StickColliderDynamic
+public class PlayerBody : MultiSticksColliderDynamic
 {
     int hp = 1;
     bool hitted = false;
+    bool lose = false;
 
     private void Start()
     {
+        colliderType = CollisionManager.ColliderType.CuttedOnly;
+
+        SetCollider(new StickLocalPos[3] {
+            new StickLocalPos(Vector3.down*0.5f,Vector3.up*0.1f),
+            new StickLocalPos(Vector3.left*0.3f,Vector3.right*0.3f),
+            new StickLocalPos(Vector3.back*0.3f,Vector3.forward*0.3f)});
+
         StartCoroutine(Setup());
     }
 
@@ -36,9 +44,10 @@ public class PlayerBody : StickColliderDynamic
             WaitForAsynic(2, () => hitted = false);
         }
 
-        if (hp <= 0)
+        if (hp <= 0&&!lose)
         {
             GameManager.Instance.GameOver();
+            lose = true;
         }
     }
 
@@ -48,4 +57,11 @@ public class PlayerBody : StickColliderDynamic
         action();
     }
     
+    public void GamePlay(int hp)
+    {
+        this.hp = hp;
+        KibaUI.ui.SetHp(hp);
+        lose = false;
+    }
+
 }

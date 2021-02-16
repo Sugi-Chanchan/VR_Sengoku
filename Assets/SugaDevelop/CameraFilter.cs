@@ -21,4 +21,10 @@ public class CameraFilter : MonoBehaviour
     {
         gameOver = true;
     }
+    public void GameStart()
+    {
+        gameOver = false;
+        filter.SetFloat("_Parameter", 0);
+        parameter = 0;
+    }
 }

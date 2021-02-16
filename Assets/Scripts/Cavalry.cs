@@ -8,9 +8,10 @@ public class Cavalry : Enemy
     public Transform player;
     [SerializeField] Animator anim;
     [SerializeField]bool attack = false;
-    [SerializeField] EnemyWeapon halberd;
-    [SerializeField] float speed;
+    public GameObject halberd;
+    public float speed;
     bool setupped;
+    AudioSource audioSource;
     // Start is called before the first frame update
     void Start()
     {
@@ -49,6 +50,7 @@ public class Cavalry : Enemy
     {
         player = GameObject.FindGameObjectWithTag("Player").transform;
         setupped = true;
+        audioSource = GetComponent<AudioSource>();
     }
 
     void Prevented(object sender,EventArgs e)
@@ -74,6 +76,7 @@ public class Cavalry : Enemy
     public void WeaponCutted()
     {
         anim.SetBool("WeaponCutted", true);
+        audioSource.Play();
         speed = 0;
     }
 }

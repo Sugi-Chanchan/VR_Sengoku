@@ -1,12 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public abstract class GameManager : MonoBehaviour
 {
     protected GameObject _player, _lefthand, _righthand;
 
-    protected virtual void Awake()
+    protected virtual void Start()
     {
         Instance = this;
         StartCoroutine(_Setup());
@@ -34,4 +35,5 @@ public abstract class GameManager : MonoBehaviour
     public virtual void GameOver() { }
     public virtual void Clear() { }
     public virtual void Pause() { }
+    public virtual void RePlay() { SceneManager.LoadScene(SceneManager.GetActiveScene().name); }
 }

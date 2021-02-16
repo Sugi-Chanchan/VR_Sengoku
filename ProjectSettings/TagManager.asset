@@ -17,6 +17,8 @@ TagManager:
   - Blade
   - Uma
   - PlayerUI
+  - Tatami
+  - Enemy
   layers:
   - Default
   - TransparentFX
