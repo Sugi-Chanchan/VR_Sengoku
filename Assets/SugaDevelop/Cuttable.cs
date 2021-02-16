@@ -7,6 +7,7 @@ public class Cuttable : StickColliderDynamic
     public Material cutSurfaceMaterial;
     public override void OnCollision(CollisionInfo collisionInfo)
     {
+        print("aaa");
         if (colliderType == CollisionManager.ColliderType.CutterOnly) return;
 
         Polygon polygon = collisionInfo.hitPolygon;
