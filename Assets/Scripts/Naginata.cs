@@ -37,5 +37,7 @@ public class Naginata : MonoBehaviour
     {
         //weaponPositionRight = GameObject.FindGameObjectWithTag("WeaponPositionRight").transform;
         naginataMainTransform.parent = GameObject.FindGameObjectWithTag("WeaponPositionRight").transform;
+        naginataMainTransform.localPosition = new Vector3(-0.002f, 0, 0);
+        naginataMainTransform.localRotation = Quaternion.Euler(new Vector3(0, 0, -94.4f));
     }
 }
