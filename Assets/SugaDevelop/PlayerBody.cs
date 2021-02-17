@@ -9,13 +9,15 @@ public class PlayerBody : MultiSticksColliderDynamic
     int hp = 1;
     bool hitted = false;
     bool lose = false;
+    [SerializeField] AudioSource audioSource;
+    [SerializeField] AudioClip damageSE;
 
     private void Start()
     {
         colliderType = CollisionManager.ColliderType.CuttedOnly;
 
         SetCollider(new StickLocalPos[3] {
-            new StickLocalPos(Vector3.down*0.5f,Vector3.up*0.1f),
+            new StickLocalPos(Vector3.down*1f,Vector3.up*0.1f),
             new StickLocalPos(Vector3.left*0.3f,Vector3.right*0.3f),
             new StickLocalPos(Vector3.back*0.3f,Vector3.forward*0.3f)});
 
@@ -42,6 +44,7 @@ public class PlayerBody : MultiSticksColliderDynamic
             hp -= 1;
             KibaUI.ui.SetHp(hp);
             WaitForAsynic(2, () => hitted = false);
+            audioSource.PlayOneShot(damageSE);
         }
 
         if (hp <= 0&&!lose)

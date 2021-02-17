@@ -24,12 +24,13 @@ public class KibaManager : GameManager
     
     public GameObject[] cavalries ;
     PlayerBody playerBody;
+    [SerializeField] GameObject playerBodyObject;
     public GameObject blackOutPrefab;
     CameraFilter cameraFilter;
     [SerializeField] Shader filter;
     GameObject player;
 
-    public AudioClip playBGM, clearBGM, gameOverBGM,preparingBGM;
+    public AudioClip playBGM, clearBGM, gameOverBGM;
     AudioSource audioSource;
 
     public GameObject tatamiesPrefab;
@@ -44,6 +45,7 @@ public class KibaManager : GameManager
     protected override void Setup()
     {
         player = GameObject.FindGameObjectWithTag("Player");
+        
         SetBodyCollider();
         SetAudioListener();
         SetGameOverCamera();
@@ -59,7 +61,11 @@ public class KibaManager : GameManager
 
     void SetBodyCollider()
     {
-        playerBody= player.AddComponent<PlayerBody>();
+        var gameobject = Instantiate(playerBodyObject);
+        gameobject.transform.parent = player.transform;
+        gameobject.transform.localPosition = Vector3.zero;
+        playerBody= gameobject.GetComponent<PlayerBody>();
+
     }
 
     void SetAudioListener()

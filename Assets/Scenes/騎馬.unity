@@ -8134,13 +8134,14 @@ MonoBehaviour:
   - {fileID: 4367267734817958784, guid: f079c32ee45cc414ca77938188272908, type: 3}
   - {fileID: 1154062751614320322, guid: 6fa7c9ebdbb0f0e4ca62f38cc4e3582d, type: 3}
   - {fileID: 6746167857526409611, guid: 4547f1729467d9c419111a64d05133da, type: 3}
+  playerBodyObject: {fileID: 6881075926409263217, guid: 6de0d68211702ed4b9d43749b3a876a1,
+    type: 3}
   blackOutPrefab: {fileID: 87934473561928471, guid: 43139c0296553394c9408c5d30fd75a6,
     type: 3}
   filter: {fileID: 4800000, guid: a4839dbe8cb504a48a39f01cb0d8d197, type: 3}
   playBGM: {fileID: 8300000, guid: 47fa801497148b0448e68bbb3de0f34b, type: 3}
   clearBGM: {fileID: 8300000, guid: ce95265e74c7c2c4abf3cc75737a1727, type: 3}
   gameOverBGM: {fileID: 8300000, guid: 8d2deababb057a04294c49c0c958bea7, type: 3}
-  preparingBGM: {fileID: 0}
   tatamiesPrefab: {fileID: 8399006444077876749, guid: 5668de1e37cf545408b2232e1de44e4b,
     type: 3}
   clear: 0

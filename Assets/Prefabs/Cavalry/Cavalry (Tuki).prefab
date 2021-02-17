@@ -431,6 +431,8 @@ MonoBehaviour:
   start: {fileID: 7022873399479686316}
   end: {fileID: 5612694847324275791}
   body: {fileID: 8465536610374610713}
+  deathVoiceBox: {fileID: 400768508384264338, guid: 29442b49fe697604186e47b752589ebc,
+    type: 3}
 --- !u!82 &4935439987481939507
 AudioSource:
   m_ObjectHideFlags: 0
