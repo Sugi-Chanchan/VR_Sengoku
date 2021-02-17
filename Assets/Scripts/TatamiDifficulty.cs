@@ -7,6 +7,8 @@ public class TatamiDifficulty : StickColliderDynamic
     public Material cutSurfaceMaterial;
     bool gamestart = false;
     [SerializeField] Level level;
+    public AudioClip clip;
+    [SerializeField] AudioSource audioSource;
     public override void OnCollision(CollisionInfo collisionInfo)
     {
 
@@ -29,6 +31,8 @@ public class TatamiDifficulty : StickColliderDynamic
             gamestart = true;
             (GameManager.Instance as KibaManager).GameStart(level, this.gameObject);
         }
+
+        audioSource.PlayOneShot(clip);
     }
 
 

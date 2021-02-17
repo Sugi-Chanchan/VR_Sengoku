@@ -12,18 +12,21 @@ public class Cavalry : Enemy
     public float speed;
     bool setupped;
     AudioSource audioSource;
+    KibaManager kibaManager;
     // Start is called before the first frame update
     void Start()
     {
         //anim.SetFloat("AttackSpeed", 1.0f);
         Invoke("SetUp", 1);
         //halberd.Prevented += this.Prevented;
-        
+        kibaManager = GameManager.Instance as KibaManager;
     }
 
     // Update is called once per frame
     void Update()
     {
+        kibaManager.clear = false;
+        
         if (!setupped) return;
 
         var dir = player.position - transform.position;

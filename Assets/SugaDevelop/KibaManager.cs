@@ -29,7 +29,7 @@ public class KibaManager : GameManager
     [SerializeField] Shader filter;
     GameObject player;
 
-    public AudioClip playBGM, clearBGM, gameOverBGM;
+    public AudioClip playBGM, clearBGM, gameOverBGM,preparingBGM;
     AudioSource audioSource;
 
     public GameObject tatamiesPrefab;
@@ -52,6 +52,10 @@ public class KibaManager : GameManager
         tatamies = Instantiate(tatamiesPrefab);
     }
 
+    private void Update()
+    {
+        ClearCheck();
+    }
 
     void SetBodyCollider()
     {
@@ -117,7 +121,7 @@ public class KibaManager : GameManager
         int hp = 1;
         switch (level)
         {
-            case Level.Easy: PutCavarly(3,1,3,3,4); break;
+            case Level.Easy: PutCavarly(1,1,3,3,4); break;
             case Level.Normal: PutCavarly(3, 1, 3, 3, 4); break;
             case Level.Hard: PutCavarly(3, 1, 3, 3, 4); break;
             default: Debug.LogError("level is wrong"); break;
@@ -130,6 +134,8 @@ public class KibaManager : GameManager
         audioSource.clip = playBGM;
         audioSource.Play();
 
+        clear = clearOnce = false;
+
         state = State.Playing;
     }
 
@@ -140,7 +146,6 @@ public class KibaManager : GameManager
         {
             foreach(GameObject cavalry in cavalries)
             {
-                GameObject gameObject = Instantiate(cavalry);
                 float r = Random.Range(10, 100);
                 float theta = Random.Range(0, 2 * Mathf.PI);
                 var x = r * Mathf.Sin(theta);
@@ -175,5 +180,18 @@ public class KibaManager : GameManager
         {
             Destroy(tatami[i]);
         }
+    }
+
+    public bool clear,clearOnce;
+    void ClearCheck()
+    {
+        if (state !=State.Playing) return;
+        if (clear&&!clearOnce)
+        {
+            Clear();
+            clearOnce = true;
+        }
+
+        clear = true;
     }
 }

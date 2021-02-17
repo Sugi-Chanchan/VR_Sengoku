@@ -5,6 +5,8 @@ using UnityEngine;
 public class Tatatatatatatatami : StickColliderDynamic
 {
     public Material cutSurfaceMaterial;
+    public AudioClip clip;
+    [SerializeField] AudioSource audioSource;
     public override void OnCollision(CollisionInfo collisionInfo)
     {
 
@@ -22,6 +24,8 @@ public class Tatatatatatatatami : StickColliderDynamic
 
         copy.transform.parent=original.transform.parent;
 
+
+        audioSource.PlayOneShot(clip);
     }
 
 
