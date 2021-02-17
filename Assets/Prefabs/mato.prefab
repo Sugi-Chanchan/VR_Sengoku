@@ -177,7 +177,7 @@ AudioSource:
   MinDistance: 1
   MaxDistance: 500
   Pan2D: 0
-  rolloffMode: 0
+  rolloffMode: 2
   BypassEffects: 0
   BypassListenerEffects: 0
   BypassReverbZones: 0
@@ -263,7 +263,7 @@ GameObject:
   - component: {fileID: 7964638954247309728}
   m_Layer: 0
   m_Name: mato
-  m_TagString: Untagged
+  m_TagString: Mato
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -339,7 +339,7 @@ GameObject:
   - component: {fileID: 5070113920006854789}
   m_Layer: 0
   m_Name: mato
-  m_TagString: Mato
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

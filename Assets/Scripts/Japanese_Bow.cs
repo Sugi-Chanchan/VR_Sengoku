@@ -25,6 +25,9 @@ public class Japanese_Bow : MonoBehaviour
     private float firstDrowABowDistance, drowABowDistance, tem, per;
     private Vector3 firstBowstringPosition;
 
+    public AudioClip clip;
+    [SerializeField] AudioSource audioSource;
+
     public bool load;
 
     //public Arrow arrowScript;
@@ -33,25 +36,35 @@ public class Japanese_Bow : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Invoke("Setup", 0.1f);
+        Invoke("Setup", 1.0f);
     }
 
     // Update is called once per frame
     void Update()
     {
         if(!setupped) return;
+        if(weaponPositionLeft == null) //弓の位置がおかしかったら修正
+        {
+            weaponPositionLeft = GameObject.FindGameObjectWithTag("WeaponPositionLeft").transform;
+            transform.parent = weaponPositionLeft; //Thisの親を左手に変更
+            transform.localPosition = Vector3.zero;
+            transform.localRotation = Quaternion.Euler(new Vector3(180f, 180f, 90f));
+        }
+        if(transform.localPosition != Vector3.zero || transform.localRotation != Quaternion.Euler(new Vector3(180f, 180f, 90f)))
+        {
+            transform.localPosition = Vector3.zero;
+            transform.localRotation = Quaternion.Euler(new Vector3(180f, 180f, 90f));
+        }
 
         //print(interactGrab.IsGrabButtonPressed());
         //print(interactGrab.GetGrabbedObject() != null);
         //print(interactGrab.GetGrabbedObject().transform.GetChild(0).CompareTag("Arrow"));
-        if(interactGrab.IsGrabButtonPressed() && interactGrab.GetGrabbedObject() != null && interactGrab.GetGrabbedObject().transform.GetChild(0).CompareTag("Arrow"))
+        if (interactGrab.IsGrabButtonPressed() && interactGrab.GetGrabbedObject() != null && interactGrab.GetGrabbedObject().transform.GetChild(0).CompareTag("Arrow"))
         {
             
             if(load == false) //矢がつがえられていない時だけBlend ShapeのComponentを設定する
             {      
                 arrowParent = interactGrab.GetGrabbedObject().transform; //矢のtransformを取得
-                print(arrowParent.name);
-                //print("aaa1");
                 arrow = arrowParent.GetChild(0);
                 
                 arrowSkin = arrow.GetComponent<SkinnedMeshRenderer>();
@@ -78,9 +91,11 @@ public class Japanese_Bow : MonoBehaviour
 
             flagTrigger = true;
         }
-        else if(flagTrigger)
+        else if(flagTrigger) //矢が放たれたとき
         {
             japaneseBowSkin.SetBlendShapeWeight(drowBow, 0.0f);
+
+            audioSource.PlayOneShot(clip);
 
             bowstring.localPosition = firstBowstringPosition; //bowstringの位置を初期状態に
 
