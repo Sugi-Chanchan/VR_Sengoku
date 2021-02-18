@@ -25,6 +25,9 @@ public class Japanese_Bow : MonoBehaviour
     private float firstDrowABowDistance, drowABowDistance, tem, per;
     private Vector3 firstBowstringPosition;
 
+    public AudioClip clip;
+    [SerializeField] AudioSource audioSource;
+
     public bool load;
 
     //public Arrow arrowScript;
@@ -33,34 +36,44 @@ public class Japanese_Bow : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Invoke("Setup", 0.1f);
+        Invoke("Setup", 1.0f);
     }
 
     // Update is called once per frame
     void Update()
     {
         if(!setupped) return;
+        if(weaponPositionLeft == null) //弓の位置がおかしかったら修正
+        {
+            weaponPositionLeft = GameObject.FindGameObjectWithTag("WeaponPositionLeft").transform;
+            transform.parent = weaponPositionLeft; //Thisの親を左手に変更
+            transform.localPosition = Vector3.zero;
+            transform.localRotation = Quaternion.Euler(new Vector3(180f, 180f, 90f));
+        }
+        if(transform.localPosition != Vector3.zero || transform.localRotation != Quaternion.Euler(new Vector3(180f, 180f, 90f)))
+        {
+            transform.localPosition = Vector3.zero;
+            transform.localRotation = Quaternion.Euler(new Vector3(180f, 180f, 90f));
+        }
 
         //print(interactGrab.IsGrabButtonPressed());
         //print(interactGrab.GetGrabbedObject() != null);
         //print(interactGrab.GetGrabbedObject().transform.GetChild(0).CompareTag("Arrow"));
-        if(interactGrab.IsGrabButtonPressed() && interactGrab.GetGrabbedObject() != null && interactGrab.GetGrabbedObject().transform.GetChild(0).CompareTag("Arrow"))
+        if (interactGrab.IsGrabButtonPressed() && interactGrab.GetGrabbedObject() != null && interactGrab.GetGrabbedObject().transform.GetChild(0).CompareTag("Arrow"))
         {
             
             if(load == false) //矢がつがえられていない時だけBlend ShapeのComponentを設定する
             {      
                 arrowParent = interactGrab.GetGrabbedObject().transform; //矢のtransformを取得
-                print(arrowParent.name);
-                //print("aaa1");
                 arrow = arrowParent.GetChild(0);
                 
                 arrowSkin = arrow.GetComponent<SkinnedMeshRenderer>();
                 drowArrow = arrowSkin.sharedMesh.GetBlendShapeIndex("Key 1");
             }
 
-            if((bowstring.position - arrowParent.position).sqrMagnitude < 0.01f)
+            if((bowstring.position - arrowParent.position).sqrMagnitude < 0.01f) //矢が弓にある程度近くなった時
             {
-                arrow.parent = bowstring.parent;
+                arrow.parent = bowstring.parent; //矢の親をbowMain下のGameObjectに変更
                 ArrowUnderBowMain();
             }
         }
@@ -78,9 +91,12 @@ public class Japanese_Bow : MonoBehaviour
 
             flagTrigger = true;
         }
-        else if(flagTrigger)
+        else if(flagTrigger) //矢が放たれたとき
         {
             japaneseBowSkin.SetBlendShapeWeight(drowBow, 0.0f);
+
+            audioSource.PlayOneShot(clip);
+            //arrowParent = GameObject.FindGameObjectWithTag("Stash").transform;
 
             bowstring.localPosition = firstBowstringPosition; //bowstringの位置を初期状態に
 
@@ -115,6 +131,7 @@ public class Japanese_Bow : MonoBehaviour
         drowBow = japaneseBowSkin.sharedMesh.GetBlendShapeIndex("Key 1");
 
         weaponPositionLeft = GameObject.FindGameObjectWithTag("WeaponPositionLeft").transform; //左手のGameObjectのtransformを取得
+
         transform.parent = weaponPositionLeft; //Thisの親を左手に変更
         transform.localPosition = Vector3.zero;
 
@@ -134,12 +151,17 @@ public class Japanese_Bow : MonoBehaviour
     void arrowProcess()
     {
         load = false;
+
         print("shoot");
-        arrow.parent = GameObject.Find("ArrowStash").transform;
+
+        arrow.parent = GameObject.FindGameObjectWithTag("Stash").transform;
+        Destroy(arrowParent.gameObject);
+
         if(!(arrowRigidbody = arrow.gameObject.GetComponent <Rigidbody> ()))
         {
             arrowRigidbody = arrow.gameObject.AddComponent <Rigidbody> ();
         }
+
         arrowRigidbody.useGravity = true;
         arrowRigidbody.collisionDetectionMode = CollisionDetectionMode.Continuous;
         arrowRigidbody.AddForce(transform.right*per*arrowPower);
