@@ -71,9 +71,9 @@ public class Japanese_Bow : MonoBehaviour
                 drowArrow = arrowSkin.sharedMesh.GetBlendShapeIndex("Key 1");
             }
 
-            if((bowstring.position - arrowParent.position).sqrMagnitude < 0.01f)
+            if((bowstring.position - arrowParent.position).sqrMagnitude < 0.01f) //矢が弓にある程度近くなった時
             {
-                arrow.parent = bowstring.parent;
+                arrow.parent = bowstring.parent; //矢の親をbowMain下のGameObjectに変更
                 ArrowUnderBowMain();
             }
         }
@@ -96,6 +96,7 @@ public class Japanese_Bow : MonoBehaviour
             japaneseBowSkin.SetBlendShapeWeight(drowBow, 0.0f);
 
             audioSource.PlayOneShot(clip);
+            //arrowParent = GameObject.FindGameObjectWithTag("Stash").transform;
 
             bowstring.localPosition = firstBowstringPosition; //bowstringの位置を初期状態に
 
@@ -130,6 +131,7 @@ public class Japanese_Bow : MonoBehaviour
         drowBow = japaneseBowSkin.sharedMesh.GetBlendShapeIndex("Key 1");
 
         weaponPositionLeft = GameObject.FindGameObjectWithTag("WeaponPositionLeft").transform; //左手のGameObjectのtransformを取得
+
         transform.parent = weaponPositionLeft; //Thisの親を左手に変更
         transform.localPosition = Vector3.zero;
 
@@ -149,12 +151,17 @@ public class Japanese_Bow : MonoBehaviour
     void arrowProcess()
     {
         load = false;
+
         print("shoot");
-        arrow.parent = GameObject.Find("ArrowStash").transform;
+
+        arrow.parent = GameObject.FindGameObjectWithTag("Stash").transform;
+        Destroy(arrowParent.gameObject);
+
         if(!(arrowRigidbody = arrow.gameObject.GetComponent <Rigidbody> ()))
         {
             arrowRigidbody = arrow.gameObject.AddComponent <Rigidbody> ();
         }
+
         arrowRigidbody.useGravity = true;
         arrowRigidbody.collisionDetectionMode = CollisionDetectionMode.Continuous;
         arrowRigidbody.AddForce(transform.right*per*arrowPower);

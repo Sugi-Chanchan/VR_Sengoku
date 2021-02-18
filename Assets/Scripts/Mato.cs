@@ -35,7 +35,7 @@ public class Mato : MonoBehaviour
     }
     private void OnTriggerEnter(Collider collision)
     {
-        if(this.transform.parent.name == "Reset")
+        if(this.transform.GetChild(0).tag == "Respawn")
         {
             StartCoroutine("wait");
 
@@ -50,7 +50,6 @@ public class Mato : MonoBehaviour
 
             for (int i = 0; i < Matos.Length; i++)
             {
-                print(i);
                 Matos[i].transform.parent.GetComponent<Rigidbody>().useGravity = false;
                 Matos[i].transform.parent.localPosition = new Vector3(0, 1.8993f, 0);
                 Matos[i].transform.parent.localRotation = Quaternion.Euler(new Vector3(-45.0f, -90.0f, 90.0f));
