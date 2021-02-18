@@ -26,7 +26,10 @@ public class Cavalry : Enemy
     void Update()
     {
         kibaManager.clear = false;
-        
+        var pos = transform.position;
+        pos.y = kibaManager.GetHeadHeight()-0.5f;
+        transform.position = pos;
+
         if (!setupped) return;
 
         var dir = player.position - transform.position;

@@ -47,6 +47,8 @@ public class Move : MonoBehaviour
         uma.transform.position = transform.position - (Vector3.up * 0.5f) + root.forward;
         uma.transform.rotation = root.rotation;
         //uma.transform.position += new Vector3(0.0f, 0.0f, 1.0f);
+
+        (GameManager.Instance as KibaManager).SetHeadHeight(transform.position.y);
     }
 
     //void Setup(){

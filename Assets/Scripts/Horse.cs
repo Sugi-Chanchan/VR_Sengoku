@@ -14,10 +14,12 @@ public class Horse : MonoBehaviour
     const float maxSpeedLevel=3;
     [SerializeField]float speedLevel;
     bool bothHands=false,setupped;
-    
+    [SerializeField] AudioClip hihiiin;
+    AudioSource audioSource;
     private void Start()
     {
         root = transform.root;
+        audioSource = GetComponent<AudioSource>();
         Invoke("SetUp", 0.2f);
     }
 
@@ -100,7 +102,8 @@ public class Horse : MonoBehaviour
 
             accCoolTime = true;
             Invoke("RemoveAccCoolTime", 0.5f);
-            
+
+            audioSource.PlayOneShot(hihiiin);
         }
     }
 

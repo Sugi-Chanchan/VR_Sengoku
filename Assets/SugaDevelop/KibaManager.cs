@@ -200,4 +200,16 @@ public class KibaManager : GameManager
 
         clear = true;
     }
+
+    private float headHeight;
+    public float GetHeadHeight()
+    {
+        return headHeight;
+    }
+
+    public void SetHeadHeight(float height)
+    {
+        headHeight = height;
+    }
+
 }
