@@ -34,6 +34,10 @@ public class Cavalry : Enemy
 
         var dir = player.position - transform.position;
         dir.y = 0;
+
+        var nowdir = transform.forward;
+
+        dir = Vector3.Slerp(nowdir, dir, 0.1f);
         //if (Vector3.Dot(-dir.normalized,player.forward)>0.7f||dir.sqrMagnitude<900)
         //{
 

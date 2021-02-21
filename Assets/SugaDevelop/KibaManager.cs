@@ -127,9 +127,9 @@ public class KibaManager : GameManager
         int hp = 1;
         switch (level)
         {
-            case Level.Easy: PutCavarly(1,1,3,3,4); break;
-            case Level.Normal: PutCavarly(3, 1, 3, 3, 4); break;
-            case Level.Hard: PutCavarly(3, 1, 3, 3, 4); break;
+            case Level.Easy: PutCavarly(1,1,3,1,3);hp = 2; break;
+            case Level.Normal: PutCavarly(4, 2, 4, 3, 4);hp = 3; break;
+            case Level.Hard: PutCavarly(8, 5, 9, 6, 10);hp = 3 ; break;
             default: Debug.LogError("level is wrong"); break;
         }
 
@@ -152,7 +152,7 @@ public class KibaManager : GameManager
         {
             foreach(GameObject cavalry in cavalries)
             {
-                float r = Random.Range(10, 100);
+                float r = Random.Range(100, 200);
                 float theta = Random.Range(0, 2 * Mathf.PI);
                 var x = r * Mathf.Sin(theta);
                 var z = r * Mathf.Cos(theta);

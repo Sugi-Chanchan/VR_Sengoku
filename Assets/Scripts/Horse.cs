@@ -14,12 +14,16 @@ public class Horse : MonoBehaviour
     const float maxSpeedLevel=3;
     [SerializeField]float speedLevel;
     bool bothHands=false,setupped;
-    [SerializeField] AudioClip hihiiin;
-    AudioSource audioSource;
+    [SerializeField] AudioClip hihiiin,burururu,pakara;
+    AudioSource audioSource,pakaraAudioSource;
     private void Start()
     {
         root = transform.root;
-        audioSource = GetComponent<AudioSource>();
+        AudioSource[] sources = GetComponents<AudioSource>();
+        audioSource = sources[0];
+        pakaraAudioSource = sources[1];
+        pakaraAudioSource.clip = pakara;
+        pakaraAudioSource.Play();
         Invoke("SetUp", 0.2f);
     }
 
@@ -29,7 +33,7 @@ public class Horse : MonoBehaviour
 
         VRTKVelEstim.left= _reins.left.GetComponent<VRTK_VelocityEstimator>();
         VRTKVelEstim.right= _reins.right.GetComponent<VRTK_VelocityEstimator>();
-
+        
         setupped = true;
     }
 
@@ -46,6 +50,15 @@ public class Horse : MonoBehaviour
             Rotate(averageDisPlacement.x);
             Acceleration();
             /*if (bothHands)*/ Deceleration(averageDisPlacement.z - averageDisPlacement.y);//両手で手綱を掴んでたら減速
+        }
+
+        if (speedLevel >= 2)
+        {
+            pakaraAudioSource.UnPause();
+        }
+        else
+        {
+            pakaraAudioSource.Pause();
         }
 
         var speed = SpeedFunction(speedLevel);
@@ -132,6 +145,7 @@ public class Horse : MonoBehaviour
         accCoolTime = false;
     }
 
+    bool deceleCooltime = false;
     void Deceleration(float backward)
     {
         if (backward < -0.82f)
@@ -140,8 +154,20 @@ public class Horse : MonoBehaviour
             speedLevel = Mathf.Max(speedLevel, 0);
             //speed += backward * Time.deltaTime * 20;
             //speed = Mathf.Max(speed, 0);
+            if (!deceleCooltime)
+            {
+                deceleCooltime = true;
+                audioSource.PlayOneShot(burururu);
+                Invoke("RemoveDeceleCoolTime", 3);
+            }
         }
     }
+
+    void RemoveDeceleCoolTime()
+    {
+        deceleCooltime = false;
+    }
+
 
     void SpeedCheck()
     {
