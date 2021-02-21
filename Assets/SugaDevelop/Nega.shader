@@ -4,6 +4,7 @@
 	{
 		_MainTex("Texture", 2D) = "white" {}
 		_Parameter("Parameter",Float)=0
+		_Damage("DamageEffect",Float)=0
 	}
 		SubShader
 	{
@@ -40,11 +41,13 @@
 
 			sampler2D _MainTex;
 			float _Parameter;
+			float _Damage;
 
 			fixed4 frag(v2f i) : SV_Target
 			{
 				fixed4 col = tex2D(_MainTex, i.uv);
 				// just invert the colors
+				col = lerp(col, fixed4(1, 0, 0, 1), _Damage);
 				fixed3 negacol = 1 - col.rgb;
 				col.rgb = lerp(col, negacol, _Parameter);
 				return col;

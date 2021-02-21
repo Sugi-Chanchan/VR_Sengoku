@@ -212,4 +212,8 @@ public class KibaManager : GameManager
         headHeight = height;
     }
 
+    public override void Damage()
+    {
+        cameraFilter.Damage();
+    }
 }

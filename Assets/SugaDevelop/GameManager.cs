@@ -36,4 +36,5 @@ public abstract class GameManager : MonoBehaviour
     public virtual void Clear() { }
     public virtual void Pause() { }
     public virtual void RePlay() { SceneManager.LoadScene(SceneManager.GetActiveScene().name); }
+    public virtual void Damage() { }
 }

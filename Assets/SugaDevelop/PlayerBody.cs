@@ -45,6 +45,7 @@ public class PlayerBody : MultiSticksColliderDynamic
             KibaUI.ui.SetHp(hp);
             WaitForAsynic(2, () => hitted = false);
             audioSource.PlayOneShot(damageSE);
+            GameManager.Instance.Damage();
         }
 
         if (hp <= 0&&!lose)

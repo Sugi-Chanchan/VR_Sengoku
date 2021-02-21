@@ -18,7 +18,7 @@ public class BillBoard : MonoBehaviour
             yield return null;
         }
 
-        player = GameObject.Find("Player").transform;
+        player = GameObject.FindGameObjectWithTag("Player").transform;
     }
 
     private void Update()
