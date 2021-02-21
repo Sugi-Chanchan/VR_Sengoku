@@ -1313,7 +1313,8 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 8337485210648630335, guid: 24491082d42e4b54d9c4ee4626b73e6f, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 24491082d42e4b54d9c4ee4626b73e6f, type: 3}
 --- !u!1 &948359078
 GameObject:
@@ -2053,7 +2054,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1572606207}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -2098,6 +2099,30 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 932660311}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1573794797
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1573794796}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7555b9ed0580aba41a073598865e849f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  leftReins: {fileID: 848445276}
+  rightReins: {fileID: 1308434135}
+  _reins:
+    right: {fileID: 848445274}
+    left: {fileID: 1308434133}
+  rotateSpeed: 100
+  speedLevel: 0
+  hihiiin: {fileID: 8300000, guid: 080c01adcef6c194f9fd54c729a4c7da, type: 3}
+  burururu: {fileID: 8300000, guid: 1932c16eb40b33e4bb63ed1eadafc809, type: 3}
+  pakara: {fileID: 8300000, guid: bbf430f44cc86c141b0b3901530ae069, type: 3}
+  speedFactor: 2
+  Target: {fileID: 1251182245}
 --- !u!65 &1573794799
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2111,27 +2136,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.5024594, y: 1.070353, z: 1.017524}
   m_Center: {x: 0, y: -0.15133977, z: -0.23442358}
---- !u!114 &1573794800
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1573794796}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f43e809b0a76af749bbabcd0f2028572, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  leftReins: {fileID: 848445276}
-  rightReins: {fileID: 1308434135}
-  _reins:
-    right: {fileID: 1308434133}
-    left: {fileID: 848445274}
-  rotateSpeed: 100
-  speedLevel: 0
-  Target: {fileID: 1251182245}
-  speedFactor: 2
 --- !u!1001 &1704953677
 PrefabInstance:
   m_ObjectHideFlags: 0

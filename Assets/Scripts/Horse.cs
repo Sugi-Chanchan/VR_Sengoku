@@ -7,12 +7,12 @@ using System;
 public class Horse : MonoBehaviour
 {
     public Reins leftReins,rightReins;
-    Transform root;
+    protected Transform root;
     [SerializeField] _Reins _reins ;
     (VRTK_VelocityEstimator right, VRTK_VelocityEstimator left) VRTKVelEstim;
     [SerializeField] float rotateSpeed;
     const float maxSpeedLevel=3;
-    [SerializeField]float speedLevel;
+    [SerializeField] protected float speedLevel;
     bool bothHands=false,setupped;
     [SerializeField] AudioClip hihiiin,burururu,pakara;
     AudioSource audioSource,pakaraAudioSource;
@@ -192,7 +192,7 @@ public class Horse : MonoBehaviour
     }
 
     [SerializeField] float speedFactor = 2.5f;
-    float SpeedFunction(float speedStage)
+    protected float SpeedFunction(float speedStage)
     {
         float s = speedStage;
         return speedFactor * s * s;
