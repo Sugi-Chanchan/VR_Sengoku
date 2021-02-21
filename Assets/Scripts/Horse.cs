@@ -29,8 +29,6 @@ public class Horse : MonoBehaviour
 
     void SetUp()
     {
-
-
         VRTKVelEstim.left= _reins.left.GetComponent<VRTK_VelocityEstimator>();
         VRTKVelEstim.right= _reins.right.GetComponent<VRTK_VelocityEstimator>();
         
@@ -61,6 +59,11 @@ public class Horse : MonoBehaviour
             pakaraAudioSource.Pause();
         }
 
+        Move();
+    }
+    
+    protected virtual void Move()
+    {
         var speed = SpeedFunction(speedLevel);
         var vel = root.transform.forward * Time.deltaTime * speed;
         root.position = root.position + vel;
@@ -106,6 +109,7 @@ public class Horse : MonoBehaviour
     }
 
     bool accCoolTime=false;
+    bool hihinCoolTime = false;
     void Acceleration ()
     {
         if (!accCoolTime&& (leftReins.IsWhipping||rightReins.IsWhipping))
@@ -116,9 +120,19 @@ public class Horse : MonoBehaviour
             accCoolTime = true;
             Invoke("RemoveAccCoolTime", 0.5f);
 
-            audioSource.PlayOneShot(hihiiin);
+            if (!hihinCoolTime)
+            {
+                hihinCoolTime = true;
+                audioSource.PlayOneShot(hihiiin);
+                Invoke("RemoveHihinTime", 4);
+            }
         }
     }
+    void RemoveHihinTime()
+    {
+        hihinCoolTime = false;
+    }
+
 
     const int preVelocitySize = 3;
     Vector3[] preVelocity = new Vector3[preVelocitySize];
