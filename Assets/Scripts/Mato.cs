@@ -28,8 +28,11 @@ public class Mato : MonoBehaviour
 
             if (this.transform.parent.name == "Return")
             {
-                print("dsaasdadads");
                 Invoke("ChangeSceneOP", 0.5f);
+            }
+            else
+            {
+                YabusameCount.matos++;
             }
         }
     }
@@ -37,8 +40,6 @@ public class Mato : MonoBehaviour
     {
         if(this.transform.GetChild(0).tag == "Respawn")
         {
-            StartCoroutine("wait");
-
             targetHitSound.Play();
 
             collision.transform.parent = this.transform.GetChild(0); //この3行で当たった矢を静止
@@ -54,12 +55,9 @@ public class Mato : MonoBehaviour
                 Matos[i].transform.parent.localPosition = new Vector3(0, 1.8993f, 0);
                 Matos[i].transform.parent.localRotation = Quaternion.Euler(new Vector3(-45.0f, -90.0f, 90.0f));
             }
-        }
-    }
 
-    IEnumerator wait()
-    {
-        yield return new WaitForSeconds(0.1f);
+            YabusameCount.matos = 0;
+        }
     }
 
     void ChangeSceneOP()
