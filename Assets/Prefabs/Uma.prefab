@@ -78,6 +78,7 @@ MonoBehaviour:
   hihiiin: {fileID: 8300000, guid: 080c01adcef6c194f9fd54c729a4c7da, type: 3}
   burururu: {fileID: 8300000, guid: 1932c16eb40b33e4bb63ed1eadafc809, type: 3}
   pakara: {fileID: 8300000, guid: bbf430f44cc86c141b0b3901530ae069, type: 3}
+  paka: {fileID: 8300000, guid: 561ce23f0a44d7e4c93ce2eb4441a4e3, type: 3}
   speedFactor: 2
 --- !u!82 &3686245656210845096
 AudioSource:

@@ -14,7 +14,7 @@ public class Horse : MonoBehaviour
     const float maxSpeedLevel=3;
     [SerializeField] protected float speedLevel;
     bool bothHands=false,setupped;
-    [SerializeField] AudioClip hihiiin,burururu,pakara;
+    [SerializeField] AudioClip hihiiin,burururu,pakara,paka;
     AudioSource audioSource,pakaraAudioSource;
     private void Start()
     {
@@ -22,8 +22,6 @@ public class Horse : MonoBehaviour
         AudioSource[] sources = GetComponents<AudioSource>();
         audioSource = sources[0];
         pakaraAudioSource = sources[1];
-        pakaraAudioSource.clip = pakara;
-        pakaraAudioSource.Play();
         Invoke("SetUp", 0.2f);
     }
 
@@ -52,11 +50,27 @@ public class Horse : MonoBehaviour
 
         if (speedLevel >= 2)
         {
-            pakaraAudioSource.UnPause();
+            if (pakaraAudioSource.clip != pakara)
+            {
+                pakaraAudioSource.clip = pakara;
+                pakaraAudioSource.Play();
+            }
         }
         else
         {
-            pakaraAudioSource.Pause();
+            if (speedLevel >= 1)
+            {
+                if (pakaraAudioSource.clip != paka)
+                {
+                    pakaraAudioSource.clip = paka;
+                    pakaraAudioSource.Play();
+                }
+            }
+            else
+            {
+                pakaraAudioSource.clip = null;
+                pakaraAudioSource.Stop();
+            }
         }
 
         Move();
