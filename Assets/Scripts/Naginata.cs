@@ -11,15 +11,17 @@ public class Naginata : MonoBehaviour
     void Start()
     {
         naginataMainTransform = this.transform.parent;
-        Invoke("Setup", 0.1f);
+        StartCoroutine(Setup());
     }
 
     // Update is called once per frame
+    /*
     void FixedUpdate()
     {
-        //rig.MovePosition(weaponPositionRight.position);
-        //rig.MoveRotation(weaponPositionRight.rotation);
+        rig.MovePosition(weaponPositionRight.position);
+        rig.MoveRotation(weaponPositionRight.rotation);
     }
+    */
 
     /*
     private void OnCollisionEnter(Collision collision)
@@ -33,8 +35,13 @@ public class Naginata : MonoBehaviour
     }
     */
 
-    void Setup()
+    IEnumerator Setup()
     {
+        while (ButtonManager.Device == Device.Unknown)
+        {
+            yield return null;
+        }
+
         //weaponPositionRight = GameObject.FindGameObjectWithTag("WeaponPositionRight").transform;
         naginataMainTransform.parent = GameObject.FindGameObjectWithTag("WeaponPositionRight").transform;
         naginataMainTransform.localPosition = new Vector3(-0.002f, 0, 0);
