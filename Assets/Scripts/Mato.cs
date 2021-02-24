@@ -38,7 +38,7 @@ public class Mato : MonoBehaviour
     }
     private void OnTriggerEnter(Collider collision)
     {
-        if(this.transform.GetChild(0).tag == "Respawn")
+        if(collision.transform.name == "Arrow" && this.transform.GetChild(0).tag == "Respawn")
         {
             targetHitSound.Play();
 
