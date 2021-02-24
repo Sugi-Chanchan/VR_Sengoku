@@ -31,7 +31,7 @@ public class ReturnTatami : StickColliderDynamic
 
         if (!cutted)
         {
-            Invoke("SceneChange", 1);
+            Invoke("SceneChange", 0.5f);
             cutted = true;
         }
     }
