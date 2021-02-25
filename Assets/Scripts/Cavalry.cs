@@ -6,7 +6,7 @@ using System;
 public class Cavalry : Enemy
 {
     public Transform player;
-    [SerializeField] Animator anim;
+    public Animator anim;
     [SerializeField]bool attack = false;
     public GameObject halberd;
     public float speed;

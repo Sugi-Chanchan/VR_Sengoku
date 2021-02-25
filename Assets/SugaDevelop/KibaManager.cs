@@ -127,9 +127,9 @@ public class KibaManager : GameManager
         int hp = 1;
         switch (level)
         {
-            case Level.Easy: PutCavarly(1,1,3,1,3);hp = 2; break;
-            case Level.Normal: PutCavarly(4, 2, 4, 3, 4);hp = 3; break;
-            case Level.Hard: PutCavarly(8, 5, 9, 6, 10);hp = 3 ; break;
+            case Level.Easy: PutCavarly(3,1,3,4,7,1,2);hp = 2; break;
+            case Level.Normal: PutCavarly(10, 2, 4, 5, 8,1.5f,2.5f);hp = 3; break;
+            case Level.Hard: PutCavarly(25, 5, 9, 6, 10,2,5);hp = 3 ; break;
             default: Debug.LogError("level is wrong"); break;
         }
 
@@ -146,7 +146,7 @@ public class KibaManager : GameManager
     }
 
 
-    void PutCavarly(int number,int speed_min,int speed_max,float length_min,float length_max)
+    void PutCavarly(int number ,float speed_min,float speed_max,float length_min,float length_max,float animationSpeed_min,float animationSpeed_max)
     {
         for(int i = 0; i < number; i++)
         {
@@ -163,6 +163,7 @@ public class KibaManager : GameManager
                 gameobject.transform.position = pos;
                 Cavalry cavalryClass = gameobject.GetComponent<Cavalry>();
                 cavalryClass.speed = Random.Range(speed_min, speed_max);
+                cavalryClass.anim.SetFloat("AttackSpeed", Random.Range(animationSpeed_min, animationSpeed_max));
                 var temp = cavalryClass.halberd.transform.localScale;
                 temp.y = Random.Range(length_min, length_max);
                 cavalryClass.halberd.transform.localScale = temp;

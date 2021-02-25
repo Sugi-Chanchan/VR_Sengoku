@@ -44,7 +44,7 @@ public class Move : MonoBehaviour
         root.rotation = Quaternion.Euler(xzDirection); //rootの向きをリセット時にプレイヤーの向いている向きに合わせる
         Vrtk.rotation = VrtkRotation; //root以下のオブジェクトごと回転してしまうので補正
 
-        uma.transform.position = transform.position - (Vector3.up * 0.5f) + root.forward;
+        uma.transform.position = transform.position - (Vector3.up * 0.6f) + root.forward*0.8f;
         uma.transform.rotation = root.rotation;
         //uma.transform.position += new Vector3(0.0f, 0.0f, 1.0f);
 
