@@ -127,9 +127,9 @@ public class KibaManager : GameManager
         int hp = 1;
         switch (level)
         {
-            case Level.Easy: PutCavarly(3,1,3,4,7,1,2);hp = 2; break;
-            case Level.Normal: PutCavarly(10, 2, 4, 5, 8,1.5f,2.5f);hp = 3; break;
-            case Level.Hard: PutCavarly(25, 5, 9, 6, 10,2,5);hp = 3 ; break;
+            case Level.Easy: PutCavarly(3,1,3,5,10,1,2);hp = 2; break;
+            case Level.Normal: PutCavarly(10, 2, 4, 6, 11,1.5f,2.5f);hp = 3; break;
+            case Level.Hard: PutCavarly(25, 5, 9, 12, 20,2,5);hp = 3 ; break;
             default: Debug.LogError("level is wrong"); break;
         }
 

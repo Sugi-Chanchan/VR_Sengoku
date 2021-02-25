@@ -7,11 +7,12 @@ public class Cavalry : Enemy
 {
     public Transform player;
     public Animator anim;
-    [SerializeField]bool attack = false;
+    [SerializeField] bool attack = false;
     public GameObject halberd;
     public float speed;
     bool setupped;
     AudioSource audioSource;
+    public AudioClip voice, sound;
     KibaManager kibaManager;
     // Start is called before the first frame update
     void Start()
@@ -86,7 +87,9 @@ public class Cavalry : Enemy
     public void WeaponCutted()
     {
         anim.SetBool("WeaponCutted", true);
-        audioSource.Play();
+        audioSource.PlayOneShot(sound);
+        audioSource.PlayOneShot(voice);
+
         speed = 0;
     }
 }

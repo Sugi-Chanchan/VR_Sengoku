@@ -282,7 +282,7 @@ Transform:
   m_GameObject: {fileID: 870489682412329810}
   m_LocalRotation: {x: 0.00000011920923, y: 0.00000017881385, z: -0.00000007450577,
     w: 1}
-  m_LocalPosition: {x: 0, y: 0.0192, z: -0}
+  m_LocalPosition: {x: -0, y: -0.0047, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 7661147610878732482}
@@ -1494,6 +1494,8 @@ MonoBehaviour:
   attack: 0
   halberd: {fileID: 6632259574861961937}
   speed: 1
+  voice: {fileID: 8300000, guid: 977ce1517ef91cb42ac434480bad0486, type: 3}
+  sound: {fileID: 8300000, guid: 2aa6c3fadfec991469a8797fe1946e7a, type: 3}
 --- !u!114 &4910364182924986563
 MonoBehaviour:
   m_ObjectHideFlags: 0
