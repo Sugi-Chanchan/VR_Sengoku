@@ -53,7 +53,6 @@ Thumbs.db
 #追加したアセットを無視
 /Assets/SteamVR/
 /Assets/SteamVR.meta
-/Assets/Oculus/
 /Assets/SteamVR_Resources/
 /Assets/SteamVR_Resources.meta
 /Assets/Ignore/
